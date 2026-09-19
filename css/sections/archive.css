@@ -1,8 +1,9 @@
 /* ==========================================================================
-   THE ARCHIVE — a swipeable row of events. It never takes over the page's
-   scroll: swipe, scroll sideways, or use the arrows.
-   Every frame is an arch (the A of the mark). Frame colour = event type,
-   until a real photo is dropped in.
+   THE ARCHIVE — a swipeable row of real moments. It never takes over the
+   page's scroll: swipe, scroll sideways, or use the arrows.
+   Every photo sits in an arch (the A of the mark). The type pill's colour
+   encodes the event type; the same colour fills the frame while the photo
+   loads.
    ========================================================================== */
 
 .archive {
@@ -69,14 +70,18 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform .8s var(--ease-out);
 }
-.event__frame > img ~ .event__type {
+@media (hover: hover) {
+  .event:hover .event__frame > img { transform: scale(1.03); }
+}
+.event__type {
+  position: relative;
   padding: 5px 10px;
   border-radius: var(--r-pill);
-  background: var(--cream);
-  color: var(--dark);
+  background: var(--event-c, var(--cream));
+  color: var(--event-on, var(--dark));
 }
-.event__type { position: relative; }
 
 .event__title {
   margin-top: 16px;
@@ -100,8 +105,8 @@
 .event--competition { --event-c: var(--purple);      --event-on: var(--cream); }
 .event--workshop    { --event-c: var(--light-blue);  --event-on: var(--deep-purple); }
 .event--flagship    { --event-c: var(--deep-purple); --event-on: var(--cream); }
-.event--collab      { --event-c: var(--sand);        --event-on: var(--dark); }
-.event--award       { --event-c: var(--dark);        --event-on: var(--cream); }
+.event--community   { --event-c: var(--sand);        --event-on: var(--dark); }
+.event--projects    { --event-c: var(--dark);        --event-on: var(--cream); }
 
 @media (max-width: 899px) {
   .archive__heading { grid-column: 1 / 10; }

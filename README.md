@@ -75,18 +75,22 @@ EVOLVE fill the screen, and chooses one line or EVO / LVE.
 
 - Every **O / 0** in display type is a *two-halves circle* (hero, 2021, footer).
 - The mark is an **arch + pill** = **A + I**.
-- Event photos sit in arches (the A), and the frame colour encodes the event
-  type: orange hackathon, blue expert talk, purple competition, light blue
-  workshop, deep purple flagship, sand collaboration, dark recognition.
+- Event photos sit in arches (the A), and the colour of each photo's type pill
+  encodes the event type: orange hackathon, blue expert talk, purple
+  competition, light blue workshop, deep purple flagship, sand community,
+  dark projects.
 
 ## Adding real content
 
-**Event photos** — put an image inside the event's frame; the type label
-switches to a small pill on top of it automatically:
+**Event photos** — the archive uses real photos from the club's gallery (see
+`assets/gallery/README.md` for what each shows and how it was identified).
+To add one, copy an existing `<li class="event event--TYPE">` and swap the image,
+alt text and caption; use `object-position` on the `<img>` to keep the subject
+in frame:
 
 ```html
 <div class="event__frame">
-  <img src="assets/gallery/finvasia-hackathon-2026.webp" alt="Teams presenting at the Finvasia Innovation Hackathon" loading="lazy">
+  <img src="assets/gallery/finvasia-hackathon-2026.webp" alt="Teams presenting at the Finvasia Innovation Hackathon" width="1500" height="1000" loading="lazy" decoding="async">
   <span class="event__type label">Hackathon</span>
 </div>
 ```
@@ -99,6 +103,8 @@ switches to a small pill on top of it automatically:
 
 - The contact form validates but is **not connected** to anything yet.
 - Footer **GitHub** link and **email** are placeholders (`TODO` in `index.html`).
-- Event frames are colour placeholders — real photos needed.
+- Four archive photos have no visible event name and are captioned by what
+  they show — confirm which events they're from. Recent events without photos
+  (Finvasia hackathon, Intellex 2.0, PixelFlow…) aren't in the row yet.
 - Only the homepage exists; Teams, Alumni, Events, Projects pages are next.
 - Fonts and Lenis load from CDNs; self-host before launch.
