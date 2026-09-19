@@ -260,8 +260,10 @@
 
     <!-- ─────────────────────────── EVENTS / ARCHIVE ───────────────────────────
          A native, swipeable row — it never takes over the page's scroll.
-         Card colour = event type. To add a photo, put an <img> inside
-         .event__frame (see README). -->
+         Real photos from the club's gallery; the type pill's colour encodes
+         the event type. Captions name an event only where the photo itself
+         shows which event it is (banner / standee); otherwise they describe
+         the scene. -->
     <section class="archive" id="archive" aria-labelledby="archive-title">
       <div class="archive__head">
         <div class="archive__heading">
@@ -279,49 +281,68 @@
 
       <ol class="archive__track" id="archive-track" data-archive-track>
         <li class="event event--hackathon">
-          <div class="event__frame"><span class="event__type label">Hackathon</span></div>
-          <h3 class="event__title">Finvasia Innovation Hackathon</h3>
-          <p class="event__meta">21 Apr 2026 · with Finvasia Group</p>
-        </li>
-        <li class="event event--talk">
-          <div class="event__frame"><span class="event__type label">Expert talk</span></div>
-          <h3 class="event__title">AI × Cyber-Physical Systems</h3>
-          <p class="event__meta">13 Feb 2026 · Dr. Shantanu Pal, Deakin University</p>
-        </li>
-        <li class="event event--competition">
-          <div class="event__frame"><span class="event__type label">Competition</span></div>
-          <h3 class="event__title">Intellex 2.0</h3>
-          <p class="event__meta">18 Sep 2025 · Where critical thinking thrives</p>
-        </li>
-        <li class="event event--workshop">
-          <div class="event__frame"><span class="event__type label">Workshop</span></div>
-          <h3 class="event__title">PixelFlow</h3>
-          <p class="event__meta">16 Sep 2025 · Design thinking to Figma prototype</p>
-        </li>
-        <li class="event event--hackathon">
-          <div class="event__frame"><span class="event__type label">Hackathon</span></div>
-          <h3 class="event__title">HackIndia at Chitkara</h3>
-          <p class="event__meta">Hosted on campus</p>
+          <div class="event__frame">
+            <img src="assets/gallery/hackindia-2025-winners.webp" alt="HackIndia 2025 winners kneeling on stage with their certificates and prize cheque, alongside the organisers" width="1500" height="1000" loading="lazy" decoding="async">
+            <span class="event__type label">Hackathon</span>
+          </div>
+          <h3 class="event__title">HackIndia 2025</h3>
+          <p class="event__meta">Hosted at Chitkara · with SingularityNET</p>
         </li>
         <li class="event event--flagship">
-          <div class="event__frame"><span class="event__type label">Flagship</span></div>
-          <h3 class="event__title">AI.Create()</h3>
-          <p class="event__meta">Generative AI &amp; creative prompting</p>
+          <div class="event__frame">
+            <img src="assets/gallery/ai-create-2.webp" alt="Faculty and guests with the AI-Create 2.0 standee outside the Chitkara University building" width="750" height="1000" loading="lazy" decoding="async">
+            <span class="event__type label">Flagship</span>
+          </div>
+          <h3 class="event__title">AI-Create 2.0</h3>
+          <p class="event__meta">18 Oct 2023 · Prompts &amp; brush strokes with design thinking</p>
+        </li>
+        <li class="event event--community">
+          <div class="event__frame">
+            <img src="assets/gallery/genesis-gala-performance.webp" alt="A student band performing under stage lights at Genesis Gala" width="1500" height="1000" loading="lazy" decoding="async" style="object-position: 40% 50%">
+            <span class="event__type label">Community</span>
+          </div>
+          <h3 class="event__title">Genesis Gala</h3>
+          <p class="event__meta">Freshers &amp; talent hunt · with the Office of Student Affairs</p>
+        </li>
+        <li class="event event--competition">
+          <div class="event__frame">
+            <img src="assets/gallery/judging-round.webp" alt="A judge listening to a student team at a desk marked Team 2" width="750" height="1000" loading="lazy" decoding="async">
+            <span class="event__type label">Competition</span>
+          </div>
+          <h3 class="event__title">Judging round</h3>
+          <p class="event__meta">Teams walk the judges through their work</p>
         </li>
         <li class="event event--workshop">
-          <div class="event__frame"><span class="event__type label">Workshop</span></div>
-          <h3 class="event__title">Computer Vision Workshop</h3>
-          <p class="event__meta">with Ikigai Labs</p>
+          <div class="event__frame">
+            <img src="assets/gallery/ai-in-education-workshop-2024.webp" alt="Students gathered around the standee for the workshop AI for Emerging Trends and Technologies in Education" width="1334" height="1000" loading="lazy" decoding="async">
+            <span class="event__type label">Workshop</span>
+          </div>
+          <h3 class="event__title">AI for Emerging Trends &amp; Technologies in Education</h3>
+          <p class="event__meta">13 Mar 2024 · with Microsoft &amp; Acer</p>
         </li>
-        <li class="event event--collab">
-          <div class="event__frame"><span class="event__type label">Collaboration</span></div>
-          <h3 class="event__title">Industry sessions with L&amp;T</h3>
-          <p class="event__meta">Real-world problem statements</p>
+        <li class="event event--talk">
+          <div class="event__frame">
+            <img src="assets/gallery/expert-session.webp" alt="Students in Chitkara University T-shirts listening to a guest speaker in a seminar room" width="1500" height="1000" loading="lazy" decoding="async" style="object-position: 66% 50%">
+            <span class="event__type label">Expert talk</span>
+          </div>
+          <h3 class="event__title">Expert session</h3>
+          <p class="event__meta">A guest speaker with students on campus</p>
         </li>
-        <li class="event event--award">
-          <div class="event__frame"><span class="event__type label">Recognition</span></div>
-          <h3 class="event__title">Best CSE League</h3>
-          <p class="event__meta">May 2023 · CSE Excellence Awards</p>
+        <li class="event event--competition">
+          <div class="event__frame">
+            <img src="assets/gallery/qa-round.webp" alt="A student from Team 18 asking a question into a microphone in an auditorium" width="750" height="1000" loading="lazy" decoding="async">
+            <span class="event__type label">Competition</span>
+          </div>
+          <h3 class="event__title">Q&amp;A round</h3>
+          <p class="event__meta">Team 18 takes the mic</p>
+        </li>
+        <li class="event event--projects">
+          <div class="event__frame">
+            <img src="assets/gallery/project-showcase-drone.webp" alt="Guests examining a student-built drone on display at Chitkara University" width="1500" height="1000" loading="lazy" decoding="async" style="object-position: 28% 50%">
+            <span class="event__type label">Projects</span>
+          </div>
+          <h3 class="event__title">Project showcase</h3>
+          <p class="event__meta">A student-built drone on display for guests</p>
         </li>
       </ol>
     </section>
