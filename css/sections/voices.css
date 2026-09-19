@@ -1,0 +1,232 @@
+/* ==========================================================================
+   05 · VOICES — editorial testimonials.
+   Quotes are stacked in one grid cell (no layout jump). Words slide through
+   masks on change while a two-halves orb turns half a revolution.
+   ========================================================================== */
+
+.voices {
+  position: relative;
+  z-index: 2;
+  padding: calc(10vw + clamp(56px, 7vw, 110px)) var(--gutter) clamp(96px, 11vw, 170px);
+  background: var(--light-blue);
+  color: var(--deep-purple);
+  overflow: hidden;
+}
+
+/* The orb — our two-halves circle, huge, half off the right edge */
+.voices__orb {
+  position: absolute;
+  right: -17vw;
+  top: 52%;
+  width: 40vw;
+  aspect-ratio: 1;
+  margin-top: -20vw;
+  border-radius: 50%;
+  overflow: hidden;
+  transform: rotate(var(--orb-rot, 0deg));
+  transition: transform 1.5s var(--ease-in-out);
+  pointer-events: none;
+}
+.voices__orb::before,
+.voices__orb::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50.5%;
+}
+.voices__orb::before { top: 0; background: var(--deep-purple); }
+.voices__orb::after  { bottom: 0; background: var(--orange); }
+
+/* ── Head ──────────────────────────────────────────────────── */
+.voices__head {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  max-width: min(1240px, 74vw);
+  padding-bottom: 14px;
+  border-bottom: 1.5px solid var(--deep-purple);
+}
+.voices__title {
+  font-size: var(--fs-lg);
+  font-weight: 850;
+  font-stretch: 112%;
+  line-height: 1;
+  letter-spacing: -.015em;
+  text-transform: uppercase;
+}
+.voices__title em { font-size: 1.15em; }
+
+/* ── Stage ─────────────────────────────────────────────────── */
+.voices__stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: clamp(76px, 10vw, 170px) minmax(0, 1fr);
+  column-gap: clamp(20px, 3.2vw, 60px);
+  max-width: min(1240px, 74vw);
+  margin-top: clamp(48px, 6vw, 100px);
+}
+
+/* Geometric quote mark: two drops, each a circle with a quarter tail */
+.qmark {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  display: flex;
+  gap: 10%;
+  align-self: start;
+  transform: rotate(var(--qmark-rot, 0deg));
+  transition: transform 1.2s var(--ease-back);
+}
+.qmark > span {
+  position: relative;
+  flex: 1;
+  aspect-ratio: .62;
+}
+.qmark > span::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--orange);
+}
+.qmark > span::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50%;
+  height: 50%;
+  border-radius: 100% 0 0 0;
+  background: var(--orange);
+}
+
+.voices__quotes {
+  grid-column: 2;
+  display: grid;
+}
+.quote {
+  grid-area: 1 / 1;
+  visibility: hidden;
+}
+.quote.is-active,
+.quote.is-leaving { visibility: visible; }
+
+.quote blockquote p {
+  font-family: var(--font-serif);
+  font-size: calc(clamp(1.85rem, .9rem + 2.9vw, 4.4rem) * var(--q-scale, 1));
+  line-height: 1.06;
+  letter-spacing: -.014em;
+  color: var(--dark);
+  text-wrap: pretty;
+}
+
+/* Word masks (built by js/voices.js) */
+.w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0 .06em .12em 0;
+  margin: 0 -.06em -.12em 0;
+}
+.w > span {
+  display: inline-block;
+  transform: translate3d(0, 112%, 0);
+  transition: transform .95s var(--ease-out);
+  transition-delay: calc(var(--wi, 0) * 16ms + 120ms);
+}
+.quote.is-active .w > span { transform: none; }
+.quote.is-leaving .w > span {
+  transform: translate3d(0, -112%, 0);
+  transition: transform .55s var(--ease-in-out);
+  transition-delay: calc(var(--wi, 0) * 6ms);
+}
+.quote:not(.is-active):not(.is-leaving) .w > span { transition: none; }
+
+.quote figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  margin-top: clamp(24px, 3vw, 44px);
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition: opacity .5s var(--ease-out), transform .8s var(--ease-out);
+}
+.quote.is-active figcaption { opacity: 1; transform: none; transition-delay: .45s; }
+.quote__name {
+  display: inline-flex;
+  align-items: center;
+  gap: .6em;
+  font-size: var(--fs-md);
+  font-weight: 850;
+  font-stretch: 115%;
+  letter-spacing: -.01em;
+  text-transform: uppercase;
+}
+.quote__name::before {
+  content: '';
+  width: 1.8em;
+  height: 2px;
+  background: currentColor;
+}
+.quote__role { opacity: .7; }
+
+/* Without JS every quote is simply listed */
+.no-js .voices__quotes { display: grid; gap: 48px; }
+.no-js .quote { grid-area: auto; visibility: visible; }
+.no-js .quote figcaption { opacity: 1; transform: none; }
+.no-js .voices__controls { display: none; }
+
+/* ── Controls ──────────────────────────────────────────────── */
+.voices__controls {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: clamp(40px, 5vw, 72px);
+}
+.voices__count { min-width: 5.5em; text-align: center; }
+.voices__progress {
+  position: relative;
+  flex: 1;
+  max-width: 220px;
+  height: 8px;
+  margin-left: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(53, 32, 92, .16);
+}
+.voices__progress > span {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--deep-purple);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+.voices__progress > span.is-running { animation: voices-progress var(--auto-dur, 8s) linear forwards; }
+.voices.is-paused .voices__progress > span { animation-play-state: paused; }
+.voices.is-manual .voices__progress { opacity: .35; }
+@keyframes voices-progress { to { transform: scaleX(1); } }
+
+@media (max-width: 899px) {
+  .voices__head,
+  .voices__stage { max-width: none; }
+  .voices__stage { grid-template-columns: minmax(0, 1fr); }
+  .qmark { width: 76px; margin-bottom: 28px; grid-row: auto; }
+  .voices__quotes,
+  .voices__controls { grid-column: 1; }
+  .voices__orb {
+    right: -30vw;
+    top: calc(10vw + 30px);
+    width: 62vw;
+    margin-top: 0;
+    opacity: .9;
+  }
+  .voices__head { flex-direction: column; align-items: flex-start; gap: 12px; }
+}

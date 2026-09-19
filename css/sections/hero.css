@@ -1,0 +1,265 @@
+/* ==========================================================================
+   HERO — "The Assembly"
+   A poster: metadata rule → EVOLVE (fitted to the free space using the
+   font's width axis) → a band of geometric tiles in which A and I live
+   inside their own shapes (arch + pill = the brand mark).
+   ========================================================================== */
+
+.hero-wrap { position: relative; }
+
+.hero {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100svh;
+  min-height: 560px;
+  padding: calc(var(--nav-h) + 12px) var(--gutter) var(--gutter);
+  background: var(--cream);
+  overflow: hidden;
+}
+
+/* Scroll-driven portal: the hero sticks while the O grows over it */
+.motion .hero-wrap { height: calc(100svh + 80vh); }
+.motion .hero { position: sticky; top: 0; }
+@media (max-height: 520px) {
+  .motion .hero-wrap { height: auto; }
+  .motion .hero { position: relative; }
+}
+
+/* ── Meta rule ─────────────────────────────────────────────── */
+.hero__meta {
+  flex: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1.5px solid var(--dark);
+}
+.hero__meta > :first-child { white-space: nowrap; }
+.hero__meta-end { text-align: right; }
+
+/* ── EVOLVE ────────────────────────────────────────────────── */
+.hero__title {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: clamp(10px, 2.2vh, 26px) 0 clamp(12px, 2.6vh, 30px);
+  font-size: inherit;
+  font-weight: inherit;
+}
+.hero__word {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: var(--hero-fs, 15vw);
+  font-weight: 900;
+  line-height: .78;
+  letter-spacing: -.035em;
+  text-transform: uppercase;
+  color: var(--deep-purple);
+}
+.hl {
+  display: inline-block;
+  font-stretch: calc(var(--wdth, 125) * 1%);
+}
+/* js/hero.js decides between one line and EVO / LVE (whichever is bigger) */
+.hero__br { display: none; }
+.hero__word.is-split .hero__br { display: block; }
+
+.hero__o {
+  width: var(--cap, .72em);
+  height: var(--cap, .72em);
+  margin: 0 .035em 0 .02em;
+  vertical-align: -.01em; /* round forms overshoot the baseline too */
+}
+
+/* ── Tile band ─────────────────────────────────────────────── */
+.hero__band {
+  --u: min(33svh, calc((100vw - 2 * var(--gutter) - 330px) / 4.26));
+  flex: none;
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    var(--u)
+    var(--u)
+    calc(var(--u) * .82)
+    calc(var(--u) * .44)
+    var(--u);
+  grid-template-rows: var(--u);
+  grid-template-areas: "intro t1 t2 a i t3";
+}
+.hero__t1 { grid-area: t1; }
+.hero__t2 { grid-area: t2; }
+.hero__t3 { grid-area: t3; }
+.hero__t  { aspect-ratio: auto; }
+
+/* A lives in an arch, I lives in a pill */
+.hero__letter {
+  position: relative;
+  container-type: size;
+  display: grid;
+  place-items: end center;
+  overflow: hidden;
+}
+.hero__letter--a {
+  grid-area: a;
+  background: var(--purple);
+  color: var(--cream);
+  border-radius: 999px 999px 0 0;
+}
+.hero__letter--i {
+  grid-area: i;
+  background: var(--orange);
+  color: var(--dark);
+  border-radius: 999px;
+  margin: 0 0 0 clamp(4px, .6vw, 10px);
+  place-items: center;
+}
+.hero__glyph {
+  display: block;
+  font-size: 74cqh;
+  font-weight: 900;
+  font-stretch: 100%;
+  line-height: .72;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  padding-bottom: 12cqh;
+}
+.hero__letter--i .hero__glyph {
+  font-size: 58cqh;
+  padding-bottom: 0;
+}
+
+/* Intro copy — negative space next to the tiles */
+.hero__intro {
+  grid-area: intro;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 2px clamp(16px, 3vw, 52px) 2px 0;
+}
+.hero__lede {
+  max-width: 31ch;
+  font-size: var(--fs-md);
+  font-weight: 460;
+  line-height: 1.28;
+  letter-spacing: -.005em;
+}
+.hero__scroll {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  width: max-content;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.hero__scroll-ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1.5px solid var(--dark);
+  transition: background-color .35s, color .35s;
+}
+.hero__scroll-ring::after {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 50%;
+  border: 1.5px solid var(--orange);
+  animation: scroll-pulse 2.6s var(--ease-out) infinite;
+}
+.hero__scroll-ring svg {
+  width: 18px;
+  height: 18px;
+  animation: scroll-nudge 2.6s var(--ease-in-out) infinite;
+}
+.hero__scroll:hover .hero__scroll-ring { background: var(--dark); color: var(--cream); }
+
+@keyframes scroll-pulse {
+  0%   { transform: scale(1);   opacity: .9; }
+  70%  { transform: scale(1.55); opacity: 0; }
+  100% { transform: scale(1.55); opacity: 0; }
+}
+@keyframes scroll-nudge {
+  0%, 100% { transform: translateY(-2px); }
+  50%      { transform: translateY(3px); }
+}
+
+/* ── Intro states ──────────────────────────────────────────── */
+/* Before the intro timeline takes over, keep the assembled pieces hidden */
+.motion.is-loading .hero__word,
+.motion.is-loading .hero__band > * { opacity: 0; }
+/* GSAP drives these transforms during the intro; CSS easing would fight it */
+.is-intro .hero .g,
+.is-intro .hero__o { transition: none !important; }
+
+/* ── Portal (expands from the O into the next section) ─────── */
+.hero__portal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100px;
+  height: 100px;
+  margin: -50px 0 0 -50px;
+  border-radius: 50%;
+  background: var(--deep-purple);
+  transform: scale(0);
+  pointer-events: none;
+  z-index: 5;
+  will-change: transform;
+}
+html:not(.motion) .hero__portal { display: none; }
+
+/* ── Tablet: tiles on top, intro below ─────────────────────── */
+@media (max-width: 1099px) {
+  .hero__band {
+    --u: min(30svh, calc((100vw - 2 * var(--gutter)) / 4.26));
+    grid-template-columns: var(--u) var(--u) calc(var(--u) * .82) calc(var(--u) * .44) var(--u);
+    grid-template-rows: var(--u) auto;
+    grid-template-areas:
+      "t1 t2 a i t3"
+      "intro intro intro intro intro";
+    justify-content: space-between;
+  }
+  .hero__intro {
+    flex-direction: row;
+    align-items: flex-end;
+    padding: 18px 0 0;
+  }
+}
+
+/* ── Mobile: A and I take over, EVOLVE splits into EVO / LVE ── */
+@media (max-width: 599px) {
+  .hero { padding-top: calc(var(--nav-h) + 4px); }
+  .hero__meta-mid { display: none; }
+  .hero__band {
+    --u: calc((100vw - 2 * var(--gutter)) / 2.8);
+    grid-template-columns: calc(var(--u) * 1.25) calc(var(--u) * .55) var(--u);
+    grid-template-rows: var(--u) var(--u) auto;
+    grid-template-areas:
+      "a i t1"
+      "a i t3"
+      "intro intro intro";
+  }
+  .hero__t2 { display: none; }
+  .hero__letter--a .hero__glyph { font-size: 50cqh; padding-bottom: 9cqh; }
+  .hero__letter--i .hero__glyph { font-size: 40cqh; }
+  .hero__intro {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 14px;
+    padding-top: 16px;
+  }
+  .hero__lede { font-size: 15.5px; }
+  .hero__scroll > span:last-child { display: none; }
+}
