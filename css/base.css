@@ -20,14 +20,12 @@ body {
   font-family: var(--font-display);
   font-size: var(--fs-base);
   font-weight: 400;
-  font-stretch: var(--stretch-norm);
+  font-stretch: 100%;
   line-height: 1.5;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Safety net: decorative shapes must never cause sideways scroll.
-     `clip` (unlike `hidden`) doesn't create a scroll container, so sticky still works. */
-  overflow-x: clip;
+  overflow-x: clip; /* safety net; `clip` keeps position: sticky working */
 }
 
 h1, h2, h3, h4, p, ul, ol, dl, figure, blockquote { margin: 0; }
@@ -40,18 +38,17 @@ button { background: none; border: 0; padding: 0; cursor: pointer; }
 
 ::selection { background: var(--orange); color: var(--dark); }
 
-/* Lenis (smooth scroll) housekeeping */
-html.lenis,
-html.lenis body { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto !important; }
-.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-.lenis.lenis-stopped { overflow: hidden; }
-
 :focus-visible {
   outline: 2px solid var(--orange);
   outline-offset: 4px;
   border-radius: 4px;
 }
+
+/* Lenis (smooth wheel scrolling) housekeeping */
+html.lenis,
+html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
 
 /* ── Utilities ─────────────────────────────────────────────── */
 .sr-only {
@@ -77,13 +74,13 @@ html.lenis body { height: auto; }
   border-radius: var(--r-pill);
   font-weight: 600;
   transform: translateY(-160%);
-  transition: transform var(--dur) var(--ease-out);
+  transition: transform .5s var(--ease-out);
 }
 .skip-link:focus { transform: none; }
 
 /* ── Type primitives ───────────────────────────────────────── */
 
-/* Mono metadata label — the "editorial caption" voice of the site */
+/* Mono metadata label — one per section, above the title */
 .label {
   font-family: var(--font-mono);
   font-size: var(--fs-label);
@@ -92,44 +89,44 @@ html.lenis body { height: auto; }
   letter-spacing: .06em;
   text-transform: uppercase;
 }
-.label__num { opacity: .55; margin-right: .35em; }
 
-/* Big display voice */
-.display {
+/* Section title — the same voice everywhere */
+.title {
   font-family: var(--font-display);
-  font-size: var(--fs-display);
+  font-size: var(--fs-title);
   font-weight: 850;
-  font-stretch: var(--stretch-wide);
-  line-height: .86;
-  letter-spacing: -.035em;
+  font-stretch: 110%;
+  line-height: .92;
+  letter-spacing: -.032em;
   text-transform: uppercase;
 }
+@media (max-width: 599px) {
+  .title { font-stretch: 96%; }
+}
 
-/* Serif italic accent: a single editorial word inside heavy type */
-.display em,
-em.serif,
+/* Serif italic accent: one word inside heavy type */
+.title em,
 .vision__statement em,
-.contact__title em,
-.voices__title em,
-.archive__end-text em {
+.contact__title em {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
   font-stretch: normal;
   text-transform: none;
   letter-spacing: -.01em;
+  font-size: 1.08em;
+  line-height: .8;
 }
-.display em { font-size: 1.08em; line-height: .8; }
 
 /* Line mask — `.line > span` slides up from behind its own edge.
-   Padding compensates for italic overhangs & descenders being clipped. */
+   Padding compensates for italic overhangs & descenders. */
 .line {
   display: block;
   overflow: hidden;
   padding: .06em .12em .1em 0;
   margin: -.06em -.12em -.1em 0;
 }
-.line > span { display: inline-block; will-change: transform; }
+.line > span { display: inline-block; }
 
 /* Underline link */
 .u-link {
@@ -144,49 +141,33 @@ em.serif,
   background: currentColor;
   transform: scaleX(0);
   transform-origin: right center;
-  transition: transform .5s var(--ease-out);
+  transition: transform .45s var(--ease-out);
 }
 .u-link:hover::after,
 .u-link:focus-visible::after { transform: scaleX(1); transform-origin: left center; }
 
 /* ==========================================================================
-   REVEAL SYSTEM
-   Hidden states only exist under `.motion` (JS + motion allowed), so the
-   page is fully readable if scripts fail or the user prefers reduced motion.
-   JS adds `.is-in` once an element enters the viewport.
+   REVEAL — each element eases in once, the first time it's seen.
+   Hidden states exist only under `.motion`, so the page is complete if
+   scripts fail or motion is reduced.
    ========================================================================== */
 
 .motion [data-reveal] {
-  transition:
-    opacity .9s var(--ease-out),
-    transform 1.1s var(--ease-out),
-    clip-path 1.2s var(--ease-out);
+  transition: opacity .8s var(--ease-out), transform .9s var(--ease-out);
   transition-delay: calc(var(--d, 0) * 1ms);
 }
-.motion [data-reveal="up"]:not(.is-in)   { opacity: 0; transform: translate3d(0, 44px, 0); }
+.motion [data-reveal="up"]:not(.is-in)   { opacity: 0; transform: translate3d(0, 24px, 0); }
 .motion [data-reveal="fade"]:not(.is-in) { opacity: 0; }
-.motion [data-reveal="scale"]:not(.is-in){ opacity: 0; transform: scale(.4) rotate(-40deg); }
-.motion [data-reveal="clip"]:not(.is-in) { clip-path: inset(100% 0 0 0); }
 
-/* Line-by-line reveal: the container stays visible, its lines slide up */
 .motion [data-reveal="lines"] { transition: none; }
 .motion [data-reveal="lines"] .line > span {
-  transform: translate3d(0, 112%, 0);
-  transition: transform 1.15s var(--ease-out);
-  transition-delay: calc(var(--i, 0) * 85ms + var(--d, 0) * 1ms);
+  transform: translate3d(0, 105%, 0);
+  transition: transform 1s var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 70ms + var(--d, 0) * 1ms);
 }
 .motion [data-reveal="lines"].is-in .line > span { transform: none; }
 
-/* While the page boots, keep intro pieces out of sight (GSAP takes over) */
-.motion.is-loading [data-intro],
-.motion.is-loading [data-intro-nav] { opacity: 0; }
-
-/* Pause decorative CSS loops for off-screen sections (toggled by JS) */
-.is-offscreen *,
-.is-offscreen *::before,
-.is-offscreen *::after { animation-play-state: paused !important; }
-
-/* ── Reduced motion: keep it calm, keep it complete ─────────── */
+/* ── Reduced motion ────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

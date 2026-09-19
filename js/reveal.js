@@ -1,7 +1,6 @@
 /* ==========================================================================
-   reveal.js — generic reveal-on-scroll.
-   [data-reveal="up|fade|scale|clip|lines"] elements get .is-in once they
-   enter the viewport; CSS (base.css) does the actual motion.
+   reveal.js — [data-reveal="up|fade|lines"] elements get .is-in the first
+   time they enter the viewport; CSS (base.css) does the easing. Once only.
    ========================================================================== */
 EVO.register('reveal', () => {
   const els = EVO.$$('[data-reveal]');
@@ -22,10 +21,7 @@ EVO.register('reveal', () => {
       en.target.classList.add('is-in');
       io.unobserve(en.target);
     });
-  }, { rootMargin: '0px 0px -10% 0px' });
+  }, { rootMargin: '0px 0px -8% 0px' });
 
   els.forEach((el) => io.observe(el));
-
-  // Pause decorative CSS loops when their section is far off-screen
-  EVO.watchOffscreen(EVO.$$('.hero-wrap, .bands, .archive, .partners'));
 }, 5);

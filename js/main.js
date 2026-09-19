@@ -1,22 +1,14 @@
 /* ==========================================================================
    main.js — boot sequence.
-   1. Decide whether we can animate (GSAP loaded + motion allowed).
-   2. Wait for fonts — the hero fit and every geometric "O" depend on metrics.
-   3. Init modules in page order, isolating failures.
-   4. Sort + refresh ScrollTriggers, then play the intro.
+   1. Wait for fonts: the hero fit and every geometric "O" depend on metrics.
+   2. Init modules in order, isolating failures.
+   3. Play the one-time intro and reveal the page.
    ========================================================================== */
 (function () {
   'use strict';
 
   const boot = async () => {
     const root = document.documentElement;
-
-    if (EVO.env.hasGSAP) {
-      window.gsap.registerPlugin(window.ScrollTrigger);
-    } else {
-      // No animation engine (CDN blocked?): show the complete static page.
-      root.classList.remove('motion');
-    }
 
     try {
       await Promise.race([
@@ -32,14 +24,7 @@
       });
 
     clearTimeout(window.__evoFailsafe);
-
-    if (EVO.env.hasGSAP) {
-      window.ScrollTrigger.sort();
-      window.ScrollTrigger.refresh();
-      window.addEventListener('load', () => window.ScrollTrigger.refresh());
-    }
-
-    if (EVO.hero && EVO.env.motion) EVO.hero.intro();
+    if (EVO.hero) EVO.hero.intro();
     root.classList.remove('is-loading');
     root.classList.add('is-ready');
   };
