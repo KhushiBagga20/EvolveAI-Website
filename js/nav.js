@@ -1,6 +1,5 @@
 /* ==========================================================================
-   nav.js — compact-on-scroll state, active-section marker, and the
-   full-screen menu (opens as a circle from the toggle button).
+   nav.js — compact-on-scroll state, current-section marker, mobile menu.
    ========================================================================== */
 EVO.register('nav', () => {
   const nav = EVO.$('[data-nav]');
@@ -20,7 +19,7 @@ EVO.register('nav', () => {
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* Active section ------------------------------------------------------ */
+  /* Current section ----------------------------------------------------- */
   const links = EVO.$$('[data-nav-link]');
   if ('IntersectionObserver' in window) {
     const byId = new Map(links.map((l) => [l.getAttribute('href').slice(1), l]));
@@ -45,19 +44,13 @@ EVO.register('nav', () => {
   /* Menu ---------------------------------------------------------------- */
   if (!toggle || !menu) return;
   const label = toggle.querySelector('.nav__toggle-label');
-  EVO.$$('.menu__tiles .tile', menu).forEach((t, i) => t.style.setProperty('--i', i));
-  EVO.$$('.menu__nav a', menu).forEach((a, i) => a.style.setProperty('--i', i));
-
   let closeTimer;
   const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
 
   const open = () => {
     clearTimeout(closeTimer);
-    const r = toggle.getBoundingClientRect();
-    menu.style.setProperty('--mx', `${r.left + r.width / 2}px`);
-    menu.style.setProperty('--my', `${r.top + r.height / 2}px`);
     menu.hidden = false;
-    requestAnimationFrame(() => requestAnimationFrame(() => menu.classList.add('is-open')));
+    requestAnimationFrame(() => menu.classList.add('is-open'));
     toggle.setAttribute('aria-expanded', 'true');
     if (label) label.textContent = 'Close';
     nav.classList.add('is-menu-open');
@@ -72,7 +65,7 @@ EVO.register('nav', () => {
     nav.classList.remove('is-menu-open');
     document.documentElement.style.overflow = '';
     if (EVO.lenis) EVO.lenis.start();
-    closeTimer = setTimeout(() => { if (!isOpen()) menu.hidden = true; }, 850);
+    closeTimer = setTimeout(() => { if (!isOpen()) menu.hidden = true; }, 400);
   };
 
   toggle.addEventListener('click', () => (isOpen() ? close() : open()));

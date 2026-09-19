@@ -1,7 +1,7 @@
 /* ==========================================================================
    contact.js — client-side validation + a success state.
-   PROTOTYPE: nothing is sent anywhere yet. Wire `send()` to a form
-   service (e.g. Formspree, Google Forms, a serverless function) later.
+   PROTOTYPE: nothing is sent anywhere yet. Wire the submit handler to a
+   form service (e.g. Formspree, Google Forms, a serverless function) later.
    ========================================================================== */
 EVO.register('contact', () => {
   const form = EVO.$('[data-form]');
@@ -35,10 +35,6 @@ EVO.register('contact', () => {
     form.classList.add('is-sent');
     label.textContent = 'Message sent';
     status.textContent = `Thanks, ${first} — we'll be in touch. (Prototype: not connected to an inbox yet.)`;
-    const sun = EVO.$('.cshape--sun');
-    if (sun && EVO.env.hasGSAP && EVO.env.motion) {
-      window.gsap.fromTo(sun, { rotation: 0 }, { rotation: 360, duration: 1.4, ease: 'expo.inOut', clearProps: 'rotation' });
-    }
     form.reset();
     setTimeout(() => {
       form.classList.remove('is-sent');

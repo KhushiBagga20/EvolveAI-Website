@@ -9,7 +9,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
   <!-- Motion flags are set before first paint so the intro never flashes.
-       Append ?reduced-motion to the URL to preview the calm version. -->
+       Append ?reduced-motion to the URL to preview the no-animation version. -->
   <script>
     (function (d, w) {
       var h = d.documentElement;
@@ -22,7 +22,7 @@
         // Fail-safe: never leave content hidden if something goes wrong.
         w.__evoFailsafe = setTimeout(function () {
           h.classList.remove('is-loading', 'motion');
-        }, 6000);
+        }, 5000);
       }
     })(document, window);
   </script>
@@ -48,39 +48,21 @@
 </head>
 <body>
 
-  <!-- ─────────────────────────────────────────────────────────────
-       EVOLVE GEOMETRY — reusable SVG symbols (see css/shapes.css)
-       ───────────────────────────────────────────────────────────── -->
+  <!-- SVG symbols: the mark, the half ring (every zero), arrows -->
   <svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
     <defs>
-      <!-- Thick U, opening upward. Rotate 180° for an arch, 90° for a C. -->
-      <symbol id="g-u" viewBox="0 0 100 100">
-        <path d="M14 0V50a36 36 0 0 0 72 0V0" fill="none" stroke="currentColor" stroke-width="28"/>
-      </symbol>
-      <!-- Half ring (∪), 2:1. Two of them (one flipped) make every zero. -->
-      <symbol id="g-halfring" viewBox="0 0 100 50">
-        <path d="M13 0a37 37 0 0 0 74 0" fill="none" stroke="currentColor" stroke-width="26"/>
-      </symbol>
-      <!-- Concentric arches ("rainbow"), 2:1 -->
-      <symbol id="g-rings" viewBox="0 0 200 100">
-        <g fill="none" stroke="currentColor" stroke-width="13">
-          <path d="M6.5 100a93.5 93.5 0 0 1 187 0"/>
-          <path d="M34.5 100a65.5 65.5 0 0 1 131 0"/>
-          <path d="M62.5 100a37.5 37.5 0 0 1 75 0"/>
-        </g>
-        <path d="M86 100a14 14 0 0 1 28 0z" fill="var(--rings-core, currentColor)"/>
-      </symbol>
       <!-- Brand mark: arch (A) + pill (I) + node -->
       <symbol id="g-mark" viewBox="0 0 60 44">
         <path d="M5 44V22a17 17 0 0 1 34 0v22" fill="none" stroke="currentColor" stroke-width="10"/>
         <rect x="48" y="0" width="10" height="44" rx="5" fill="currentColor"/>
         <circle cx="22" cy="29" r="5.5" fill="var(--mark-dot, #FF6333)"/>
       </symbol>
+      <!-- Half ring (∪), 2:1. Two of them, one flipped, make a zero. -->
+      <symbol id="g-halfring" viewBox="0 0 100 50">
+        <path d="M13 0a37 37 0 0 0 74 0" fill="none" stroke="currentColor" stroke-width="26"/>
+      </symbol>
       <symbol id="i-arrow" viewBox="0 0 24 24">
         <path d="M3.5 12h16M13 5.5l6.5 6.5-6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2"/>
-      </symbol>
-      <symbol id="i-arrow-ne" viewBox="0 0 24 24">
-        <path d="M6 18 18 6M8 6h10v10" fill="none" stroke="currentColor" stroke-width="2.2"/>
       </symbol>
       <symbol id="i-arrow-down" viewBox="0 0 24 24">
         <path d="M12 3.5v16M5.5 13l6.5 6.5 6.5-6.5" fill="none" stroke="currentColor" stroke-width="2.2"/>
@@ -107,7 +89,7 @@
         </ul>
       </nav>
 
-      <a class="btn btn--orange nav__cta" href="#contact" data-magnetic data-intro-nav>
+      <a class="btn btn--orange nav__cta" href="#contact" data-intro-nav>
         <span class="btn__label">Join the club</span>
         <span class="btn__icon" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
       </a>
@@ -121,424 +103,239 @@
 
   <!-- Mobile / tablet menu -->
   <div class="menu" id="menu" data-menu hidden>
-    <div class="menu__tiles pattern-grid" aria-hidden="true">
-      <span class="tile tile--orange"><span class="g g-quarter"></span></span>
-      <span class="tile tile--blue"><span class="g g-half-l"></span><span class="g g-half-r"></span></span>
-      <span class="tile tile--lilac"><span class="g g-arch"></span></span>
-      <span class="tile tile--cream"><span class="g g-dot g-dot--lg"></span></span>
-    </div>
     <nav class="menu__nav" aria-label="Mobile">
       <ol>
-        <li><a href="#origin" data-menu-link><span class="menu__num">01</span>About</a></li>
-        <li><a href="#archive" data-menu-link><span class="menu__num">02</span>Events</a></li>
-        <li><a href="#work" data-menu-link><span class="menu__num">03</span>Work</a></li>
-        <li><a href="#community" data-menu-link><span class="menu__num">04</span>Community</a></li>
-        <li><a href="#contact" data-menu-link><span class="menu__num">05</span>Join the club</a></li>
+        <li><a href="#origin" data-menu-link>About</a></li>
+        <li><a href="#archive" data-menu-link>Events</a></li>
+        <li><a href="#work" data-menu-link>Work</a></li>
+        <li><a href="#community" data-menu-link>Community</a></li>
+        <li><a href="#contact" data-menu-link>Join the club</a></li>
       </ol>
     </nav>
-    <p class="menu__foot label">Chitkara University · Since 2021 · Keep evolving</p>
+    <p class="menu__foot label">Chitkara University · Since 2021</p>
   </div>
 
   <main id="main">
 
     <!-- ─────────────────────────── HERO ───────────────────────────
-         The hero is sticky inside .hero-wrap; the extra scroll length
-         drives the "portal" — the O of EVOLVE grows into the next section. -->
-    <div class="hero-wrap" data-hero-wrap>
-      <section class="hero" id="top" aria-labelledby="hero-title" data-hero>
-        <div class="hero__meta">
-          <span class="label" data-intro>(Est. 2021)</span>
-          <span class="label hero__meta-mid" data-intro>Student AI collective — Chitkara University</span>
-          <span class="label hero__meta-end" data-intro>Where innovation meets evolution</span>
+         EVOLVE is fitted to the free space (js/hero.js). A and I sit in
+         their shapes — arch + pill — which together are the mark. -->
+    <section class="hero" id="top" aria-labelledby="hero-title" data-hero>
+      <div class="hero__meta">
+        <span class="label" data-intro>Est. 2021 — Chitkara University</span>
+        <span class="label hero__meta-end" data-intro>Where innovation meets evolution</span>
+      </div>
+
+      <h1 class="hero__title" id="hero-title">
+        <span class="sr-only">Evolve AI</span>
+        <span class="hero__word" data-hero-word aria-hidden="true"><span class="hl">E</span><span class="hl">V</span><span class="hero__o" data-hero-o><i></i><i></i></span><span class="hero__br"></span><span class="hl">L</span><span class="hl">V</span><span class="hl">E</span></span>
+      </h1>
+
+      <div class="hero__band">
+        <div class="hero__intro">
+          <p class="hero__lede" data-intro>A student-driven collective exploring artificial intelligence, technology, creativity — and the craft of building things.</p>
+          <a class="hero__link" href="#work" data-intro>
+            <span class="hero__link-icon" aria-hidden="true"><svg><use href="#i-arrow-down"/></svg></span>
+            <span>See what we do</span>
+          </a>
         </div>
+        <div class="hero__letter hero__letter--a" aria-hidden="true"><span class="hero__glyph">A</span></div>
+        <div class="hero__letter hero__letter--i" aria-hidden="true"><span class="hero__glyph">I</span></div>
+      </div>
+    </section>
 
-        <h1 class="hero__title" id="hero-title">
-          <span class="sr-only">Evolve AI</span>
-          <span class="hero__word" data-hero-word aria-hidden="true"><span class="hl">E</span><span class="hl">V</span><span class="hero__o" data-hero-o><i></i><i></i></span><span class="hero__br"></span><span class="hl">L</span><span class="hl">V</span><span class="hl">E</span></span>
-        </h1>
-
-        <div class="hero__band">
-          <div class="hero__intro">
-            <p class="hero__lede" data-intro>A student-driven collective exploring artificial intelligence, technology, creativity — and the craft of building things.</p>
-            <a class="hero__scroll" href="#work" data-intro>
-              <span class="hero__scroll-ring" aria-hidden="true"><svg><use href="#i-arrow-down"/></svg></span>
-              <span>Scroll</span>
-            </a>
-          </div>
-
-          <div class="tile tile--blue hero__t hero__t1" data-tile aria-hidden="true">
-            <span class="g g-half-l"></span><span class="g g-half-r"></span>
-          </div>
-          <div class="tile tile--sand hero__t hero__t2" data-tile aria-hidden="true">
-            <svg class="g g-svg" viewBox="0 0 200 200"><use href="#g-rings" x="0" y="100" width="200" height="100"/></svg>
-          </div>
-          <div class="hero__letter hero__letter--a" aria-hidden="true"><span class="hero__glyph">A</span></div>
-          <div class="hero__letter hero__letter--i" aria-hidden="true"><span class="hero__glyph">I</span></div>
-          <div class="tile tile--lilac hero__t hero__t3" data-tile aria-hidden="true">
-            <span class="g g-quarter"></span><span class="g g-dot g--orange"></span>
-          </div>
-        </div>
-
-        <div class="hero__portal" data-hero-portal aria-hidden="true"></div>
-      </section>
-    </div>
-
-    <!-- ─────────────────────── 01 WHAT WE DO ─────────────────────── -->
+    <!-- ─────────────────────────── WHAT WE DO ─────────────────────────── -->
     <section class="work" id="work" aria-labelledby="work-title">
       <div class="work__head">
-        <p class="label work__label" data-reveal="fade"><span class="label__num">(01)</span> What we do</p>
-        <h2 class="display work__title" id="work-title" data-reveal="lines">
-          <span class="line"><span>What</span></span>
-          <span class="line"><span><em>we</em></span></span>
-          <span class="line"><span>do</span></span>
+        <h2 class="title work__title" id="work-title" data-reveal="lines">
+          <span class="line"><span>What <em>we</em> do</span></span>
         </h2>
-        <div class="work__aside">
-          <p class="work__lede" data-reveal="up">We don’t just organize events — <em>we create opportunities.</em> Through hackathons, workshops, expert talks and real-world projects, Evolve AI equips students with the tools and experience to thrive in the world of AI.</p>
-          <p class="label work__count" data-reveal="fade">06 formats / 01 community</p>
-        </div>
+        <p class="work__lede" data-reveal="up">We don’t just organize events — we create opportunities. Through hackathons, workshops, expert talks and real-world projects, Evolve AI equips students with the tools and experience to thrive in the world of AI.</p>
       </div>
 
       <ol class="work__list">
-        <li class="work-item" tabindex="0" style="--c: var(--orange); --on: var(--dark);" data-work-item>
+        <li class="work-item" data-work-item>
           <span class="work-item__fill" aria-hidden="true"></span>
           <span class="work-item__num">01</span>
           <h3 class="work-item__title">Tech Events</h3>
           <p class="work-item__desc">We host vibrant tech gatherings where you can explore cutting-edge innovations, meet like-minded peers, and spark fresh ideas.</p>
-          <span class="work-item__shape ws ws--rings" aria-hidden="true"><svg><use href="#g-rings"/></svg></span>
-          <span class="work-item__arrow" aria-hidden="true"><svg><use href="#i-arrow-ne"/></svg></span>
         </li>
-        <li class="work-item" tabindex="0" style="--c: var(--blue); --on: var(--cream);" data-work-item>
+        <li class="work-item" data-work-item>
           <span class="work-item__fill" aria-hidden="true"></span>
           <span class="work-item__num">02</span>
           <h3 class="work-item__title">Hackathons</h3>
           <p class="work-item__desc">We organize high-energy coding sprints where you’ll build prototypes, test your skills, and bring your boldest ideas to life.</p>
-          <span class="work-item__shape ws ws--links" aria-hidden="true"><svg class="u1"><use href="#g-u"/></svg><svg class="u2"><use href="#g-u"/></svg></span>
-          <span class="work-item__arrow" aria-hidden="true"><svg><use href="#i-arrow-ne"/></svg></span>
         </li>
-        <li class="work-item" tabindex="0" style="--c: var(--light-blue); --on: var(--deep-purple);" data-work-item>
+        <li class="work-item" data-work-item>
           <span class="work-item__fill" aria-hidden="true"></span>
           <span class="work-item__num">03</span>
           <h3 class="work-item__title">Workshops</h3>
           <p class="work-item__desc">We run practical, hands-on sessions so you can master tools, frameworks, and concepts you can use right away.</p>
-          <span class="work-item__shape ws ws--quarters" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-          <span class="work-item__arrow" aria-hidden="true"><svg><use href="#i-arrow-ne"/></svg></span>
         </li>
-        <li class="work-item" tabindex="0" style="--c: var(--cream); --on: var(--deep-purple);" data-work-item>
+        <li class="work-item" data-work-item>
           <span class="work-item__fill" aria-hidden="true"></span>
           <span class="work-item__num">04</span>
           <h3 class="work-item__title">Expert Talks</h3>
           <p class="work-item__desc">We bring industry pros to you — gain insider knowledge, career tips, and exposure to emerging trends.</p>
-          <span class="work-item__shape ws ws--podium" aria-hidden="true"><i></i><i></i></span>
-          <span class="work-item__arrow" aria-hidden="true"><svg><use href="#i-arrow-ne"/></svg></span>
         </li>
-        <li class="work-item" tabindex="0" style="--c: var(--orange); --on: var(--dark);" data-work-item>
+        <li class="work-item" data-work-item>
           <span class="work-item__fill" aria-hidden="true"></span>
           <span class="work-item__num">05</span>
           <h3 class="work-item__title">Practical Projects</h3>
           <p class="work-item__desc">We give you real-world challenges and assignments to tackle, helping you turn theory into tangible results.</p>
-          <span class="work-item__shape ws ws--stack" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="work-item__arrow" aria-hidden="true"><svg><use href="#i-arrow-ne"/></svg></span>
         </li>
-        <li class="work-item" tabindex="0" style="--c: var(--light-blue); --on: var(--deep-purple);" data-work-item>
+        <li class="work-item" data-work-item>
           <span class="work-item__fill" aria-hidden="true"></span>
           <span class="work-item__num">06</span>
           <h3 class="work-item__title">Interactive Learning</h3>
           <p class="work-item__desc">We create a collaborative space where learning is engaging, discussions are open, and growth happens naturally.</p>
-          <span class="work-item__shape ws ws--talk" aria-hidden="true"><i></i><i></i></span>
-          <span class="work-item__arrow" aria-hidden="true"><svg><use href="#i-arrow-ne"/></svg></span>
         </li>
       </ol>
     </section>
 
-    <!-- ─────────────────────────── 02 ORIGIN ─────────────────────────── -->
+    <!-- ─────────────────────────── ORIGIN ─────────────────────────── -->
     <section class="origin" id="origin" aria-labelledby="origin-title">
-      <div class="arch-row arch-row--origin" data-arch-row aria-hidden="true">
-        <span style="--h: .78"></span><span style="--h: 1"></span><span style="--h: .62"></span><span style="--h: .9"></span><span style="--h: .7"></span><span style="--h: 1"></span>
-      </div>
-
-      <div class="origin__top">
-        <p class="label" data-reveal="fade"><span class="label__num">(02)</span> Our origin</p>
-        <p class="label origin__top-end" data-reveal="fade">Dept. of CSE (Artificial Intelligence) — Chitkara University</p>
-      </div>
-
-      <div class="origin__year" aria-hidden="true" data-origin-year>
-        <span class="origin__digit">2</span><span class="origin__zero" data-origin-zero><svg class="origin__zero-top" viewBox="0 0 100 50"><use href="#g-halfring"/></svg><svg class="origin__zero-bottom" viewBox="0 0 100 50"><use href="#g-halfring"/></svg></span><span class="origin__digit">2</span><span class="origin__digit">1</span>
-      </div>
-
       <div class="origin__grid">
-        <h2 class="display origin__title" id="origin-title" data-reveal="lines">
-          <span class="line"><span>Where it</span></span>
-          <span class="line"><span>started</span></span>
-        </h2>
+        <div class="origin__visual">
+          <p class="label" data-reveal="fade">Our origin</p>
+          <div class="origin__year" aria-hidden="true">
+            <span>2</span><span class="origin__zero"><svg class="origin__zero-top" viewBox="0 0 100 50"><use href="#g-halfring"/></svg><svg class="origin__zero-bottom" viewBox="0 0 100 50"><use href="#g-halfring"/></svg></span><span>21</span>
+          </div>
+          <p class="origin__values" data-reveal="lines">
+            <span class="line"><span>AI.</span></span>
+            <span class="line"><span>Community.</span></span>
+            <span class="line"><span>Experimentation.</span></span>
+          </p>
+        </div>
 
-        <div class="origin__copy">
-          <p class="origin__lead" data-reveal="up">Evolve AI began its journey in <strong>2021</strong> as a club of ambitious team members within Chitkara University’s Department of Computer Science &amp; Engineering (Artificial Intelligence).</p>
-          <p data-reveal="up">Guided by visionaries like Dr. Sushil Kumar Narang and driven by dedicated individuals like Dr. Kamal Deep Garg and Dr. Vandana Sood, Evolve AI aspires to nurture a vibrant community centred around Artificial Intelligence.</p>
-          <p data-reveal="up">Our motive: to empower future AI leaders by offering students exceptional opportunities for learning, growth and contribution in the dynamic realm of AI.</p>
+        <div class="origin__text">
+          <h2 class="title origin__title" id="origin-title" data-reveal="lines">
+            <span class="line"><span>Where it</span></span>
+            <span class="line"><span>started</span></span>
+          </h2>
+          <p class="origin__lead" data-reveal="up">Evolve AI began its journey in 2021 as a club of ambitious team members within Chitkara University’s Department of Computer Science &amp; Engineering (Artificial Intelligence).</p>
+          <p data-reveal="up">Guided by visionaries like Dr. Sushil Kumar Narang and driven by dedicated individuals like Dr. Kamal Deep Garg and Dr. Vandana Sood, we nurture a community centred around AI — offering students real opportunities to learn, grow and contribute.</p>
         </div>
       </div>
 
-      <div class="origin__facade" aria-hidden="true">
-        <div class="origin__windows" data-windows>
-          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-        </div>
-        <p class="label origin__facade-cap">One department. One club. A community that keeps growing.</p>
-      </div>
-
-      <div class="origin__bottom">
-        <ul class="origin__pillars" data-reveal="lines" aria-label="What we stand for">
-          <li class="line"><span><i class="pillar-shape pillar-shape--dot" aria-hidden="true"></i>AI.</span></li>
-          <li class="line"><span><i class="pillar-shape pillar-shape--arch" aria-hidden="true"></i>Community.</span></li>
-          <li class="line"><span><i class="pillar-shape pillar-shape--pill" aria-hidden="true"></i>Experimentation.</span></li>
-        </ul>
-
-        <ul class="origin__facts">
-          <li data-reveal="up"><strong>2021</strong><span>Founded within CSE (AI), Chitkara University</span></li>
-          <li data-reveal="up"><strong>1st</strong><span>AI-focused community at the university</span></li>
-          <li data-reveal="up"><strong>2023</strong><span>Best CSE League — CSE Excellence Awards</span></li>
-          <li data-reveal="up"><strong>AI.Create()</strong><span>Our flagship event for Generative AI &amp; creative prompting</span></li>
-        </ul>
-      </div>
+      <ul class="origin__facts">
+        <li data-reveal="up"><strong>1st</strong><span>AI-focused community at Chitkara University</span></li>
+        <li data-reveal="up" style="--d: 80"><strong>2023</strong><span>Best CSE League — CSE Excellence Awards</span></li>
+        <li data-reveal="up" style="--d: 160"><strong>AI.Create()</strong><span>Our flagship event for Generative AI and creative prompting</span></li>
+        <li data-reveal="up" style="--d: 240"><strong>HackIndia</strong><span>Hosted at Chitkara — a platform for hands-on problem-solving</span></li>
+      </ul>
     </section>
 
-    <!-- ─────────────────────────── 03 VISION ─────────────────────────── -->
+    <!-- ─────────────────────────── VISION ─────────────────────────── -->
     <section class="vision" id="vision" aria-labelledby="vision-title">
-      <div class="vision__panel" data-vision-panel>
-        <div class="vision__folio">
-          <span class="label"><span class="label__num">(03)</span> Our vision</span>
-          <span class="label vision__folio-mid">Evolve AI — The Manifesto Issue</span>
-          <span class="label">p. 03</span>
-        </div>
-
+      <div class="vision__block">
+        <p class="label" data-reveal="fade">Our vision</p>
         <h2 class="vision__statement" id="vision-title">
-          <span class="vs vs--1" data-reveal="lines">
-            <span class="line" data-drift="-4"><span>We don’t just</span></span>
-            <span class="line" data-drift="3"><span><em class="hl-pill">learn</em> what AI</span></span>
-            <span class="line" data-drift="-2"><span>can do.<i class="vs-shape vs-shape--semi" aria-hidden="true"></i><i class="vs-shape vs-shape--dot" aria-hidden="true"></i></span></span>
+          <span class="vs" data-reveal="lines">
+            <span class="line"><span>We don’t just <em>learn</em></span></span>
+            <span class="line"><span>what AI can do.</span></span>
           </span>
           <span class="vs vs--2" data-reveal="lines">
-            <span class="line" data-drift="3"><span>We experiment</span></span>
-            <span class="line" data-drift="-3"><span>with what it</span></span>
-            <span class="line" data-drift="4"><span><i class="vs-shape vs-shape--u" aria-hidden="true"><svg><use href="#g-u"/></svg></i><em class="hl-pill hl-pill--blue">could become.</em></span></span>
+            <span class="line"><span>We experiment with</span></span>
+            <span class="line"><span>what it <em>could become.</em></span></span>
           </span>
         </h2>
 
-        <div class="vision__spread">
-          <div class="vision__shapes" aria-hidden="true">
-            <span class="vshape vshape--semi" data-spin></span>
-            <span class="vshape vshape--quarter"></span>
-            <span class="vshape vshape--u"><svg><use href="#g-u"/></svg></span>
-            <span class="vshape vshape--pills"><i></i><i></i><i></i></span>
-          </div>
-
-          <div class="vision__cols">
-            <article class="vision__col" data-reveal="up">
-              <h3 class="label">Vision</h3>
-              <p class="dropcap">We believe fostering collaboration and innovation in students is essential for them to thrive in the AI landscape. We want to help students achieve it through massive initiatives such as technical workshops, hackathons, competitions, and other interactive sessions.</p>
-            </article>
-            <article class="vision__col" data-reveal="up" style="--d: 120">
-              <h3 class="label">Culture</h3>
-              <p>Evolve AI aims to cultivate a culture of perpetual learning and exploration among AI enthusiasts. With guidance, resources, and mentorship, we equip students with the skills, knowledge, and connections necessary to emerge proficiently as AI leaders and practitioners.</p>
-            </article>
-            <article class="vision__col" data-reveal="up" style="--d: 240">
-              <h3 class="label">Future goals</h3>
-              <p>Looking ahead, Evolve AI is committed to expanding its influence through partnerships with industry leaders, fostering cross-disciplinary projects, and empowering students to turn innovative ideas into impactful AI solutions.</p>
-            </article>
-          </div>
+        <div class="vision__cols">
+          <article data-reveal="up">
+            <h3 class="label">Vision</h3>
+            <p>We believe fostering collaboration and innovation in students is essential for them to thrive in the AI landscape — through technical workshops, hackathons, competitions and other interactive sessions.</p>
+          </article>
+          <article data-reveal="up" style="--d: 100">
+            <h3 class="label">Culture</h3>
+            <p>A culture of perpetual learning and exploration. With guidance, resources and mentorship, we equip students with the skills, knowledge and connections to grow into AI leaders and practitioners.</p>
+          </article>
+          <article data-reveal="up" style="--d: 200">
+            <h3 class="label">Future goals</h3>
+            <p>Expanding through partnerships with industry leaders, fostering cross-disciplinary projects, and helping students turn innovative ideas into impactful AI solutions.</p>
+          </article>
         </div>
-
-        <blockquote class="vision__pull" data-reveal="up">
-          <p>We envision a future where members confidently lead the charge in AI research, engineering, and product development — catalyzing innovation and imaginative applications for the advancement of society.</p>
-        </blockquote>
       </div>
     </section>
 
-    <!-- Crossing ticker bands (decorative) -->
-    <div class="bands" aria-hidden="true">
-      <div class="band band--a" data-band>
-        <div class="band__track">
-          <span>Hackathons</span><i class="bshape bshape--dot"></i><span>Workshops</span><i class="bshape bshape--semi"></i><span>Expert talks</span><i class="bshape bshape--arch"></i><span>Projects</span><i class="bshape bshape--pill"></i><span>Keep evolving</span><i class="bshape bshape--quarter"></i>
-          <span>Hackathons</span><i class="bshape bshape--dot"></i><span>Workshops</span><i class="bshape bshape--semi"></i><span>Expert talks</span><i class="bshape bshape--arch"></i><span>Projects</span><i class="bshape bshape--pill"></i><span>Keep evolving</span><i class="bshape bshape--quarter"></i>
-        </div>
-      </div>
-      <div class="band band--b" data-band>
-        <div class="band__track">
-          <span>Learn</span><i class="bshape bshape--semi"></i><span>Build</span><i class="bshape bshape--dot"></i><span>Ship</span><i class="bshape bshape--arch"></i><span>Repeat</span><i class="bshape bshape--quarter"></i><span>Where innovation meets evolution</span><i class="bshape bshape--pill"></i>
-          <span>Learn</span><i class="bshape bshape--semi"></i><span>Build</span><i class="bshape bshape--dot"></i><span>Ship</span><i class="bshape bshape--arch"></i><span>Repeat</span><i class="bshape bshape--quarter"></i><span>Where innovation meets evolution</span><i class="bshape bshape--pill"></i>
-        </div>
-      </div>
-    </div>
-
-    <!-- ─────────────────────── 04 EVENTS / ARCHIVE ───────────────────────
-         Each .memory__media accepts a real photo: drop an <img> in as the
-         first child and the generative placeholder art is hidden. -->
+    <!-- ─────────────────────────── EVENTS / ARCHIVE ───────────────────────────
+         A native, swipeable row — it never takes over the page's scroll.
+         Card colour = event type. To add a photo, put an <img> inside
+         .event__frame (see README). -->
     <section class="archive" id="archive" aria-labelledby="archive-title">
-      <div class="archive__pin" data-archive-pin>
-        <div class="archive__rail" data-archive-rail>
-          <header class="archive__intro">
-            <p class="label"><span class="label__num">(04)</span> Evolve AI at a glimpse</p>
-            <h2 class="display archive__title" id="archive-title">
-              <span class="line"><span>The</span></span>
-              <span class="line"><span><em>archive</em></span></span>
-            </h2>
-            <p class="archive__lede">A look back at the moments that brought us together — in work, celebration, and community. Each frame tells a story of connection, purpose and shared success.</p>
-            <p class="label archive__hint"><span class="archive__hint-desk">Keep scrolling</span><span class="archive__hint-touch">Swipe</span> <svg aria-hidden="true"><use href="#i-arrow"/></svg></p>
-          </header>
-
-          <div class="archive__track" data-archive-track>
-            <figure class="memory memory--arch" style="--h: 58; --ar: .72; --oy: -5" data-cursor="view">
-              <div class="memory__frame">
-                <div class="memory__media">
-                  <div class="art art--links" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-                </div>
-              </div>
-              <figcaption class="memory__cap">
-                <span class="memory__idx">01</span>
-                <span class="memory__title">Finvasia Innovation Hackathon</span>
-                <span class="memory__meta">Hackathon · with Finvasia Group · 21.04.2026</span>
-              </figcaption>
-            </figure>
-
-            <figure class="memory memory--circle" style="--h: 38; --ar: 1; --oy: 12" data-cursor="view">
-              <div class="memory__frame">
-                <div class="memory__media">
-                  <div class="art art--rings" aria-hidden="true"><svg><use href="#g-rings"/></svg><svg><use href="#g-rings"/></svg></div>
-                </div>
-              </div>
-              <figcaption class="memory__cap">
-                <span class="memory__idx">02</span>
-                <span class="memory__title">AI × Cyber-Physical Systems</span>
-                <span class="memory__meta">Expert talk · Dr. Shantanu Pal, Deakin University · 13.02.2026</span>
-              </figcaption>
-            </figure>
-
-            <figure class="memory memory--rect" style="--h: 40; --ar: 1.32; --oy: -11" data-cursor="view">
-              <div class="memory__frame">
-                <div class="memory__media">
-                  <div class="art art--truchet" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-                </div>
-              </div>
-              <figcaption class="memory__cap">
-                <span class="memory__idx">03</span>
-                <span class="memory__title">Intellex 2.0 — Where Critical Thinking Thrives</span>
-                <span class="memory__meta">Competition · 18.09.2025</span>
-              </figcaption>
-            </figure>
-
-            <figure class="memory memory--pill" style="--h: 60; --ar: .48; --oy: 4" data-cursor="view">
-              <div class="memory__frame">
-                <div class="memory__media">
-                  <div class="art art--domes" aria-hidden="true"><i></i><i></i><i></i><b></b></div>
-                </div>
-              </div>
-              <figcaption class="memory__cap">
-                <span class="memory__idx">04</span>
-                <span class="memory__title">PixelFlow</span>
-                <span class="memory__meta">Workshop · Design thinking → Figma prototype · 16.09.2025</span>
-              </figcaption>
-            </figure>
-
-            <figure class="memory memory--u" style="--h: 46; --ar: .82; --oy: -7" data-cursor="view">
-              <div class="memory__frame">
-                <div class="memory__media">
-                  <div class="art art--sun" aria-hidden="true"><i></i><b></b></div>
-                </div>
-              </div>
-              <figcaption class="memory__cap">
-                <span class="memory__idx">05</span>
-                <span class="memory__title">HackIndia at Chitkara</span>
-                <span class="memory__meta">Hackathon · Hosted on campus</span>
-              </figcaption>
-            </figure>
-
-            <figure class="memory memory--leaf" style="--h: 42; --ar: 1; --oy: 10" data-cursor="view">
-              <div class="memory__frame">
-                <div class="memory__media">
-                  <div class="art art--code" aria-hidden="true"><i></i><i></i><span>AI.Create()</span></div>
-                </div>
-              </div>
-              <figcaption class="memory__cap">
-                <span class="memory__idx">06</span>
-                <span class="memory__title">AI.Create()</span>
-                <span class="memory__meta">Flagship · Generative AI &amp; creative prompting</span>
-              </figcaption>
-            </figure>
-
-            <figure class="memory memory--arch" style="--h: 54; --ar: .68; --oy: -3" data-cursor="view">
-              <div class="memory__frame">
-                <div class="memory__media">
-                  <div class="art art--eye" aria-hidden="true"><i></i><b></b></div>
-                </div>
-              </div>
-              <figcaption class="memory__cap">
-                <span class="memory__idx">07</span>
-                <span class="memory__title">Computer Vision Workshop</span>
-                <span class="memory__meta">Workshop · with Ikigai Labs</span>
-              </figcaption>
-            </figure>
-
-            <figure class="memory memory--rect" style="--h: 36; --ar: 1.18; --oy: 13" data-cursor="view">
-              <div class="memory__frame">
-                <div class="memory__media">
-                  <div class="art art--dots" aria-hidden="true"></div>
-                </div>
-              </div>
-              <figcaption class="memory__cap">
-                <span class="memory__idx">08</span>
-                <span class="memory__title">Industry sessions with L&amp;T</span>
-                <span class="memory__meta">Collaboration · Real-world problem statements</span>
-              </figcaption>
-            </figure>
-
-            <figure class="memory memory--circle" style="--h: 44; --ar: 1; --oy: -9" data-cursor="view">
-              <div class="memory__frame">
-                <div class="memory__media">
-                  <div class="art art--star" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b></div>
-                </div>
-              </div>
-              <figcaption class="memory__cap">
-                <span class="memory__idx">09</span>
-                <span class="memory__title">Best CSE League</span>
-                <span class="memory__meta">Recognition · CSE Excellence Awards · May 2023</span>
-              </figcaption>
-            </figure>
-
-            <div class="archive__end">
-              <p class="archive__end-text">From impactful events to joyful gatherings — <em>these memories reflect the bonds we’ve built.</em></p>
-              <a class="btn btn--cream" href="https://evolveai.chitkara.edu.in/events" target="_blank" rel="noopener" data-magnetic>
-                <span class="btn__label">All past events</span>
-                <span class="btn__icon" aria-hidden="true"><svg><use href="#i-arrow-ne"/></svg></span>
-              </a>
-            </div>
-          </div>
+      <div class="archive__head">
+        <div class="archive__heading">
+          <p class="label" data-reveal="fade">Evolve AI at a glimpse</p>
+          <h2 class="title archive__title" id="archive-title" data-reveal="lines">
+            <span class="line"><span>The <em>archive</em></span></span>
+          </h2>
         </div>
-
-        <div class="archive__progress" aria-hidden="true">
-          <span class="label" data-archive-count>01 / 09</span>
-          <span class="archive__bar"><span data-archive-bar></span></span>
+        <p class="archive__lede" data-reveal="up">A look back at the moments that brought us together — in work, celebration and community.</p>
+        <div class="archive__nav">
+          <button class="circle-btn" type="button" data-archive-prev aria-label="Previous events" aria-controls="archive-track"><svg aria-hidden="true" style="transform: scaleX(-1)"><use href="#i-arrow"/></svg></button>
+          <button class="circle-btn" type="button" data-archive-next aria-label="Next events" aria-controls="archive-track"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
         </div>
       </div>
 
-      <div class="scallops" data-scallops aria-hidden="true">
-        <span></span><span></span><span></span><span></span><span></span>
-      </div>
+      <ol class="archive__track" id="archive-track" data-archive-track>
+        <li class="event event--hackathon">
+          <div class="event__frame"><span class="event__type label">Hackathon</span></div>
+          <h3 class="event__title">Finvasia Innovation Hackathon</h3>
+          <p class="event__meta">21 Apr 2026 · with Finvasia Group</p>
+        </li>
+        <li class="event event--talk">
+          <div class="event__frame"><span class="event__type label">Expert talk</span></div>
+          <h3 class="event__title">AI × Cyber-Physical Systems</h3>
+          <p class="event__meta">13 Feb 2026 · Dr. Shantanu Pal, Deakin University</p>
+        </li>
+        <li class="event event--competition">
+          <div class="event__frame"><span class="event__type label">Competition</span></div>
+          <h3 class="event__title">Intellex 2.0</h3>
+          <p class="event__meta">18 Sep 2025 · Where critical thinking thrives</p>
+        </li>
+        <li class="event event--workshop">
+          <div class="event__frame"><span class="event__type label">Workshop</span></div>
+          <h3 class="event__title">PixelFlow</h3>
+          <p class="event__meta">16 Sep 2025 · Design thinking to Figma prototype</p>
+        </li>
+        <li class="event event--hackathon">
+          <div class="event__frame"><span class="event__type label">Hackathon</span></div>
+          <h3 class="event__title">HackIndia at Chitkara</h3>
+          <p class="event__meta">Hosted on campus</p>
+        </li>
+        <li class="event event--flagship">
+          <div class="event__frame"><span class="event__type label">Flagship</span></div>
+          <h3 class="event__title">AI.Create()</h3>
+          <p class="event__meta">Generative AI &amp; creative prompting</p>
+        </li>
+        <li class="event event--workshop">
+          <div class="event__frame"><span class="event__type label">Workshop</span></div>
+          <h3 class="event__title">Computer Vision Workshop</h3>
+          <p class="event__meta">with Ikigai Labs</p>
+        </li>
+        <li class="event event--collab">
+          <div class="event__frame"><span class="event__type label">Collaboration</span></div>
+          <h3 class="event__title">Industry sessions with L&amp;T</h3>
+          <p class="event__meta">Real-world problem statements</p>
+        </li>
+        <li class="event event--award">
+          <div class="event__frame"><span class="event__type label">Recognition</span></div>
+          <h3 class="event__title">Best CSE League</h3>
+          <p class="event__meta">May 2023 · CSE Excellence Awards</p>
+        </li>
+      </ol>
     </section>
 
-    <!-- ───────────────────────── 05 TESTIMONIALS ───────────────────────── -->
+    <!-- ─────────────────────────── TESTIMONIALS ─────────────────────────── -->
     <section class="voices" id="community" aria-labelledby="voices-title">
-      <div class="voices__orb" data-voices-orb aria-hidden="true"></div>
-
       <div class="voices__head">
-        <p class="label" data-reveal="fade"><span class="label__num">(05)</span> The event experience</p>
-        <h2 class="voices__title" id="voices-title" data-reveal="lines">
-          <span class="line"><span>In their <em>own</em> words</span></span>
-        </h2>
+        <p class="label" data-reveal="fade">The event experience</p>
+        <h2 class="voices__title" id="voices-title" data-reveal="up">In their own words</h2>
       </div>
 
       <div class="voices__stage" data-voices role="group" aria-roledescription="carousel" aria-label="Testimonials">
-        <div class="qmark" aria-hidden="true" data-qmark><span></span><span></span></div>
-
-        <div class="voices__quotes" data-voices-quotes>
+        <span class="voices__mark" aria-hidden="true">“</span>
+        <div class="voices__quotes">
           <figure class="quote is-active" data-quote>
             <blockquote><p>Great session and good experience. The questions asked by the judges were good and helped clarify the idea of each team.</p></blockquote>
             <figcaption><span class="quote__name">Sanch</span><span class="quote__role label">Event participant</span></figcaption>
@@ -561,26 +358,21 @@
           <button class="circle-btn" type="button" data-voices-prev aria-label="Previous testimonial"><svg aria-hidden="true" style="transform: scaleX(-1)"><use href="#i-arrow"/></svg></button>
           <p class="voices__count label" aria-live="polite"><span data-voices-current>01</span> / <span data-voices-total>04</span></p>
           <button class="circle-btn" type="button" data-voices-next aria-label="Next testimonial"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
-          <span class="voices__progress" aria-hidden="true"><span data-voices-progress></span></span>
         </div>
       </div>
     </section>
 
-    <!-- ─────────────────────────── 06 FAQ ─────────────────────────── -->
+    <!-- ─────────────────────────── FAQ ─────────────────────────── -->
     <section class="faq" id="faq" aria-labelledby="faq-title">
-      <div class="faq__quarter" aria-hidden="true"></div>
-
       <div class="faq__head">
-        <p class="label" data-reveal="fade"><span class="label__num">(06)</span> FAQ</p>
-        <h2 class="display faq__title" id="faq-title" data-reveal="lines">
+        <p class="label" data-reveal="fade">FAQ</p>
+        <h2 class="title faq__title" id="faq-title" data-reveal="lines">
           <span class="line"><span>Questions</span></span>
-          <span class="line"><span>we get</span></span>
-          <span class="line"><span><em>a lot.</em></span></span>
+          <span class="line"><span>we get <em>a lot.</em></span></span>
         </h2>
-        <div class="faq__deco" data-faq-deco aria-hidden="true"><i></i><i></i></div>
       </div>
 
-      <div class="faq__list" data-faq>
+      <div class="faq__list">
         <div class="faq-item is-open">
           <h3 class="faq-item__h">
             <button class="faq-item__q" type="button" id="faq-q1" aria-expanded="true" aria-controls="faq-a1">
@@ -669,217 +461,168 @@
       </div>
     </section>
 
-    <!-- ────────────────────── 07 INDUSTRY COLLABORATIONS ────────────────────── -->
+    <!-- ─────────────────────── INDUSTRY COLLABORATIONS ─────────────────────── -->
     <section class="partners" id="partners" aria-labelledby="partners-title">
-      <div class="partners__block" data-partners-block>
-        <div class="partners__deco" aria-hidden="true">
-          <svg class="pd pd--1"><use href="#g-u"/></svg>
-          <svg class="pd pd--2"><use href="#g-u"/></svg>
-          <span class="pd pd--3"></span>
-        </div>
-
+      <div class="partners__block">
         <div class="partners__head">
-          <p class="label" data-reveal="fade"><span class="label__num">(07)</span> Bridging the gap</p>
-          <h2 class="display partners__title" id="partners-title" data-reveal="lines">
-            <span class="line"><span>We build</span></span>
-            <span class="line"><span><em>beyond</em></span></span>
-            <span class="line"><span>the classroom.</span></span>
-          </h2>
+          <div class="partners__heading">
+            <p class="label" data-reveal="fade">Bridging the gap</p>
+            <h2 class="title partners__title" id="partners-title" data-reveal="lines">
+              <span class="line"><span>We build <em>beyond</em></span></span>
+              <span class="line"><span>the classroom.</span></span>
+            </h2>
+          </div>
           <p class="partners__lede" data-reveal="up">Our events bring reputable companies and experienced professionals onto campus to share real-world perspectives, problem statements and opportunities.</p>
         </div>
 
-        <p class="sr-only">Organisations we have collaborated with or hosted events with include Microsoft, SAP, Acer, NEC Corporation, Sopra Steria, Ingram Micro, emids, CoRover, Adaptivent, Sears, GiveMyCertificate, L&amp;T, Ikigai Labs, Finvasia Group and HackIndia.</p>
+        <p class="sr-only">Organisations we have collaborated with or hosted events with include Microsoft, SAP, Acer, NEC Corporation, Sopra Steria, Ingram Micro, emids, L&amp;T, CoRover, Ikigai Labs, Adaptivent, Sears, Finvasia Group, HackIndia and GiveMyCertificate.</p>
 
-        <!-- Swap any wordmark for a real logo: <li class="logo"><img src="assets/logos/microsoft.svg" alt=""></li> -->
-        <div class="marquee" data-marquee aria-hidden="true">
+        <!-- One slow row. Swap any name for a logo:
+             <li class="logo"><img src="assets/logos/microsoft.svg" alt=""></li> -->
+        <div class="marquee" aria-hidden="true">
           <div class="marquee__track">
             <ul class="marquee__list">
-              <li class="logo logo--wide">Microsoft</li><li class="logo-sep logo-sep--dot"></li>
-              <li class="logo logo--xwide">SAP</li><li class="logo-sep logo-sep--semi"></li>
-              <li class="logo logo--cond">acer</li><li class="logo-sep logo-sep--arch"></li>
-              <li class="logo logo--xwide">NEC</li><li class="logo-sep logo-sep--dot"></li>
-              <li class="logo">Sopra Steria</li><li class="logo-sep logo-sep--pill"></li>
-              <li class="logo logo--wide">Ingram Micro</li><li class="logo-sep logo-sep--semi"></li>
-              <li class="logo logo--cond">emids</li><li class="logo-sep logo-sep--arch"></li>
+              <li class="logo">Microsoft</li><li class="logo-sep"></li>
+              <li class="logo">SAP</li><li class="logo-sep"></li>
+              <li class="logo">Acer</li><li class="logo-sep"></li>
+              <li class="logo">NEC</li><li class="logo-sep"></li>
+              <li class="logo">Sopra Steria</li><li class="logo-sep"></li>
+              <li class="logo">Ingram Micro</li><li class="logo-sep"></li>
+              <li class="logo">emids</li><li class="logo-sep"></li>
+              <li class="logo">L&amp;T</li><li class="logo-sep"></li>
+              <li class="logo">CoRover</li><li class="logo-sep"></li>
+              <li class="logo">Ikigai Labs</li><li class="logo-sep"></li>
+              <li class="logo">Adaptivent</li><li class="logo-sep"></li>
+              <li class="logo">Sears</li><li class="logo-sep"></li>
+              <li class="logo">Finvasia</li><li class="logo-sep"></li>
+              <li class="logo">HackIndia</li><li class="logo-sep"></li>
+              <li class="logo">GiveMyCertificate</li><li class="logo-sep"></li>
             </ul>
             <ul class="marquee__list">
-              <li class="logo logo--wide">Microsoft</li><li class="logo-sep logo-sep--dot"></li>
-              <li class="logo logo--xwide">SAP</li><li class="logo-sep logo-sep--semi"></li>
-              <li class="logo logo--cond">acer</li><li class="logo-sep logo-sep--arch"></li>
-              <li class="logo logo--xwide">NEC</li><li class="logo-sep logo-sep--dot"></li>
-              <li class="logo">Sopra Steria</li><li class="logo-sep logo-sep--pill"></li>
-              <li class="logo logo--wide">Ingram Micro</li><li class="logo-sep logo-sep--semi"></li>
-              <li class="logo logo--cond">emids</li><li class="logo-sep logo-sep--arch"></li>
-            </ul>
-          </div>
-        </div>
-        <div class="marquee marquee--reverse" data-marquee aria-hidden="true">
-          <div class="marquee__track">
-            <ul class="marquee__list">
-              <li class="logo logo--xwide">L&amp;T</li><li class="logo-sep logo-sep--pill"></li>
-              <li class="logo">CoRover</li><li class="logo-sep logo-sep--dot"></li>
-              <li class="logo logo--wide">Ikigai Labs</li><li class="logo-sep logo-sep--semi"></li>
-              <li class="logo logo--cond">Adaptivent</li><li class="logo-sep logo-sep--arch"></li>
-              <li class="logo logo--xwide">Sears</li><li class="logo-sep logo-sep--dot"></li>
-              <li class="logo">Finvasia</li><li class="logo-sep logo-sep--pill"></li>
-              <li class="logo logo--wide">HackIndia</li><li class="logo-sep logo-sep--semi"></li>
-              <li class="logo logo--cond">GiveMyCertificate</li><li class="logo-sep logo-sep--arch"></li>
-            </ul>
-            <ul class="marquee__list">
-              <li class="logo logo--xwide">L&amp;T</li><li class="logo-sep logo-sep--pill"></li>
-              <li class="logo">CoRover</li><li class="logo-sep logo-sep--dot"></li>
-              <li class="logo logo--wide">Ikigai Labs</li><li class="logo-sep logo-sep--semi"></li>
-              <li class="logo logo--cond">Adaptivent</li><li class="logo-sep logo-sep--arch"></li>
-              <li class="logo logo--xwide">Sears</li><li class="logo-sep logo-sep--dot"></li>
-              <li class="logo">Finvasia</li><li class="logo-sep logo-sep--pill"></li>
-              <li class="logo logo--wide">HackIndia</li><li class="logo-sep logo-sep--semi"></li>
-              <li class="logo logo--cond">GiveMyCertificate</li><li class="logo-sep logo-sep--arch"></li>
+              <li class="logo">Microsoft</li><li class="logo-sep"></li>
+              <li class="logo">SAP</li><li class="logo-sep"></li>
+              <li class="logo">Acer</li><li class="logo-sep"></li>
+              <li class="logo">NEC</li><li class="logo-sep"></li>
+              <li class="logo">Sopra Steria</li><li class="logo-sep"></li>
+              <li class="logo">Ingram Micro</li><li class="logo-sep"></li>
+              <li class="logo">emids</li><li class="logo-sep"></li>
+              <li class="logo">L&amp;T</li><li class="logo-sep"></li>
+              <li class="logo">CoRover</li><li class="logo-sep"></li>
+              <li class="logo">Ikigai Labs</li><li class="logo-sep"></li>
+              <li class="logo">Adaptivent</li><li class="logo-sep"></li>
+              <li class="logo">Sears</li><li class="logo-sep"></li>
+              <li class="logo">Finvasia</li><li class="logo-sep"></li>
+              <li class="logo">HackIndia</li><li class="logo-sep"></li>
+              <li class="logo">GiveMyCertificate</li><li class="logo-sep"></li>
             </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ─────────────────────────── 08 CONTACT ─────────────────────────── -->
+    <!-- ─────────────────────────── CONTACT ─────────────────────────── -->
     <section class="contact" id="contact" aria-labelledby="contact-title">
-      <div class="arch-row arch-row--contact" data-arch-row aria-hidden="true">
-        <span style="--h: .66"></span><span style="--h: .94"></span><span style="--h: .74"></span><span style="--h: 1"></span><span style="--h: .6"></span><span style="--h: .86"></span><span style="--h: .72"></span>
-      </div>
-
-      <div class="contact__inner">
-        <div class="contact__head">
-          <p class="label" data-reveal="fade"><span class="label__num">(08)</span> Get in touch</p>
-          <h2 class="contact__title" id="contact-title" data-reveal="lines">
-            <span class="line"><span>Have</span></span>
-            <span class="line"><span>an idea?</span></span>
-            <span class="line line--gap"><span><em>Let’s</em></span></span>
-            <span class="line"><span>talk.</span></span>
-          </h2>
-          <div class="contact__details" data-reveal="up">
-            <address>
-              Chitkara University<br>
-              Chandigarh–Patiala National Highway (NH-64)<br>
-              Rajpura, Punjab 140401
-            </address>
-            <ul class="contact__socials">
-              <li><a class="u-link" href="https://www.instagram.com/evolveai_cuiet/" target="_blank" rel="noopener">Instagram</a></li>
-              <li><a class="u-link" href="https://www.linkedin.com/company/evolveai-cuiet/" target="_blank" rel="noopener">LinkedIn</a></li>
-              <li><a class="u-link" href="https://www.youtube.com/@evolveai_cuiet" target="_blank" rel="noopener">YouTube</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="contact__frame" data-contact-frame>
-          <span class="cshape cshape--sun" aria-hidden="true"></span>
-          <span class="cshape cshape--quarter" aria-hidden="true"></span>
-          <span class="cshape cshape--pill" aria-hidden="true"></span>
-          <span class="cshape cshape--u" aria-hidden="true"><svg><use href="#g-u"/></svg></span>
-
-          <!-- Prototype: not wired to a backend yet (see README). -->
-          <form class="form" data-form novalidate>
-            <p class="form__kicker label">Say hello — pitch a collab, a session, or a wild idea.</p>
-            <div class="field">
-              <label class="field__label" for="f-name">Name</label>
-              <input class="field__input" id="f-name" name="name" type="text" autocomplete="name" required>
-              <span class="field__line" aria-hidden="true"></span>
-            </div>
-            <div class="field">
-              <label class="field__label" for="f-email">Email</label>
-              <input class="field__input" id="f-email" name="email" type="email" autocomplete="email" required>
-              <span class="field__line" aria-hidden="true"></span>
-            </div>
-            <div class="field">
-              <label class="field__label" for="f-message">Message</label>
-              <textarea class="field__input" id="f-message" name="message" rows="3" required></textarea>
-              <span class="field__line" aria-hidden="true"></span>
-            </div>
-            <button class="btn btn--dark btn--xl form__submit" type="submit" data-magnetic>
-              <span class="btn__label">Send message</span>
-              <span class="btn__icon" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
-            </button>
-            <p class="form__status label" role="status" aria-live="polite" data-form-status></p>
-          </form>
+      <div class="contact__head">
+        <p class="label" data-reveal="fade">Get in touch</p>
+        <h2 class="contact__title" id="contact-title" data-reveal="lines">
+          <span class="line"><span>Have an</span></span>
+          <span class="line"><span>idea?</span></span>
+          <span class="line"><span><em>Let’s</em> talk.</span></span>
+        </h2>
+        <div class="contact__details" data-reveal="up">
+          <address>
+            Chitkara University<br>
+            Chandigarh–Patiala National Highway (NH-64)<br>
+            Rajpura, Punjab 140401
+          </address>
+          <ul class="contact__socials">
+            <li><a class="u-link" href="https://www.instagram.com/evolveai_cuiet/" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a class="u-link" href="https://www.linkedin.com/company/evolveai-cuiet/" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a class="u-link" href="https://www.youtube.com/@evolveai_cuiet" target="_blank" rel="noopener">YouTube</a></li>
+          </ul>
         </div>
       </div>
+
+      <!-- Prototype: not wired to a backend yet (see README). -->
+      <form class="form" data-form novalidate>
+        <div class="field">
+          <label class="field__label" for="f-name">Name</label>
+          <input class="field__input" id="f-name" name="name" type="text" autocomplete="name" required>
+          <span class="field__line" aria-hidden="true"></span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="f-email">Email</label>
+          <input class="field__input" id="f-email" name="email" type="email" autocomplete="email" required>
+          <span class="field__line" aria-hidden="true"></span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="f-message">Message</label>
+          <textarea class="field__input" id="f-message" name="message" rows="3" required></textarea>
+          <span class="field__line" aria-hidden="true"></span>
+        </div>
+        <button class="btn btn--dark btn--xl form__submit" type="submit">
+          <span class="btn__label">Send message</span>
+          <span class="btn__icon" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
+        </button>
+        <p class="form__status label" role="status" aria-live="polite" data-form-status></p>
+      </form>
     </section>
   </main>
 
   <!-- ─────────────────────────── FOOTER ─────────────────────────── -->
   <footer class="footer">
-    <div class="tile-strip pattern-grid" data-tile-strip aria-hidden="true">
-      <span class="tile tile--orange" data-tile><span class="g g-quarter"></span></span>
-      <span class="tile tile--dark" data-tile><span class="g g-half-l g--cream"></span></span>
-      <span class="tile tile--lilac" data-tile><span class="g g-arch"></span></span>
-      <span class="tile tile--blue" data-tile><span class="g g-dot g--cream"></span></span>
-      <span class="tile tile--purple" data-tile><span class="g g-dome g--orange"></span></span>
-      <span class="tile tile--cream" data-tile><span class="g g-quarter g--blue"></span></span>
-      <span class="tile tile--orange" data-tile><span class="g g-half-l"></span><span class="g g-half-r"></span></span>
-      <span class="tile tile--deep" data-tile><span class="g g-leaf g--lilac"></span></span>
-      <span class="tile tile--lilac" data-tile><span class="g g-dome"></span></span>
-      <span class="tile tile--cream" data-tile><span class="g g-arch g--orange"></span></span>
-      <span class="tile tile--blue" data-tile><span class="g g-quarter g--cream"></span></span>
-      <span class="tile tile--dark" data-tile><span class="g g-dot g--orange"></span></span>
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <svg class="footer__mark" aria-hidden="true"><use href="#g-mark"/></svg>
+        <p>Evolve AI is a dynamic initiative driven by innovation, collaboration, and a passion for intelligent technology.</p>
+      </div>
+      <div class="footer__col">
+        <p class="label footer__label">Based at</p>
+        <address>Chitkara University<br>NH-64, Rajpura<br>Punjab 140401</address>
+      </div>
+      <div class="footer__col">
+        <p class="label footer__label">Elsewhere</p>
+        <ul class="footer__links">
+          <li><a class="u-link" href="https://www.instagram.com/evolveai_cuiet/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a class="u-link" href="https://www.linkedin.com/company/evolveai-cuiet/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a class="u-link" href="https://www.youtube.com/@evolveai_cuiet" target="_blank" rel="noopener">YouTube</a></li>
+          <!-- TODO: replace with the club's GitHub organisation URL -->
+          <li><a class="u-link" href="#" data-todo="github">GitHub</a></li>
+          <!-- TODO: replace with the club's email (mailto:) -->
+          <li><a class="u-link" href="#contact">Email</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <p class="label footer__label">Signed</p>
+        <p class="footer__sign">Engineered with excellence<br><span>— Team Evolve AI</span></p>
+      </div>
     </div>
 
-    <div class="footer__inner">
-      <div class="footer__grid">
-        <div class="footer__brand">
-          <svg class="footer__mark" aria-hidden="true"><use href="#g-mark"/></svg>
-          <p>Evolve AI is a dynamic initiative driven by innovation, collaboration, and a passion for intelligent technology.</p>
-        </div>
-        <div class="footer__col">
-          <p class="label footer__label">Based at</p>
-          <address>Chitkara University<br>NH-64, Rajpura<br>Punjab 140401</address>
-        </div>
-        <div class="footer__col">
-          <p class="label footer__label">Elsewhere</p>
-          <ul class="footer__links">
-            <li><a class="u-link" href="https://www.instagram.com/evolveai_cuiet/" target="_blank" rel="noopener">Instagram</a></li>
-            <li><a class="u-link" href="https://www.linkedin.com/company/evolveai-cuiet/" target="_blank" rel="noopener">LinkedIn</a></li>
-            <li><a class="u-link" href="https://www.youtube.com/@evolveai_cuiet" target="_blank" rel="noopener">YouTube</a></li>
-            <!-- TODO: replace with the club's GitHub organisation URL -->
-            <li><a class="u-link" href="#" data-todo="github">GitHub</a></li>
-            <!-- TODO: replace with the club's email (mailto:) -->
-            <li><a class="u-link" href="#contact">Email</a></li>
-          </ul>
-        </div>
-        <div class="footer__col footer__sign">
-          <p class="label footer__label">Signed</p>
-          <p class="footer__sign-text">Engineered with excellence<br><span>— Team Evolve AI</span></p>
-        </div>
-      </div>
+    <p class="footer__word" aria-hidden="true" data-footer-word>
+      <span class="fw-inner">EV<span class="footer__o"><i></i><i></i></span>LVE&nbsp;AI</span>
+    </p>
 
-      <p class="footer__word" aria-hidden="true" data-footer-word>
-        <span class="fw-inner">EV<span class="footer__o"><i></i><i></i></span>LVE&nbsp;AI</span>
-      </p>
-
-      <div class="footer__bottom">
-        <p class="label">© 2026 Evolve AI — Chitkara University</p>
-        <p class="label footer__keep">Keep evolving</p>
-        <a class="label u-link" href="#top">Back to top ↑</a>
-      </div>
+    <div class="footer__bottom">
+      <p class="label">© 2026 Evolve AI — Chitkara University</p>
+      <a class="label u-link" href="#top">Back to top ↑</a>
     </div>
   </footer>
 
-  <!-- Libraries (progressive enhancement: the page works without them) -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
+  <!-- Smooth wheel scrolling (optional: the page works without it) -->
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js" defer></script>
 
-  <!-- Site modules (order matters: core first, main last) -->
+  <!-- Site modules (core first, main last) -->
   <script src="js/core.js" defer></script>
   <script src="js/smooth-scroll.js" defer></script>
-  <script src="js/cursor.js" defer></script>
   <script src="js/nav.js" defer></script>
   <script src="js/hero.js" defer></script>
   <script src="js/reveal.js" defer></script>
   <script src="js/work.js" defer></script>
-  <script src="js/sections.js" defer></script>
   <script src="js/archive.js" defer></script>
   <script src="js/voices.js" defer></script>
   <script src="js/faq.js" defer></script>
-  <script src="js/marquee.js" defer></script>
   <script src="js/contact.js" defer></script>
+  <script src="js/footer.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>

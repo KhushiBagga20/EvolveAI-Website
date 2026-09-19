@@ -14,10 +14,10 @@
   --dark:        #17151C;
   --white:       #FFFFFF;
 
-  /* Derived neutrals (used sparingly for tile variety / hairlines) */
-  --sand:        #E9E2D2;
-  --ink:         var(--dark);
-  --hairline:    rgba(23, 21, 28, .16);
+  /* Derived neutrals (hairlines, quiet fills) */
+  --sand:         #E9E2D2;
+  --ink:          var(--dark);
+  --hairline:     rgba(23, 21, 28, .16);
   --hairline-inv: rgba(245, 241, 232, .22);
 
   /* ── Typography ──────────────────────────────────────────── */
@@ -25,45 +25,32 @@
   --font-serif:   'Instrument Serif', 'Times New Roman', serif;
   --font-mono:    'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
-  /* Archivo width axis: 62 (condensed) → 125 (expanded) */
-  --stretch-cond:  72%;
-  --stretch-norm:  100%;
-  --stretch-wide:  118%;
-  --stretch-max:   125%;
-
   /* Fluid type scale */
-  --fs-label:   0.75rem;                                   /* 12 */
-  --fs-sm:      0.875rem;                                  /* 14 */
-  --fs-base:    clamp(1rem, 0.96rem + 0.18vw, 1.125rem);   /* 16 → 18 */
-  --fs-md:      clamp(1.125rem, 1.02rem + 0.5vw, 1.4rem);  /* 18 → 22 */
-  --fs-lg:      clamp(1.35rem, 1.1rem + 1.1vw, 2.1rem);
-  --fs-xl:      clamp(1.9rem, 1.3rem + 2.6vw, 3.6rem);
-  --fs-2xl:     clamp(2.6rem, 1.4rem + 5.2vw, 6.4rem);
-  --fs-display: clamp(3.4rem, 1.2rem + 9.4vw, 11rem);
+  --fs-label: 0.75rem;                                   /* 12 */
+  --fs-sm:    0.875rem;                                  /* 14 */
+  --fs-base:  clamp(1rem, 0.96rem + 0.18vw, 1.125rem);   /* 16 → 18 */
+  --fs-md:    clamp(1.125rem, 1.02rem + 0.5vw, 1.4rem);  /* 18 → 22 */
+  --fs-lg:    clamp(1.3rem, 1.1rem + 0.9vw, 1.95rem);
+  --fs-xl:    clamp(1.8rem, 1.3rem + 2.2vw, 3.2rem);
+  /* One size for every section title — consistency is what keeps it calm */
+  --fs-title: clamp(2.4rem, 1rem + 4.2vw, 5.4rem);
 
   /* ── Space ───────────────────────────────────────────────── */
-  --gutter:      clamp(16px, 2.4vw, 36px);
-  --section-y:   clamp(96px, 12vw, 200px);
-  --nav-h:       76px;
-  --arch-max:    clamp(84px, 13vw, 230px);   /* height of arch-row section crowns */
+  --gutter:    clamp(16px, 2.4vw, 36px);
+  --section-y: clamp(72px, 8vw, 136px);
+  --nav-h:     76px;
 
   /* ── Radii ───────────────────────────────────────────────── */
   --r-sm:   10px;
   --r-md:   22px;
-  --r-lg:   clamp(24px, 3.4vw, 56px);
+  --r-lg:   clamp(24px, 3vw, 48px);
   --r-pill: 999px;
 
   /* ── Motion ──────────────────────────────────────────────── */
-  --ease-out:    cubic-bezier(.16, 1, .3, 1);     /* expo-out: arrivals */
-  --ease-in-out: cubic-bezier(.65, 0, .35, 1);    /* scene changes */
-  --ease-back:   cubic-bezier(.34, 1.56, .64, 1); /* playful overshoot: shapes */
-  --dur-fast:  .28s;
-  --dur:       .6s;
-  --dur-slow:  1.1s;
-  --dur-xslow: 1.6s;
+  --ease-out:    cubic-bezier(.16, 1, .3, 1);   /* expo-out: arrivals */
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);  /* scene changes */
 
   /* ── Layers ──────────────────────────────────────────────── */
   --z-nav: 100;
   --z-menu: 90;
-  --z-cursor: 200;
 }

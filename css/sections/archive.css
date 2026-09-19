@@ -1,64 +1,46 @@
 /* ==========================================================================
-   04 · THE ARCHIVE — a moving visual archive.
-   Default (touch, reduced motion, no JS): a native swipe rail with snap.
-   Enhanced (html.archive-pinned, set by js/archive.js on desktop): the
-   section pins and vertical scroll drives the rail sideways; each frame is
-   cut from the site's geometry (arch, circle, pill, U, leaf) and reveals
-   with a clip as it arrives. Real photos drop straight into .memory__media.
+   THE ARCHIVE — a swipeable row of events. It never takes over the page's
+   scroll: swipe, scroll sideways, or use the arrows.
+   Every frame is an arch (the A of the mark). Frame colour = event type,
+   until a real photo is dropped in.
    ========================================================================== */
 
 .archive {
-  position: relative;
-  z-index: 3;
-  background: var(--dark);
-  color: var(--cream);
+  padding: var(--section-y) 0;
+  background: var(--cream);
 }
 
-/* ── Default: native horizontal rail ───────────────────────── */
-.archive__pin {
-  position: relative;
-  padding: clamp(150px, 16vw, 230px) 0 clamp(100px, 12vw, 160px);
-}
-.archive__intro {
+.archive__head {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: 20px;
+  align-items: end;
   padding: 0 var(--gutter);
-  margin-bottom: clamp(32px, 5vw, 56px);
-  max-width: 720px;
 }
-.archive__title {
-  margin: 20px 0 24px;
-  font-size: clamp(3.4rem, 1rem + 8vw, 10rem);
-}
-.archive__title em { color: var(--orange); }
+.archive__heading { grid-column: 1 / 6; }
+.archive__title { margin-top: 16px; }
+.archive__title em { color: var(--purple); }
 .archive__lede {
-  max-width: 38ch;
-  color: rgba(245, 241, 232, .78);
-  line-height: 1.55;
+  grid-column: 6 / 11;
+  max-width: 40ch;
+  line-height: 1.5;
+  color: rgba(23, 21, 28, .78);
 }
-.archive__hint {
-  display: inline-flex;
-  align-items: center;
+.archive__nav {
+  grid-column: 11 / -1;
+  justify-self: end;
+  display: flex;
   gap: 10px;
-  margin-top: 28px;
-  color: var(--light-blue);
-}
-.archive__hint svg {
-  width: 18px;
-  height: 18px;
-  animation: hint-nudge 1.8s var(--ease-in-out) infinite;
-}
-.archive__hint-desk { display: none; }
-.archive-pinned .archive__hint-desk { display: inline; }
-.archive-pinned .archive__hint-touch { display: none; }
-@keyframes hint-nudge {
-  0%, 100% { transform: translateX(0); }
-  50%      { transform: translateX(6px); }
 }
 
 .archive__track {
-  display: flex;
-  align-items: flex-start;
-  gap: 28px;
-  padding: 12px var(--gutter) 28px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: clamp(240px, 23vw, 350px);
+  gap: clamp(16px, 2vw, 28px);
+  margin-top: clamp(32px, 4vw, 56px);
+  padding: 0 var(--gutter) 8px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
@@ -67,346 +49,63 @@
 }
 .archive__track::-webkit-scrollbar { display: none; }
 
-/* ── Memory card ───────────────────────────────────────────── */
-.memory {
-  flex: none;
-  position: relative;
-  scroll-snap-align: start;
-}
-.memory__frame {
-  position: relative;
-  height: calc(var(--h) * .55vw + 190px);
-  max-height: 440px;
-  aspect-ratio: var(--ar, 1);
-  overflow: hidden;
-  isolation: isolate;
-  background: var(--deep-purple);
-  -webkit-mask-image: -webkit-radial-gradient(white, black); /* Safari: clip radius with transformed children */
-  transition: transform .9s var(--ease-out);
-}
-.memory--arch   .memory__frame { border-radius: 999px 999px var(--r-md) var(--r-md); }
-.memory--circle .memory__frame { border-radius: 50%; }
-.memory--pill   .memory__frame { border-radius: 999px; }
-.memory--u      .memory__frame { border-radius: var(--r-md) var(--r-md) 999px 999px; }
-.memory--leaf   .memory__frame { border-radius: 50% 0; }
-.memory--rect   .memory__frame { border-radius: var(--r-md); }
+/* ── Event card ────────────────────────────────────────────── */
+.event { scroll-snap-align: start; }
 
-.memory__media {
-  position: absolute;
-  inset: 0 -12%;
-  container-type: size; /* lets .art size its own padding/patterns in cq units */
-  will-change: transform;
+.event__frame {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  aspect-ratio: 4 / 5;
+  padding: 18px 20px;
+  overflow: hidden;
+  border-radius: 999px 999px var(--r-md) var(--r-md);
+  background: var(--event-c, var(--sand));
+  color: var(--event-on, var(--dark));
 }
-.memory__media > img {
+.event__frame > img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 1.1s var(--ease-out);
 }
-.memory__media > img ~ .art { display: none; }
+.event__frame > img ~ .event__type {
+  padding: 5px 10px;
+  border-radius: var(--r-pill);
+  background: var(--cream);
+  color: var(--dark);
+}
+.event__type { position: relative; }
 
-.memory__cap {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  column-gap: 12px;
-  row-gap: 5px;
-  width: max(100%, 230px);
-  max-width: 300px;
+.event__title {
   margin-top: 16px;
-}
-.memory__idx {
-  grid-row: span 2;
-  padding-top: 2px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--orange);
-}
-.memory__title {
-  font-size: clamp(1rem, .9rem + .35vw, 1.22rem);
+  font-size: clamp(1.02rem, .92rem + .35vw, 1.25rem);
   font-weight: 800;
   font-stretch: 106%;
-  line-height: 1.1;
+  line-height: 1.12;
   letter-spacing: -.01em;
   text-transform: uppercase;
 }
-.memory__meta {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  line-height: 1.45;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: rgba(245, 241, 232, .58);
+.event__meta {
+  margin-top: 6px;
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+  color: rgba(23, 21, 28, .64);
 }
 
-@media (hover: hover) {
-  .memory:hover .memory__frame { transform: scale(.965); }
-  .memory:hover .art,
-  .memory:hover .memory__media > img { transform: scale(1.07); }
-}
+/* Colour = event type */
+.event--hackathon   { --event-c: var(--orange);      --event-on: var(--dark); }
+.event--talk        { --event-c: var(--blue);        --event-on: var(--cream); }
+.event--competition { --event-c: var(--purple);      --event-on: var(--cream); }
+.event--workshop    { --event-c: var(--light-blue);  --event-on: var(--deep-purple); }
+.event--flagship    { --event-c: var(--deep-purple); --event-on: var(--cream); }
+.event--collab      { --event-c: var(--sand);        --event-on: var(--dark); }
+.event--award       { --event-c: var(--dark);        --event-on: var(--cream); }
 
-/* ── End card ──────────────────────────────────────────────── */
-.archive__end {
-  flex: none;
-  display: grid;
-  align-content: center;
-  justify-items: start;
-  gap: 28px;
-  width: min(78vw, 420px);
-  padding-right: var(--gutter);
-  scroll-snap-align: start;
-}
-.archive__end-text {
-  font-size: var(--fs-lg);
-  font-weight: 600;
-  line-height: 1.18;
-  letter-spacing: -.01em;
-}
-.archive__end-text em { color: var(--light-blue); }
-
-/* ── Progress ──────────────────────────────────────────────── */
-.archive__progress {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin: 8px var(--gutter) 0;
-  color: var(--light-blue);
-}
-.archive__bar {
-  position: relative;
-  flex: 1;
-  height: 2px;
-  overflow: hidden;
-  border-radius: 2px;
-  background: rgba(245, 241, 232, .16);
-}
-.archive__bar > span {
-  position: absolute;
-  inset: 0;
-  background: var(--orange);
-  transform-origin: 0 50%;
-  transform: scaleX(var(--p, .08));
-}
-
-/* ── Enhanced: pinned horizontal scroll (desktop) ──────────── */
-.archive-pinned .archive__pin {
-  height: 100vh;
-  height: 100svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: var(--nav-h) 0 0;
-  overflow: hidden;
-}
-.archive-pinned .archive__rail {
-  display: flex;
-  align-items: center;
-  gap: clamp(48px, 6vw, 120px);
-  width: max-content;
-  padding: 0 var(--gutter);
-  will-change: transform;
-}
-.archive-pinned .archive__intro {
-  flex: none;
-  width: min(33vw, 500px);
-  margin: 0;
-  padding: 0;
-}
-.archive-pinned .archive__track {
-  align-items: center;
-  gap: clamp(40px, 5vw, 100px);
-  padding: 0;
-  overflow: visible;
-}
-.archive-pinned .memory { transform: translate3d(0, calc(var(--oy, 0) * 1svh), 0); }
-.archive-pinned .memory__frame {
-  height: calc(var(--h) * 1svh);
-  max-height: none;
-}
-.archive-pinned .archive__progress {
-  position: absolute;
-  left: var(--gutter);
-  right: var(--gutter);
-  bottom: clamp(20px, 3.4vh, 36px);
-  margin: 0;
-}
-.archive-pinned .archive__end { padding-right: 8vw; }
-
-/* Touch: frames clip-reveal as they are swiped into view */
-.archive-native-reveal .memory__frame {
-  transition: clip-path 1.1s var(--ease-out), transform .9s var(--ease-out);
-}
-.archive-native-reveal .memory:not(.is-in) .memory__frame { clip-path: inset(0 0 100% 0); }
-
-/* ── Scallops into the next section ────────────────────────── */
-.archive .scallops { --scallop-c: var(--dark); }
-.archive .scallops > span:nth-child(3) { --scallop-c: var(--orange); }
-
-/* ==========================================================================
-   PLACEHOLDER ART — generative mini-posters, one per memory.
-   Replace with photos by adding an <img> inside .memory__media.
-   ========================================================================== */
-.art {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  container-type: size;
-  transition: transform 1.1s var(--ease-out);
-}
-.art > * { position: absolute; }
-
-/* 01 — interlocking U / arch chain */
-.art--links {
-  background: var(--orange);
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  padding: 16cqh 20cqw 6cqh;
-  row-gap: 0;
-}
-.art--links i {
-  position: relative;
-  border: 11cqw solid var(--deep-purple);
-  border-top: 0;
-  border-radius: 0 0 999px 999px;
-  margin: 0 -2cqw;
-}
-.art--links i:nth-child(4n + 2),
-.art--links i:nth-child(4n + 3) {
-  border: 11cqw solid var(--cream);
-  border-bottom: 0;
-  border-radius: 999px 999px 0 0;
-}
-
-/* 02 — two-halves concentric rings */
-.art--rings { background: var(--blue); --rings-core: var(--orange); }
-.art--rings svg { left: 9cqw; width: 82cqw; height: 41cqw; }
-.art--rings svg:first-child { top: calc(50cqh - 41cqw); color: var(--light-blue); }
-.art--rings svg:last-child  { top: 50cqh; color: var(--cream); transform: rotate(180deg); }
-
-/* 03 — Truchet quarters */
-.art--truchet {
-  background: var(--light-blue);
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-}
-.art--truchet i { position: relative; background: var(--purple); border-radius: 100% 0 0 0; }
-.art--truchet i:nth-child(3n + 2) { border-radius: 0 100% 0 0; }
-.art--truchet i:nth-child(5n + 3) { border-radius: 0 0 100% 0; background: var(--deep-purple); }
-.art--truchet i:nth-child(4n)     { border-radius: 0 0 0 100%; }
-.art--truchet i:nth-child(7)      { background: var(--orange); border-radius: 50%; transform: scale(.7); }
-
-/* 04 — stacked domes + pixel grid */
-.art--domes { background: var(--purple); }
-.art--domes i {
-  left: 14cqw;
-  width: 72cqw;
-  height: 36cqw;
-  border-radius: 999px 999px 0 0;
-}
-.art--domes i:nth-child(1) { bottom: 10cqh; background: var(--orange); }
-.art--domes i:nth-child(2) { bottom: calc(10cqh + 36cqw); background: var(--light-blue); }
-.art--domes i:nth-child(3) { bottom: calc(10cqh + 72cqw); background: var(--cream); }
-.art--domes b {
-  top: 9cqh;
-  left: 30cqw;
-  width: 40cqw;
-  height: 40cqw;
-  background: radial-gradient(circle, var(--orange) 0 30%, transparent 32%) 0 0 / 25% 25%;
-}
-
-/* 05 — sunrise over stripes */
-.art--sun { background: var(--cream); }
-.art--sun i {
-  left: 10cqw;
-  bottom: 0;
-  width: 80cqw;
-  height: 40cqw;
-  border-radius: 999px 999px 0 0;
-  background: var(--orange);
-}
-.art--sun b {
-  left: 0;
-  right: 0;
-  top: 10cqh;
-  height: 44cqh;
-  background: repeating-linear-gradient(to bottom, var(--deep-purple) 0 7cqh, transparent 7cqh 13cqh);
-}
-
-/* 06 — AI.Create() */
-.art--code { background: var(--purple); display: grid; place-items: center; }
-.art--code span {
-  position: relative;
-  font-family: var(--font-mono);
-  font-size: 10cqw;
-  font-weight: 500;
-  color: var(--cream);
-  letter-spacing: -.02em;
-}
-.art--code i:nth-child(1) { left: 0; top: 0; width: 46cqw; height: 46cqw; background: var(--blue); border-radius: 0 0 100% 0; }
-.art--code i:nth-child(2) { right: 0; bottom: 0; width: 46cqw; height: 46cqw; background: var(--orange); border-radius: 100% 0 0 0; }
-
-/* 07 — the eye (computer vision) */
-.art--eye { background: var(--light-blue); }
-.art--eye i {
-  left: 50%;
-  top: 58%;
-  width: 60cqw;
-  height: 60cqw;
-  margin: -30cqw 0 0 -30cqw;
-  background: var(--cream);
-  border-radius: 100% 0;
-  transform: rotate(45deg);
-}
-.art--eye b {
-  left: 50%;
-  top: 58%;
-  width: 30cqw;
-  height: 30cqw;
-  margin: -15cqw 0 0 -15cqw;
-  border-radius: 50%;
-  background: var(--deep-purple);
-}
-.art--eye b::after {
-  content: '';
-  position: absolute;
-  inset: 33%;
-  border-radius: 50%;
-  background: var(--orange);
-}
-
-/* 08 — dot field */
-.art--dots {
-  background:
-    radial-gradient(circle, var(--cream) 0 24%, transparent 26%) 0 0 / 12.5cqw 12.5cqw,
-    var(--blue);
-}
-.art--dots::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 50cqh;
-  height: 50cqh;
-  background: var(--orange);
-  border-radius: 100% 0 0 0;
-}
-
-/* 09 — four quarters make a star */
-.art--star { background: var(--orange); }
-.art--star i { width: 36cqw; height: 36cqw; background: var(--deep-purple); }
-.art--star i:nth-child(1) { left: 14cqw;  top: 14cqh;    border-radius: 0 0 100% 0; }
-.art--star i:nth-child(2) { right: 14cqw; top: 14cqh;    border-radius: 0 0 0 100%; }
-.art--star i:nth-child(3) { left: 14cqw;  bottom: 14cqh; border-radius: 0 100% 0 0; }
-.art--star i:nth-child(4) { right: 14cqw; bottom: 14cqh; border-radius: 100% 0 0 0; }
-.art--star b {
-  left: 50%;
-  top: 50%;
-  width: 12cqw;
-  height: 12cqw;
-  margin: -6cqw 0 0 -6cqw;
-  border-radius: 50%;
-  background: var(--cream);
+@media (max-width: 899px) {
+  .archive__heading { grid-column: 1 / 10; }
+  .archive__nav { grid-column: 10 / -1; }
+  .archive__lede { grid-column: 1 / -1; grid-row: 2; }
+  .archive__track { grid-auto-columns: min(72vw, 320px); }
 }

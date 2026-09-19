@@ -1,21 +1,17 @@
 /* ==========================================================================
-   FOOTER — minimal. Opens with the tile strip (the hero band, returned)
-   and closes on a full-width wordmark whose O is the two-halves circle.
+   FOOTER — minimal. Info, then the name set full width with its O.
    ========================================================================== */
 
 .footer {
-  position: relative;
-  z-index: 2;
+  padding: clamp(56px, 6vw, 96px) var(--gutter) 22px;
   background: var(--dark);
   color: var(--cream);
 }
 
-.footer__inner { padding: clamp(56px, 7vw, 110px) var(--gutter) 22px; }
-
 .footer__grid {
   display: grid;
   grid-template-columns: minmax(0, 1.7fr) repeat(2, minmax(0, 1fr)) minmax(0, 1.3fr);
-  gap: 44px var(--gutter);
+  gap: 40px var(--gutter);
 }
 .footer__mark {
   width: 64px;
@@ -24,7 +20,7 @@
 }
 .footer__brand p {
   max-width: 36ch;
-  margin-top: 22px;
+  margin-top: 20px;
   font-size: var(--fs-sm);
   line-height: 1.55;
   color: rgba(245, 241, 232, .72);
@@ -36,7 +32,7 @@
   color: rgba(245, 241, 232, .82);
 }
 .footer__links { display: grid; gap: 6px; font-weight: 600; }
-.footer__sign-text {
+.footer__sign {
   font-size: var(--fs-md);
   font-weight: 850;
   font-stretch: 114%;
@@ -44,7 +40,7 @@
   letter-spacing: -.01em;
   text-transform: uppercase;
 }
-.footer__sign-text span {
+.footer__sign span {
   font-family: var(--font-serif);
   font-size: 1.15em;
   font-style: italic;
@@ -56,8 +52,8 @@
 }
 
 .footer__word {
-  margin-top: clamp(64px, 9vw, 140px);
-  font-size: var(--fw-fs, 17vw);
+  margin-top: clamp(56px, 7vw, 110px);
+  font-size: 17vw; /* js/footer.js fits it exactly */
   font-weight: 900;
   font-stretch: 125%;
   line-height: .8;
@@ -65,13 +61,13 @@
   color: var(--cream);
 }
 /* Tracking lives on the fitted element: em letter-spacing is computed where
-   it's declared, so declaring it on the parent would skew the fit. */
+   it is declared, so declaring it on the parent would skew the fit. */
 .fw-inner { display: inline-block; letter-spacing: -.045em; }
 .footer__o {
   width: var(--cap, .72em);
   height: var(--cap, .72em);
   margin: 0 .03em 0 .02em;
-  vertical-align: baseline;
+  vertical-align: -.01em;
   --h1: var(--orange);
   --h2: var(--blue);
 }
@@ -86,7 +82,6 @@
   border-top: 1px solid var(--hairline-inv);
   color: rgba(245, 241, 232, .68);
 }
-.footer__keep { color: var(--orange); }
 
 @media (max-width: 899px) {
   .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
