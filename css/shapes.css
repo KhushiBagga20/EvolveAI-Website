@@ -1,0 +1,165 @@
+/* ==========================================================================
+   EVOLVE GEOMETRY
+   One vocabulary, used everywhere:  arch ∩ · U ∪ · half-disc ◗ · quarter ◜
+   · dome ⌓ · leaf · pill · dot — and the two-halves circle ◓ (every "O").
+
+   COMPONENTS
+   .tile            GeometricTile — a square colour field holding primitives
+   .g / .g-*        Primitives. Each fills its tile, so rotating one
+                    (via --rot) turns it about the tile's centre.
+   .pattern-grid    PatternGrid — tiles in a seamless quilt
+   .arch-row        ArcShape row — arches that form a section's top edge
+   .scallops        Half-discs hanging from a section's bottom edge
+   .halves          The two-halves circle (hero O, 2021's zero, FAQ, footer)
+   .bshape          Inline shapes for ticker bands (ShapeMarquee)
+   ========================================================================== */
+
+/* ── GeometricTile ─────────────────────────────────────────── */
+.tile {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: var(--tile-bg, var(--sand));
+  color: var(--tile-fg, var(--deep-purple));
+}
+.tile--orange { --tile-bg: var(--orange);      --tile-fg: var(--deep-purple); }
+.tile--blue   { --tile-bg: var(--blue);        --tile-fg: var(--cream); }
+.tile--lilac  { --tile-bg: var(--light-blue);  --tile-fg: var(--purple); }
+.tile--cream  { --tile-bg: var(--cream);       --tile-fg: var(--orange); }
+.tile--sand   { --tile-bg: var(--sand);        --tile-fg: var(--deep-purple); }
+.tile--dark   { --tile-bg: var(--dark);        --tile-fg: var(--orange); }
+.tile--purple { --tile-bg: var(--purple);      --tile-fg: var(--light-blue); }
+.tile--deep   { --tile-bg: var(--deep-purple); --tile-fg: var(--orange); }
+
+/* ── Primitives ────────────────────────────────────────────── */
+.g {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: var(--g, currentColor);
+  transform: rotate(var(--rot, 0deg)) scale(var(--s, 1));
+  transition:
+    transform 1.1s var(--ease-out),
+    background-color .6s var(--ease-out);
+}
+.g-quarter { clip-path: circle(100% at 0% 100%); }        /* ◟ quarter disc from bottom-left */
+.g-dome    { clip-path: circle(50% at 50% 100%); }        /* ⌓ half-disc on the bottom edge */
+.g-half-l  { clip-path: circle(50% at 0% 50%); }          /* ◗ half-disc on the left edge */
+.g-half-r  { clip-path: circle(50% at 100% 50%); }        /* ◖ half-disc on the right edge */
+.g-arch    { clip-path: inset(14% 20% 0 20% round 999px 999px 0 0); }
+.g-pill    { clip-path: inset(36% 6% round 999px); }
+.g-leaf    { border-radius: 100% 0; }
+.g-dot     { inset: 30%; border-radius: 50%; }
+.g-dot--lg { inset: 16%; }
+.g-circle  { border-radius: 50%; }
+
+.g-svg {
+  background: none;
+  color: var(--g, currentColor);
+  width: 100%;
+  height: 100%;
+}
+
+/* Colour overrides for primitives */
+.g--cream  { --g: var(--cream); }
+.g--orange { --g: var(--orange); }
+.g--blue   { --g: var(--blue); }
+.g--lilac  { --g: var(--light-blue); }
+.g--purple { --g: var(--purple); }
+.g--dark   { --g: var(--dark); }
+
+/* ── PatternGrid ───────────────────────────────────────────── */
+.pattern-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 4), 1fr);
+}
+
+/* ── Two-halves circle ─────────────────────────────────────── */
+.hero__o,
+.footer__o,
+.faq__deco {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  overflow: hidden;
+  isolation: isolate;
+  transform: rotate(var(--o-rot, 0deg));
+  transition: transform 1.3s var(--ease-out);
+}
+.hero__o > i,
+.footer__o > i,
+.faq__deco > i {
+  position: absolute;
+  left: 0; right: 0;
+  height: 50.5%;
+}
+.hero__o > i:first-child,
+.footer__o > i:first-child,
+.faq__deco > i:first-child { top: 0; background: var(--h1, var(--orange)); }
+.hero__o > i:last-child,
+.footer__o > i:last-child,
+.faq__deco > i:last-child  { bottom: 0; background: var(--h2, var(--purple)); }
+
+/* ── ArcShape row (section crowns) ─────────────────────────── */
+.arch-row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% - 1px);
+  height: var(--arch-max, clamp(84px, 13vw, 230px));
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;            /* arches sink out of sight below this edge */
+  pointer-events: none;
+  z-index: 1;
+}
+.arch-row > span {
+  flex: 1 1 0;
+  height: calc(var(--h, 1) * 100%);
+  background: var(--arch-c, var(--cream));
+  border-radius: 999px 999px 0 0;
+  transform: translate3d(0, var(--y, 0%), 0);
+  will-change: transform;
+}
+
+/* ── Scallops (half-discs hanging below a section) ─────────── */
+.scallops {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% - 1px);
+  display: flex;
+  pointer-events: none;
+  z-index: 3;
+}
+.scallops > span {
+  flex: 1 1 0;
+  aspect-ratio: 2 / 1;
+  background: var(--scallop-c, var(--dark));
+  border-radius: 0 0 999px 999px;
+  transform-origin: 50% 0;
+  transform: scaleY(var(--sy, 1));
+  will-change: transform;
+}
+
+/* ── Tile strip (footer bookend — echoes the hero band) ────── */
+.tile-strip { --cols: 12; }
+@media (max-width: 700px) {
+  .tile-strip { --cols: 6; }
+  .tile-strip > :nth-child(n + 7) { display: none; }
+}
+
+/* ── Inline band shapes (ShapeMarquee) ─────────────────────── */
+.bshape {
+  display: inline-block;
+  flex: none;
+  width: .78em;
+  height: .78em;
+  background: var(--bshape-c, currentColor);
+}
+.bshape--dot     { border-radius: 50%; }
+.bshape--semi    { height: .39em; border-radius: 999px 999px 0 0; align-self: center; }
+.bshape--arch    { width: .6em; border-radius: 999px 999px 0 0; }
+.bshape--pill    { width: 1.5em; height: .55em; border-radius: 999px; }
+.bshape--quarter { border-radius: 100% 0 0 0; }

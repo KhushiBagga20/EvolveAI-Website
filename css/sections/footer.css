@@ -1,0 +1,97 @@
+/* ==========================================================================
+   FOOTER — minimal. Opens with the tile strip (the hero band, returned)
+   and closes on a full-width wordmark whose O is the two-halves circle.
+   ========================================================================== */
+
+.footer {
+  position: relative;
+  z-index: 2;
+  background: var(--dark);
+  color: var(--cream);
+}
+
+.footer__inner { padding: clamp(56px, 7vw, 110px) var(--gutter) 22px; }
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) repeat(2, minmax(0, 1fr)) minmax(0, 1.3fr);
+  gap: 44px var(--gutter);
+}
+.footer__mark {
+  width: 64px;
+  height: 47px;
+  color: var(--cream);
+}
+.footer__brand p {
+  max-width: 36ch;
+  margin-top: 22px;
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: rgba(245, 241, 232, .72);
+}
+.footer__label { margin-bottom: 14px; color: var(--light-blue); }
+.footer__col address {
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  color: rgba(245, 241, 232, .82);
+}
+.footer__links { display: grid; gap: 6px; font-weight: 600; }
+.footer__sign-text {
+  font-size: var(--fs-md);
+  font-weight: 850;
+  font-stretch: 114%;
+  line-height: 1.08;
+  letter-spacing: -.01em;
+  text-transform: uppercase;
+}
+.footer__sign-text span {
+  font-family: var(--font-serif);
+  font-size: 1.15em;
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: normal;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--orange);
+}
+
+.footer__word {
+  margin-top: clamp(64px, 9vw, 140px);
+  font-size: var(--fw-fs, 17vw);
+  font-weight: 900;
+  font-stretch: 125%;
+  line-height: .8;
+  white-space: nowrap;
+  color: var(--cream);
+}
+/* Tracking lives on the fitted element: em letter-spacing is computed where
+   it's declared, so declaring it on the parent would skew the fit. */
+.fw-inner { display: inline-block; letter-spacing: -.045em; }
+.footer__o {
+  width: var(--cap, .72em);
+  height: var(--cap, .72em);
+  margin: 0 .03em 0 .02em;
+  vertical-align: baseline;
+  --h1: var(--orange);
+  --h2: var(--blue);
+}
+
+.footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: clamp(20px, 2.4vw, 32px);
+  padding-top: 16px;
+  border-top: 1px solid var(--hairline-inv);
+  color: rgba(245, 241, 232, .68);
+}
+.footer__keep { color: var(--orange); }
+
+@media (max-width: 899px) {
+  .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer__brand { grid-column: 1 / -1; }
+}
+@media (max-width: 599px) {
+  .footer__bottom { flex-direction: column; align-items: flex-start; }
+}

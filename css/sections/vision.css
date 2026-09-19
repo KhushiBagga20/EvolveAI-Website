@@ -1,0 +1,243 @@
+/* ==========================================================================
+   03 · VISION — a magazine spread on an orange field.
+   The field enters as an arch and opens to full bleed as you scroll.
+   Statement lines drift sideways at different speeds; shapes sit inline.
+   Followed by two crossing ticker bands (the ShapeMarquee).
+   ========================================================================== */
+
+.vision {
+  position: relative;
+  z-index: 2;
+  background: var(--cream);
+  overflow-x: clip;
+}
+
+.vision__panel {
+  position: relative;
+  padding: clamp(36px, 5vw, 80px) var(--gutter) clamp(150px, 16vw, 260px);
+  background: var(--orange);
+  color: var(--dark);
+  will-change: clip-path;
+}
+
+/* ── Folio (magazine running head) ─────────────────────────── */
+.vision__folio {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1.5px solid var(--dark);
+}
+
+/* ── Statement ─────────────────────────────────────────────── */
+.vision__statement {
+  margin-top: clamp(48px, 7vw, 120px);
+  font-size: clamp(2.5rem, .5rem + 7.2vw, 9.2rem);
+  font-weight: 900;
+  font-stretch: 106%;
+  line-height: .9;
+  letter-spacing: -.04em;
+  text-transform: uppercase;
+}
+.vs { display: block; }
+.vs--2 {
+  margin-top: clamp(36px, 5.5vw, 100px);
+  text-align: right;
+  color: var(--deep-purple);
+}
+.vs .line { will-change: transform; }
+.vs .line > span { white-space: nowrap; }
+
+/* Pill highlight — the pill motif as editorial emphasis */
+.hl-pill {
+  display: inline-block;
+  padding: .02em .24em .08em;
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--dark);
+  font-size: 1.04em;
+  line-height: .92;
+}
+.hl-pill--blue { background: var(--blue); color: var(--cream); }
+
+/* Inline statement shapes */
+.vs-shape {
+  display: inline-block;
+  vertical-align: baseline;
+  margin-left: .16em;
+}
+.vs-shape--semi {
+  width: 1.1em;
+  height: .55em;
+  border-radius: 999px 999px 0 0;
+  background: var(--purple);
+  transform-origin: 50% 100%;
+}
+.vs-shape--dot {
+  width: .34em;
+  height: .34em;
+  margin-left: .08em;
+  border-radius: 50%;
+  background: var(--dark);
+}
+.vs-shape--u {
+  width: .62em;
+  height: .62em;
+  margin: 0 .16em 0 0;
+  color: var(--cream);
+}
+.vs-shape--u svg { width: 100%; height: 100%; }
+
+/* ── Spread ────────────────────────────────────────────────── */
+.vision__spread {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  margin-top: clamp(80px, 10vw, 170px);
+  padding-top: 16px;
+  border-top: 1.5px solid var(--dark);
+}
+.vision__shapes {
+  grid-column: 1 / 4;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-self: start;
+  width: 100%;
+  max-width: 320px;
+  margin-top: 8px;
+}
+.vshape { position: relative; aspect-ratio: 1; }
+.vshape--semi {
+  background: var(--purple);
+  clip-path: circle(50% at 50% 100%);
+  transform-origin: 50% 50%;
+}
+.vshape--quarter {
+  background: var(--deep-purple);
+  border-radius: 0 100% 0 0;
+}
+.vshape--u { color: var(--cream); }
+.vshape--u svg { width: 100%; height: 100%; }
+.vshape--pills {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10%;
+  padding: 8%;
+}
+.vshape--pills i {
+  height: 18%;
+  border-radius: 999px;
+  background: var(--blue);
+}
+.vshape--pills i:nth-child(2) { width: 70%; margin-left: auto; }
+.vshape--pills i:nth-child(3) { width: 45%; }
+
+.vision__cols {
+  grid-column: 5 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+.vision__col h3 { margin-bottom: 14px; }
+.vision__col p {
+  font-size: var(--fs-base);
+  line-height: 1.55;
+  max-width: 34ch;
+}
+
+/* Arch-shaped drop cap */
+.dropcap::first-letter {
+  float: left;
+  margin: .1em .12em 0 0;
+  padding: .2em .14em .02em;
+  border-radius: 999px 999px 0 0;
+  background: var(--deep-purple);
+  color: var(--orange);
+  font-size: 3.1em;
+  font-weight: 900;
+  font-stretch: 100%;
+  line-height: .82;
+}
+
+/* ── Pull quote ────────────────────────────────────────────── */
+.vision__pull {
+  max-width: 24ch;
+  margin: clamp(72px, 9vw, 150px) 0 0 auto;
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, .9rem + 3vw, 4.2rem);
+  line-height: 1.04;
+  letter-spacing: -.012em;
+}
+.vision__pull::before {
+  content: '';
+  display: block;
+  width: .9em;
+  height: .45em;
+  margin-bottom: .45em;
+  border-radius: 999px 999px 0 0;
+  background: var(--deep-purple);
+}
+
+@media (max-width: 999px) {
+  .vision__shapes { grid-column: 1 / -1; grid-template-columns: repeat(4, 1fr); max-width: 420px; margin-bottom: 40px; }
+  .vision__cols { grid-column: 1 / -1; }
+}
+@media (max-width: 699px) {
+  .vision__folio-mid { display: none; }
+  .vision__cols { grid-template-columns: 1fr; row-gap: 32px; }
+  .vs--2 { text-align: left; }
+  .vs .line > span { white-space: normal; }
+}
+
+/* ==========================================================================
+   CROSSING BANDS (ShapeMarquee)
+   ========================================================================== */
+.bands {
+  position: relative;
+  z-index: 4;
+  height: 0;
+  overflow-x: clip;
+  overflow-y: visible;
+  pointer-events: none;
+}
+.band {
+  position: absolute;
+  left: -6vw;
+  right: -6vw;
+  top: calc(clamp(-120px, -9vw, -64px));
+  padding: clamp(10px, 1.1vw, 18px) 0;
+  font-size: clamp(1.3rem, .9rem + 1.6vw, 2.6rem);
+  font-weight: 850;
+  font-stretch: 115%;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.band--a {
+  background: var(--dark);
+  color: var(--cream);
+  transform: rotate(-3deg);
+  --bshape-c: var(--orange);
+}
+.band--b {
+  top: calc(clamp(-120px, -9vw, -64px) + clamp(18px, 2vw, 30px));
+  background: var(--light-blue);
+  color: var(--deep-purple);
+  transform: rotate(2.2deg);
+  --bshape-c: var(--purple);
+}
+.band__track {
+  display: flex;
+  align-items: center;
+  gap: .55em;
+  padding-right: .55em; /* equals the gap, so -50% lands exactly on copy two */
+  width: max-content;
+  animation: band-scroll 38s linear infinite;
+}
+.band--b .band__track { animation-direction: reverse; animation-duration: 44s; }
+@keyframes band-scroll {
+  to { transform: translate3d(-50%, 0, 0); }
+}

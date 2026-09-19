@@ -1,0 +1,136 @@
+/* ==========================================================================
+   07 · INDUSTRY COLLABORATIONS — a blue RoundedBlock floating on cream,
+   with two infinite marquees running in opposite directions.
+   Marquee speed & direction respond to scroll velocity (js/marquee.js).
+   ========================================================================== */
+
+.partners {
+  position: relative;
+  z-index: 1;
+  padding: 0 var(--gutter) calc(var(--arch-max) + clamp(48px, 6vw, 96px));
+  background: var(--cream);
+}
+
+.partners__block {
+  position: relative;
+  padding: clamp(40px, 6vw, 100px) 0 clamp(36px, 4.4vw, 72px);
+  border-radius: var(--r-lg);
+  background: var(--blue);
+  color: var(--cream);
+  overflow: hidden;
+  will-change: transform;
+}
+
+.partners__head {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  padding: 0 clamp(20px, 5vw, 84px);
+}
+.partners__head .label { grid-column: 1 / -1; color: var(--light-blue); }
+.partners__title {
+  grid-column: 1 / -1;
+  margin-top: 24px;
+  font-size: clamp(2.6rem, .4rem + 6.6vw, 8.6rem);
+}
+.partners__title em { color: var(--light-blue); }
+.partners__lede {
+  grid-column: 7 / -1;
+  max-width: 40ch;
+  margin-top: clamp(24px, 3vw, 44px);
+  line-height: 1.5;
+  color: rgba(245, 241, 232, .86);
+}
+
+.partners__deco {
+  position: absolute;
+  right: clamp(20px, 5vw, 84px);
+  top: clamp(40px, 6vw, 100px);
+  width: clamp(110px, 15vw, 250px);
+  aspect-ratio: 1;
+  pointer-events: none;
+}
+.pd { position: absolute; }
+.pd--1 { left: 0; top: 0; width: 62%; height: 62%; color: var(--light-blue); }
+.pd--2 { right: 0; bottom: 0; width: 62%; height: 62%; color: var(--orange); transform: rotate(180deg); }
+.pd--3 {
+  right: 4%;
+  top: 4%;
+  width: 24%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--cream);
+}
+
+/* ── Marquee ───────────────────────────────────────────────── */
+.marquee {
+  position: relative;
+  margin-top: clamp(48px, 6vw, 100px);
+  padding: clamp(16px, 2vw, 30px) 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(245, 241, 232, .28);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+.marquee + .marquee {
+  margin-top: 0;
+  border-bottom: 1px solid rgba(245, 241, 232, .28);
+}
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee 46s linear infinite;
+}
+.marquee--reverse .marquee__track {
+  animation-direction: reverse;
+  animation-duration: 52s;
+}
+.marquee:hover .marquee__track { animation-play-state: paused; }
+.marquee__list {
+  display: flex;
+  align-items: center;
+  gap: clamp(28px, 4vw, 68px);
+  padding-right: clamp(28px, 4vw, 68px); /* equals the gap: seamless loop */
+}
+@keyframes marquee { to { transform: translate3d(-50%, 0, 0); } }
+
+.logo {
+  font-size: clamp(1.6rem, .9rem + 2.4vw, 3.5rem);
+  font-weight: 800;
+  font-stretch: 100%;
+  line-height: 1;
+  letter-spacing: -.035em;
+  white-space: nowrap;
+}
+.logo--wide  { font-stretch: 118%; }
+.logo--xwide { font-stretch: 125%; font-weight: 900; }
+.logo--cond  { font-stretch: 68%; font-weight: 750; letter-spacing: -.02em; }
+.logo img { height: clamp(26px, 3vw, 48px); width: auto; }
+
+.logo-sep {
+  flex: none;
+  width: .9rem;
+  height: .9rem;
+  background: var(--light-blue);
+}
+.logo-sep--dot  { border-radius: 50%; background: var(--orange); }
+.logo-sep--semi { height: .45rem; border-radius: 999px 999px 0 0; }
+.logo-sep--arch { width: .7rem; border-radius: 999px 999px 0 0; background: var(--cream); }
+.logo-sep--pill { width: 1.7rem; height: .62rem; border-radius: 999px; }
+
+/* Reduced motion / no JS: a calm, wrapped wall of names */
+html:not(.motion) .marquee { -webkit-mask-image: none; mask-image: none; }
+html:not(.motion) .marquee__track { width: auto; animation: none; padding: 0 clamp(20px, 5vw, 84px); }
+html:not(.motion) .marquee__list { flex-wrap: wrap; row-gap: 18px; padding-right: 0; }
+html:not(.motion) .marquee__list + .marquee__list { display: none; }
+
+@media (max-width: 999px) {
+  .partners__lede { grid-column: 1 / -1; margin-top: 28px; }
+  .partners__deco { width: clamp(72px, 18vw, 150px); }
+}
+@media (max-width: 599px) {
+  /* Condensed width keeps "THE CLASSROOM." inside the block on phones */
+  .partners__title { font-size: clamp(2.4rem, 11.5vw, 3.6rem); font-stretch: 86%; }
+}

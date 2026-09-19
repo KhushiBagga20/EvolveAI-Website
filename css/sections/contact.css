@@ -1,0 +1,179 @@
+/* ==========================================================================
+   08 · CONTACT — "Have an idea? Let's talk."
+   Purple arches rise out of the cream section above. The form sits in an
+   arch-topped cream panel, framed by a sun, a quarter, a pill and a U.
+   ========================================================================== */
+
+.contact {
+  position: relative;
+  z-index: 2;
+  padding: clamp(36px, 5vw, 90px) var(--gutter) clamp(110px, 13vw, 200px);
+  background: var(--purple);
+  color: var(--cream);
+}
+.arch-row--contact > span { --arch-c: var(--purple); }
+.arch-row--contact > span:nth-child(3) { --arch-c: var(--orange); }
+.arch-row--contact > span:nth-child(6) { --arch-c: var(--deep-purple); }
+
+.contact__inner {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: 64px;
+  align-items: start;
+}
+
+/* ── Headline ──────────────────────────────────────────────── */
+.contact__head {
+  grid-column: 1 / 7;
+  position: sticky;
+  top: calc(var(--nav-h) + 32px);
+}
+.contact__head > .label { color: var(--light-blue); }
+.contact__title {
+  margin-top: 24px;
+  font-size: clamp(3.6rem, .8rem + 8.6vw, 11.6rem);
+  font-weight: 900;
+  font-stretch: 112%;
+  line-height: .84;
+  letter-spacing: -.045em;
+  text-transform: uppercase;
+}
+.contact__title em {
+  color: var(--orange);
+  font-size: 1.12em;
+}
+.contact__title .line--gap { margin-top: .16em; }
+
+.contact__details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 56px;
+  margin-top: clamp(40px, 5vw, 72px);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  color: rgba(245, 241, 232, .82);
+}
+.contact__socials { display: grid; gap: 4px; font-weight: 600; color: var(--cream); }
+
+/* ── Framed form ───────────────────────────────────────────── */
+.contact__frame {
+  grid-column: 7 / -1;
+  position: relative;
+  padding: clamp(56px, 6vw, 96px) clamp(18px, 3vw, 56px) clamp(40px, 4vw, 64px);
+}
+.cshape { position: absolute; pointer-events: none; }
+.cshape--sun {
+  left: 14%;
+  top: 0;
+  width: 42%;
+  aspect-ratio: 2 / 1;
+  border-radius: 999px 999px 0 0;
+  background: var(--orange);
+  transform-origin: 50% 100%;
+}
+.cshape--quarter {
+  right: 0;
+  bottom: 0;
+  width: 30%;
+  aspect-ratio: 1;
+  border-radius: 100% 0 0 0;
+  background: var(--light-blue);
+}
+.cshape--pill {
+  left: 0;
+  top: 34%;
+  width: clamp(18px, 2.2vw, 34px);
+  height: 34%;
+  border-radius: 999px;
+  background: var(--blue);
+}
+.cshape--u {
+  right: 4%;
+  top: 6%;
+  width: clamp(48px, 6vw, 92px);
+  aspect-ratio: 1;
+  color: var(--cream);
+}
+.cshape--u svg { width: 100%; height: 100%; }
+
+.form {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: clamp(22px, 2.6vw, 34px);
+  padding: clamp(96px, 9vw, 150px) clamp(24px, 3.6vw, 60px) clamp(28px, 3.6vw, 56px);
+  border-radius: 50% 50% var(--r-lg) var(--r-lg) / clamp(90px, 9vw, 150px) clamp(90px, 9vw, 150px) var(--r-lg) var(--r-lg);
+  background: var(--cream);
+  color: var(--dark);
+}
+.form__kicker {
+  position: absolute;
+  top: clamp(40px, 4vw, 64px);
+  left: 50%;
+  width: 78%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: var(--purple);
+}
+
+.field { position: relative; display: grid; gap: 6px; }
+.field__label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--purple);
+}
+.field__input {
+  width: 100%;
+  padding: 6px 0 12px;
+  border: 0;
+  border-bottom: 1.5px solid rgba(23, 21, 28, .3);
+  border-radius: 0;
+  background: transparent;
+  font-size: clamp(1.15rem, 1rem + .6vw, 1.6rem);
+  font-weight: 600;
+  letter-spacing: -.01em;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+textarea.field__input {
+  min-height: 3.4em;
+  line-height: 1.3;
+  resize: vertical;
+}
+.field__input:focus-visible { outline: none; }
+.field__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform .7s var(--ease-out);
+}
+.field__input:focus ~ .field__line { transform: scaleX(1); }
+.field.is-invalid .field__label::after {
+  content: ' — required';
+  color: #C2361A;
+}
+.field.is-invalid .field__line { transform: scaleX(1); background: #C2361A; }
+
+.form__submit { justify-self: start; margin-top: 6px; }
+.form__status { min-height: 1.4em; color: var(--purple); }
+.form.is-sent .form__submit { --btn-bg: var(--orange); --btn-fg: var(--dark); }
+
+@media (max-width: 999px) {
+  .contact__head { grid-column: 1 / -1; position: relative; top: 0; }
+  .contact__frame { grid-column: 1 / -1; }
+}
+@media (max-width: 599px) {
+  .contact__frame { padding-left: 14px; padding-right: 0; }
+  .form { padding-left: 22px; padding-right: 22px; }
+  .form__submit { justify-self: stretch; justify-content: space-between; }
+}
