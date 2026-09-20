@@ -54,9 +54,7 @@
   display: inline-block;
   font-stretch: calc(var(--wdth, 125) * 1%);
 }
-/* js/hero.js chooses one line or EVO / LVE, whichever sets bigger */
-.hero__br { display: none; }
-.hero__word.is-split .hero__br { display: block; }
+/* EVOLVE always stays on one line — js/hero.js fits it to the space */
 
 .hero__o {
   width: var(--cap, .72em);
@@ -156,19 +154,24 @@
   }
 }
 
-/* ── Mobile: A and I side by side, intro below ─────────────── */
+/* ── Mobile: the name reads vertically — EVOLVE on one line, then AI
+      across the full width, then the intro ──────────────────── */
 @media (max-width: 599px) {
   .hero { padding-top: calc(var(--nav-h) + 4px); }
   .hero__meta-end { display: none; }
   .hero__band {
-    --u: min(30svh, calc((100vw - 2 * var(--gutter) - 8px) / 1.26));
-    grid-template-columns: calc(var(--u) * .82) calc(var(--u) * .44);
+    --u: clamp(200px, 36svh, 320px);
+    grid-template-columns: minmax(0, 1fr) auto;
     grid-template-rows: var(--u) auto;
     grid-template-areas:
       "a i"
       "intro intro";
-    justify-content: start;
-    column-gap: 8px;
+    column-gap: 10px;
+  }
+  /* The pill's width follows the row height, so A gets all the rest */
+  .hero__letter--i {
+    height: 100%;
+    aspect-ratio: .44;
   }
   .hero__intro {
     flex-direction: row;
