@@ -1,9 +1,9 @@
 /* ==========================================================================
    hero.js
    FIT — EVOLVE is sized to fill the free poster area. Width alone can't do
-   that on every screen, so we also solve for the font's width axis
-   (expanded on wide/short screens, condensed on tall ones) and choose
-   between one line and EVO / LVE — whichever sets the type bigger.
+   that on every screen, so we also solve for the font's width axis:
+   expanded on wide/short screens, condensed on tall ones. The word always
+   stays on one line — it is never broken across lines.
    INTRO — a one-time CSS entrance (see hero.css); this only prepares it.
    ========================================================================== */
 EVO.register('hero', () => {
@@ -39,34 +39,27 @@ EVO.register('hero', () => {
       return word.getBoundingClientRect();
     };
 
-    // Solve one layout: the width-axis value and scale that fill W×H
-    const solve = (split) => {
-      word.classList.toggle('is-split', split);
-      const kH = H / box(MAX).height;          // height doesn't depend on width axis
-      const kW = (s) => W / box(s).width;       // shrinks as letters widen
-      let s;
-      if (kW(MIN) <= kH) s = MIN;               // tall space: condensed, width-bound
-      else if (kW(MAX) >= kH) s = MAX;          // short space: expanded, height-bound
-      else {
-        let lo = MIN, hi = MAX;
-        for (let i = 0; i < 10; i++) {
-          const mid = (lo + hi) / 2;
-          if (kW(mid) > kH) lo = mid; else hi = mid;
-        }
-        s = lo;
+    // Find the width-axis value that fills W×H best. On tall, narrow screens
+    // this lands on the condensed end and the word is width-bound — as tall
+    // as it can be across the screen, still on one line.
+    const kH = H / box(MAX).height;             // height doesn't depend on width axis
+    const kW = (s) => W / box(s).width;          // shrinks as letters widen
+    let s;
+    if (kW(MIN) <= kH) s = MIN;                  // tall space: condensed, width-bound
+    else if (kW(MAX) >= kH) s = MAX;             // short space: expanded, height-bound
+    else {
+      let lo = MIN, hi = MAX;
+      for (let i = 0; i < 10; i++) {
+        const mid = (lo + hi) / 2;
+        if (kW(mid) > kH) lo = mid; else hi = mid;
       }
-      return { split, s, k: Math.min(kW(s), kH) * 0.995 };
-    };
+      s = lo;
+    }
+    const k = Math.min(kW(s), kH) * 0.995;
 
-    // One line wins unless stacking is clearly bigger (it reads faster)
-    const one = solve(false);
-    const two = solve(true);
-    const best = two.k > one.k * 1.12 ? two : one;
-
-    word.classList.toggle('is-split', best.split);
-    word.style.setProperty('--wdth', best.s.toFixed(2));
-    word.style.fontSize = (100 * best.k).toFixed(2) + 'px';
-    state.wdth = best.s;
+    word.style.setProperty('--wdth', s.toFixed(2));
+    word.style.fontSize = (100 * k).toFixed(2) + 'px';
+    state.wdth = s;
   };
 
   fit();
