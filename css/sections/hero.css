@@ -1,18 +1,18 @@
 /* ==========================================================================
    HERO — the name, the mark, one sentence.
-   EVOLVE is fitted to the free space using the font's width axis
-   (js/hero.js); A and I live in their shapes. One entrance on load,
-   then everything stays still.
+   EVOLVE is fitted to the space using the font's width axis (js/hero.js);
+   A and I live in their shapes. One entrance on load, then stillness.
+
+   The hero is as tall as its content, never taller than one screen:
+   js/hero.js gives EVOLVE whatever height the screen has left, and on tall
+   screens (where the word runs out of width first) the hero simply ends
+   sooner instead of leaving empty space above the word.
    ========================================================================== */
 
 .hero {
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  height: 100svh;
-  min-height: 560px;
-  max-height: 1100px;
   padding: calc(var(--nav-h) + 12px) var(--gutter) var(--gutter);
   background: var(--cream);
   overflow: hidden;
@@ -32,10 +32,7 @@
 
 /* ── EVOLVE ────────────────────────────────────────────────── */
 .hero__title {
-  flex: 1 1 0;
-  min-height: 0;
-  display: flex;
-  align-items: flex-end;
+  flex: none;
   padding: clamp(10px, 2.2vh, 26px) 0 clamp(12px, 2.6vh, 30px);
   font-size: inherit;
   font-weight: inherit;
@@ -160,7 +157,8 @@
   .hero { padding-top: calc(var(--nav-h) + 4px); }
   .hero__meta-end { display: none; }
   .hero__band {
-    --u: clamp(200px, 36svh, 320px);
+    /* sized by width so the arch keeps its proportions on every phone */
+    --u: clamp(190px, min(78vw, 42svh), 330px);
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-rows: var(--u) auto;
     grid-template-areas:

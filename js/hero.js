@@ -26,12 +26,31 @@ EVO.register('hero', () => {
 
   root.style.setProperty('--cap', (EVO.measureCap() * 1.03).toFixed(3) + 'em');
 
+  // One small-viewport tall (100svh ignores the mobile URL bar, so the word
+  // doesn't resize while you scroll on a phone).
+  const probe = document.createElement('div');
+  probe.setAttribute('aria-hidden', 'true');
+  probe.style.cssText = 'position:fixed;left:0;top:0;width:0;height:100vh;height:100svh;visibility:hidden;pointer-events:none';
+  document.body.appendChild(probe);
+
+  // Height EVOLVE may use: one screen, minus everything else in the hero.
+  // The hero itself is content-height, so on tall screens (where the word
+  // runs out of width first) nothing is left over as empty space.
+  const heightBudget = () => {
+    const hs = getComputedStyle(hero);
+    const ts = getComputedStyle(title);
+    return probe.offsetHeight
+      - parseFloat(hs.paddingTop) - parseFloat(hs.paddingBottom)
+      - parseFloat(ts.paddingTop) - parseFloat(ts.paddingBottom)
+      - EVO.$('.hero__meta', hero).offsetHeight
+      - EVO.$('.hero__band', hero).offsetHeight;
+  };
+
   const fit = () => {
     if (introRunning) { fitPending = true; return; }
-    const cs = getComputedStyle(title);
     const W = title.clientWidth;
-    const H = title.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
-    if (W <= 0 || H <= 0) return;
+    const H = Math.max(heightBudget(), 48);
+    if (W <= 0) return;
 
     word.style.fontSize = '100px';
     const box = (s) => {
