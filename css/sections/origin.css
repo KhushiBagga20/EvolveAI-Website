@@ -1,109 +1,150 @@
 /* ==========================================================================
-   ORIGIN — the year is the visual. Its zero is two half rings (the same
-   rule as the O in EVOLVE). Story on the right, four facts below.
+   ORIGIN — the story as an evolution chart. Each year has a specimen:
+   one square in 2021, then more tiles and more kinds of curve, until the
+   last one is a full pattern that keeps changing (js/origin.js).
    ========================================================================== */
 
 .origin {
-  padding: var(--section-y) var(--gutter);
-  background: var(--cream);
+  background:
+    radial-gradient(40% 50% at 100% 0%, rgba(185, 165, 255, .35), transparent 70%),
+    var(--mist);
 }
+.origin__head { max-width: 46rem; }
 
-.origin__grid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--gutter);
-  row-gap: 44px;
-  align-items: start;
-}
-
-.origin__visual { grid-column: 1 / 8; }
-.origin__year {
-  display: flex;
-  align-items: baseline;
-  margin: 22px 0 0 -.03em;
-  font-size: clamp(5.4rem, 16.5vw, 19rem);
-  font-weight: 900;
-  font-stretch: 125%;
-  line-height: .78;
-  letter-spacing: -.055em;
-  color: var(--deep-purple);
-  white-space: nowrap;
-}
-.origin__zero {
+.evo {
+  --tile: clamp(22px, 2.3vw, 34px);
+  --gap: 6px;
+  --spec-h: calc(4 * var(--tile) + 3 * var(--gap));
   position: relative;
-  display: inline-block;
-  flex: none;
-  width: var(--cap, .72em);
-  height: var(--cap, .72em);
-  margin: 0 .04em 0 .03em;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(16px, 2.4vw, 40px);
+  margin-top: clamp(64px, 8vw, 112px);
 }
-.origin__zero svg {
+.evo::before {                                /* the axis everything sits on */
+  content: '';
   position: absolute;
   left: 0;
-  width: 100%;
-  height: 50%;
-}
-.origin__zero-top    { top: 0; color: var(--orange); transform: rotate(180deg); }
-.origin__zero-bottom { bottom: 0; color: var(--blue); }
-
-.origin__values {
-  margin-top: clamp(24px, 2.6vw, 40px);
-  font-size: clamp(1.6rem, .9rem + 2vw, 3rem);
-  font-weight: 850;
-  font-stretch: 92%;
-  line-height: 1.02;
-  letter-spacing: -.02em;
-  text-transform: uppercase;
-  color: var(--purple);
+  right: 0;
+  top: calc(var(--spec-h) + 22px);
+  height: 1px;
+  background: linear-gradient(90deg, var(--line), rgba(106, 59, 255, .5));
 }
 
-.origin__text { grid-column: 8 / -1; }
-.origin__title { color: var(--dark); }
-.origin__lead {
-  margin-top: 28px;
-  font-size: var(--fs-lg);
-  font-weight: 500;
-  line-height: 1.26;
-  letter-spacing: -.012em;
+.evo__step { position: relative; }
+.evo__step::after {                           /* a node on the axis */
+  content: '';
+  position: absolute;
+  left: 0;
+  top: calc(var(--spec-h) + 17px);
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1.5px solid var(--electric);
 }
-.origin__text p + p {
-  margin-top: 16px;
-  line-height: 1.58;
-  color: rgba(23, 21, 28, .8);
-}
+.evo__step--now::after { background: var(--electric); }
 
-.origin__facts {
+.evo__spec {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  column-gap: var(--gutter);
-  row-gap: 24px;
-  margin-top: clamp(48px, 6vw, 88px);
-  border-top: 1.5px solid var(--dark);
+  grid-template-columns: repeat(var(--c, 1), var(--tile));
+  gap: var(--gap);
+  align-content: end;
+  height: var(--spec-h);
 }
-.origin__facts li {
-  display: grid;
-  gap: 6px;
-  align-content: start;
-  padding-top: 16px;
+.spec-1 { --c: 1; }
+.spec-2 { --c: 2; }
+.spec-3 { --c: 2; }
+.spec-4 { --c: 3; }
+.spec-5 { --c: 4; }
+
+.evo .mt { --fill: var(--electric); }
+.evo .mt.is-glass {
+  background-color: rgba(255, 255, 255, .7);
+  border-color: rgba(106, 59, 255, .25);
 }
-.origin__facts strong {
-  font-size: var(--fs-xl);
-  font-weight: 850;
-  font-stretch: 112%;
+
+/* Specimens, from simple to complex.  forms: TL TR BR BL */
+.spec-1 .mt { --fill: var(--deep); }
+
+.spec-2 .mt:nth-child(1) { --fill: var(--deep); }
+.spec-2 .mt:nth-child(2) { --form: 0 50% 50% 50%; }
+
+.spec-3 .mt:nth-child(1) { --fill: var(--deep); }
+.spec-3 .mt:nth-child(2) { --fill: var(--royal); --form: 0 100% 0 0; }
+.spec-3 .mt:nth-child(3) { --form: 50% 0 50% 50%; }
+.spec-3 .mt:nth-child(4) { --fill: var(--lavender); --form: 50%; }
+
+.spec-4 .mt:nth-child(1) { --fill: var(--lavender); --form: 50%; }
+.spec-4 .mt:nth-child(2) { --form: 50% 0 50% 50%; }
+.spec-4 .mt:nth-child(3) { --fill: var(--deep); }
+.spec-4 .mt:nth-child(4) { --fill: var(--royal); --form: 100% 0 100% 0; }
+.spec-4 .mt:nth-child(5) { --form: 50%; }
+.spec-4 .mt:nth-child(6) { --fill: var(--periwinkle); --form: 100% 0 0 0; }
+.spec-4 .mt:nth-child(7) { --fill: var(--royal); }
+.spec-4 .mt:nth-child(8) { --fill: var(--indigo); --form: 50% 50% 0 0; }
+.spec-4 .mt:nth-child(9) { --fill: var(--lavender); --form: 50% 50% 50% 0; }
+
+/* The last one starts as the S-curve pattern (a b a b / c d c d) */
+.spec-5 .mt:nth-child(8n + 1), .spec-5 .mt:nth-child(8n + 3) { --form: 50% 0 50% 50%; }
+.spec-5 .mt:nth-child(8n + 2), .spec-5 .mt:nth-child(8n + 4) { --form: 50% 50% 50% 0; --fill: var(--lavender); }
+.spec-5 .mt:nth-child(8n + 5), .spec-5 .mt:nth-child(8n + 7) { --form: 50% 50% 0 50%; --fill: var(--lavender); }
+.spec-5 .mt:nth-child(8n + 6), .spec-5 .mt:nth-child(8n + 8) { --form: 0 50% 50% 50%; --fill: var(--royal); }
+
+/* Assembly: tiles grow in, one specimen after another */
+.motion .evo:not(.is-built) .mt { --s: 0; --rot: -90deg; }
+.motion .evo .mt { --delay: calc(var(--n, 0) * 180ms + var(--ti, 0) * 45ms); }
+.motion .evo.is-settled .mt { --delay: 0ms; }
+
+.evo__year {
+  margin-top: 52px;
+  font-size: clamp(2rem, 1.4rem + 1.6vw, 3rem);
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: -.03em;
-  color: var(--purple);
+  letter-spacing: -.05em;
+  color: var(--ink);
 }
-.origin__facts span {
-  max-width: 28ch;
-  font-size: var(--fs-sm);
-  line-height: 1.45;
-  color: rgba(23, 21, 28, .72);
+.evo__step--now .evo__year { color: var(--electric); }
+.evo__title {
+  margin-top: 10px;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+.evo__text {
+  margin-top: 8px;
+  font-size: var(--fs-small);
+  line-height: 1.55;
+  color: var(--text-2);
 }
 
-@media (max-width: 999px) {
-  .origin__visual,
-  .origin__text { grid-column: 1 / -1; }
-  .origin__year { font-size: clamp(5rem, 28vw, 14rem); }
-  .origin__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* ── Tablet & phones: the chart turns vertical ─────────────── */
+@media (max-width: 899px) {
+  .evo {
+    --tile: 22px;
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .evo::before {
+    left: calc(4 * var(--tile) + 3 * var(--gap) + 22px);
+    right: auto;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(180deg, var(--line), rgba(106, 59, 255, .5));
+  }
+  .evo__step {
+    display: grid;
+    grid-template-columns: calc(4 * var(--tile) + 3 * var(--gap)) 1fr;
+    column-gap: 44px;
+    align-items: start;
+  }
+  .evo__step::after {
+    left: calc(4 * var(--tile) + 3 * var(--gap) + 17px);
+    top: 4px;
+  }
+  .evo__spec { grid-row: 1 / span 3; height: auto; align-content: start; }
+  .evo__year { margin-top: 0; grid-column: 2; }
+  .evo__title, .evo__text { grid-column: 2; }
 }

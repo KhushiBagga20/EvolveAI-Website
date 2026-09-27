@@ -4,10 +4,9 @@ A from-scratch redesign of the Evolve AI website — the student AI community at
 Chitkara University. This is a **visual prototype** of the complete homepage,
 establishing the design language. It is not production-ready yet.
 
-**v2 — calm pass.** The first version tried everything at once. This version
-keeps only what means something: no looping or ticking animation, no
-scroll-jacking, no decorative shapes, and about half the scrolling (≈ 9 screens
-on a laptop instead of ≈ 20).
+**v4 — glass · purple · soft geometry.** Fun first, professional underneath:
+a soft purple world with floating glass objects, one confident typeface, and a
+shape language that moves — slowly, and mostly when you interact with it.
 
 ## Run it
 
@@ -18,93 +17,93 @@ python3 -m http.server 5173
 ```
 
 Then open <http://localhost:5173>. (Opening `index.html` directly also works.)
-Append `?reduced-motion` to preview the no-animation version.
+Append `?reduced-motion` to preview the still version.
 
 ## Stack
 
-Plain HTML, CSS and JavaScript. One optional library from a CDN:
-[Lenis](https://lenis.darkroom.engineering) for gentle mouse-wheel smoothing
-(touch scrolling stays native). If it fails to load, nothing breaks.
+Plain HTML, CSS and JavaScript — no libraries. The only external request is the
+font (Space Grotesk, Google Fonts).
+
+## The design language
+
+**Concept — a square that evolves.** Every shape on the page is a square with
+some corners curved: *square → quarter → leaf → drop → circle*, plus the long
+forms *arch, capsule, half*. It is the geometry of the reference pattern, made
+into Evolve's own story. Because every form is just `border-radius` on a box,
+any shape can morph into any other; the logo mark is the same idea (square,
+quarter, drop, circle).
+
+**Purple, in temperatures** — near-black violet `#13072E`, deep violet
+`#22104F`, royal `#4520C4`, electric `#6A3BFF` (the brand colour), electric
+indigo `#4B5BFF`, lavender `#B9A5FF`, periwinkle `#AAB6FF`, soft lilac
+`#DCD1FF`, almost-white lilac `#F8F6FF`. Cream `#FFF8EE` is kept for the
+community section, where the page talks about people.
+
+**Type** — one family, *Space Grotesk*: huge for EVOLVE and the vision lines,
+medium for section titles, small uppercase for labels. Sharp text against soft
+shapes.
+
+**Glass, used sparingly** — stacking is always *geometry → glass → type* so the
+glass has something to blur: the lens over EVOLVE, the About objects, the stage
+panel in What we do, the FAQ panel, the contact form, photo labels, the nav.
 
 ## How motion is used
 
-Motion happens only in three moments, never on its own in the background:
+- **On load** — EVOLVE assembles letter by letter out of a blur; shapes and
+  glass settle in.
+- **On scroll** — the arch rising at the bottom of the hero widens until it is
+  the About section (the hero → about transition); titles rise word by word;
+  photos open from a mask; the origin chart assembles; the vision section pins
+  and shows one statement at a time; the footer's shapes settle into a row.
+- **When you interact** — glass follows the pointer in the hero; What we do
+  rearranges its nine tiles per activity; collage photos lift and push their
+  neighbours away; FAQ answers move the shapes behind the glass; buttons are
+  magnetic; sending the form throws a handful of shapes; on desktop the cursor
+  becomes a dot / ring / label.
+- **Ambient** — a few shapes drift very slowly, and the "Today" specimen in the
+  origin chart keeps mutating. All of it pauses when its section is off screen.
 
-1. **Once, on load** — the hero word rises and settles into its width; the
-   A and I are revealed.
-2. **Once, on reveal** — headings slide up and text fades in the first time
-   each section is seen.
-3. **When you ask** — hovers, the FAQ accordion, the archive and testimonial
-   arrows.
-
-The only continuous movement is one slow row of partner names, which pauses on
-hover and stops entirely with reduced motion.
+With reduced motion (or `?reduced-motion`) everything is simply there: no
+cursor, no parallax, no pinning; the vision statements stack.
 
 ## Structure
 
 ```
 index.html              all sections, semantic markup, SVG symbols
 css/
-  tokens.css            palette, type scale, spacing, motion
-  base.css              reset, type primitives, reveal system, reduced motion
-  shapes.css            the (deliberately small) geometry: the two-halves O
-  components.css        nav, buttons, mobile menu
+  tokens.css            palette, type scale, spacing, easing
+  base.css              reset, type primitives, layout
+  shapes.css            the shape language (.shape + forms, .mt MorphTile, .orbit)
+  glass.css             the glass material
+  motion.css            keyframes, scroll reveals, reduced motion
+  components.css        brand, floating nav, menu, buttons, cursor
   sections/*.css        one file per section
 js/
-  core.js               namespace, env flags, helpers, module registry
-  main.js               boot: fonts → modules → intro
-  hero.js, archive.js … one small module per behaviour
+  core.js               namespace, flags, helpers, one shared rAF loop
+  main.js               boots every registered module
+  split.js, reveal.js … one small module per behaviour
 assets/
-  favicon.svg           the mark: arch (A) + pill (I) + node
-  gallery/              drop event photos here
-  logos/                drop partner logos here
+  favicon.svg           the mark: square, quarter, drop, circle
+  gallery/              event photos (see gallery/README.md)
+  logos/                partner logos, if they replace the names
 ```
-
-## Design system
-
-**Palette** — purple `#54246F`, deep purple `#35205C`, orange `#FF6333`,
-cream `#F5F1E8`, blue `#5755D9`, light blue `#C9C8FF`, dark `#17151C`.
-Cream is the resting colour; each section gets at most one colour block.
-
-**Type** — *Archivo* (variable, width axis 62–125) for titles and text, with one
-title size everywhere; *Instrument Serif* italic for a single accent word;
-*JetBrains Mono* for small labels. The hero solves for the width that lets
-EVOLVE fill the screen, and chooses one line or EVO / LVE.
-
-**Geometry — every shape must mean something:**
-
-- Every **O / 0** in display type is a *two-halves circle* (hero, 2021, footer).
-- The mark is an **arch + pill** = **A + I**.
-- Event photos sit in arches (the A), and the colour of each photo's type pill
-  encodes the event type: orange hackathon, blue expert talk, purple
-  competition, light blue workshop, deep purple flagship, sand community,
-  dark projects.
 
 ## Adding real content
 
-**Event photos** — the archive uses real photos from the club's gallery (see
-`assets/gallery/README.md` for what each shows and how it was identified).
-To add one, copy an existing `<li class="event event--TYPE">` and swap the image,
-alt text and caption; use `object-position` on the `<img>` to keep the subject
-in frame:
+**Event photos** — the collage uses real photos from the club's gallery (see
+`assets/gallery/README.md`). Each photo is a `<button class="ph ph--N">` with a
+glass label; its position and mask are set per `ph--N` in
+`css/sections/events.css`, so a new photo can reuse a slot or get a new one.
 
-```html
-<div class="event__frame">
-  <img src="assets/gallery/finvasia-hackathon-2026.webp" alt="Teams presenting at the Finvasia Innovation Hackathon" width="1500" height="1000" loading="lazy" decoding="async">
-  <span class="event__type label">Hackathon</span>
-</div>
-```
-
-**Partner logos** — the marquee uses typographic names for now. Replace any
-`<li class="logo">Name</li>` with `<li class="logo"><img src="assets/logos/name.svg" alt=""></li>`
-(single-colour SVGs in cream look best on the blue block).
+**What we do** — each activity's tile composition is a one-line recipe in
+`js/work.js` (`RECIPES`).
 
 ## Known gaps / next iterations
 
-- The contact form validates but is **not connected** to anything yet.
+- The contact form validates and plays its "sent" moment but is **not
+  connected** to anything yet.
 - Footer **GitHub** link and **email** are placeholders (`TODO` in `index.html`).
-- Four archive photos have no visible event name and are captioned by what
-  they show — confirm which events they're from. Recent events without photos
-  (Finvasia hackathon, Intellex 2.0, PixelFlow…) aren't in the row yet.
+- Four photos have no visible event name and are captioned by what they show —
+  confirm which events they're from.
 - Only the homepage exists; Teams, Alumni, Events, Projects pages are next.
-- Fonts and Lenis load from CDNs; self-host before launch.
+- The font loads from Google Fonts; self-host before launch.

@@ -1,31 +1,91 @@
 /* ==========================================================================
-   EVOLVE GEOMETRY — deliberately small. A shape is used only when it is
-   part of the name or the mark:
+   SHAPES — the Evolve AI shape language.
 
-   • The two-halves circle ◓ is every "O" and "0" (hero, 2021, footer).
-   • The arch ∩ is the "A"; the pill is the "I". Arch + pill = the mark.
+   Every shape is a square that has evolved: some of its corners have
+   learned to curve.
 
-   The arch also frames event photos, because events are what the club is.
-   Nothing else is decorative.
+       Square   →  Quarter  →  Leaf      →  Drop      →  Circle
+       0 round     1 round     2 opposite   3 round      4 round
+
+   plus the long forms: Arch, Capsule and Half. They are all border-radius
+   on a box, so any one can morph into any other with a transition — that
+   is what a MorphTile (.mt) does. The logo mark is the same idea: a 2×2 of
+   square, quarter, drop and circle.
+
+   Use:  <span class="shape f-drop" style="--fill: var(--royal)"></span>
+         turn it with .t1 / .t2 / .t3 (quarter turns, clockwise).
    ========================================================================== */
 
-/* Two-halves circle (orange over purple by default) */
-.hero__o,
-.footer__o {
-  position: relative;
-  display: inline-block;
+.shape {
+  --fill: var(--electric);
+  display: block;
+  aspect-ratio: 1;
+  background: var(--fill);
+  border-radius: var(--form, 0);
+}
+
+/* ── Forms ─────────────────────────────────────────────────── */
+/*                          TL    TR    BR    BL                          */
+.f-square  { --form: 0; }
+.f-quarter { --form: 100% 0 0 0; }          /* a quarter circle */
+.f-leaf    { --form: 100% 0 100% 0; }       /* two opposite curves */
+.f-drop    { --form: 50% 0 50% 50%; }       /* one sharp corner */
+.f-circle  { --form: 50%; }
+.f-arch    { --form: 50% 50% 0 0; }         /* use on a tall box */
+.f-capsule { --form: 999px; }
+.f-half    { --form: 999px 999px 0 0; aspect-ratio: 2 / 1; }
+
+/* Quarter turns (clockwise) */
+.t1 { rotate: 90deg; }
+.t2 { rotate: 180deg; }
+.t3 { rotate: 270deg; }
+
+/* ── Materials ─────────────────────────────────────────────── */
+.m-line {                                   /* completely transparent */
+  background: transparent;
+  border: 1.5px solid var(--fill);
+}
+.m-grad-violet { background: linear-gradient(150deg, var(--electric), var(--royal)); }
+.m-grad-dusk   { background: linear-gradient(160deg, var(--lavender), var(--indigo)); }
+.m-grad-lilac  { background: linear-gradient(160deg, var(--white), var(--lilac)); }
+.m-soft        { filter: blur(28px); opacity: .8; }  /* out of focus */
+
+/* ── Orbit: a ring with one small body going round ────────── */
+.orbit {
+  display: block;
+  aspect-ratio: 1;
+  border: 1.5px solid rgba(69, 32, 196, .28);
   border-radius: 50%;
-  overflow: hidden;
-  isolation: isolate;
 }
-.hero__o > i,
-.footer__o > i {
+.orbit::after {
+  content: '';
   position: absolute;
-  left: 0;
-  right: 0;
-  height: 50.5%;
+  top: -6px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  border-radius: 50%;
+  background: var(--electric);
 }
-.hero__o > i:first-child,
-.footer__o > i:first-child { top: 0; background: var(--h1, var(--orange)); }
-.hero__o > i:last-child,
-.footer__o > i:last-child  { bottom: 0; background: var(--h2, var(--purple)); }
+
+/* ── MorphTile: a square that can become any form ──────────── */
+.mt {
+  --form: 0;
+  --fill: var(--electric);
+  --s: 1;
+  --rot: 0deg;
+  display: block;
+  aspect-ratio: 1;
+  background-color: var(--fill);
+  border: 1.5px solid transparent;
+  border-radius: var(--form);
+  transform: rotate(var(--rot)) scale(var(--s));
+  transition:
+    border-radius .9s var(--ease),
+    background-color .9s var(--ease),
+    border-color .9s var(--ease),
+    transform .9s var(--ease),
+    opacity .9s var(--ease);
+  transition-delay: var(--delay, 0ms);
+}

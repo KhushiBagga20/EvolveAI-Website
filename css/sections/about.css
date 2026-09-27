@@ -1,0 +1,146 @@
+/* ==========================================================================
+   ABOUT — the hero → about transition.
+
+   The section rises into the bottom of the hero as a narrow arch (a
+   doorway), and widens as you scroll until it is the section's whole
+   surface (js/about.js writes --ax, the side inset, and --ar, the top
+   radius). Glass objects float on it, over soft shapes they blur.
+   ========================================================================== */
+
+.about {
+  position: relative;
+  z-index: 1;
+  margin-top: calc(-1 * var(--rise));     /* the arch rises into the hero */
+  padding: calc(var(--rise) + clamp(120px, 13vw, 200px)) 0 clamp(96px, 10vw, 150px);
+  color: var(--on-dark-2);
+  pointer-events: none;                   /* never block the hero's buttons */
+}
+.about__inner { position: relative; pointer-events: auto; }
+/* without motion the arch is simply the section, below the hero */
+html:not(.motion) .about { margin-top: 0; padding-top: clamp(120px, 13vw, 200px); }
+
+.about__arch {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background:
+    radial-gradient(70% 45% at 50% 0%, rgba(185, 165, 255, .6), transparent 70%),
+    linear-gradient(180deg, var(--electric) 0%, var(--royal) 36%, var(--deep) 100%);
+  /* it ends as a floating panel: a small inset, all corners soft */
+  clip-path: inset(0 var(--ax, 12px) 0 var(--ax, 12px) round var(--ar, 56px) var(--ar, 56px) 56px 56px);
+}
+.about__arch .shape { position: absolute; }
+.about__s1 {                              /* lavender circle, behind the objects */
+  --fill: var(--lavender);
+  width: 26vw;
+  left: 6%;
+  bottom: 12%;
+  opacity: .9;
+}
+.about__s2 {
+  --fill: var(--indigo);
+  width: 18vw;
+  right: 16%;
+  bottom: 18%;
+}
+.about__s3 {
+  --form: 100% 0 0 0;
+  width: 30vw;
+  right: -6vw;
+  top: 28%;
+  background: linear-gradient(150deg, var(--periwinkle), var(--electric));
+  opacity: .8;
+}
+
+.about__label { color: var(--lavender); }
+.about__statement {
+  max-width: 21ch;
+  margin-top: 28px;
+  font-size: clamp(2rem, 1.1rem + 3.2vw, 4.25rem);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -.045em;
+  color: var(--on-dark);
+  text-wrap: balance;
+}
+
+/* ── Glass objects: four different shapes, not four cards ─── */
+.about__objects {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(12px, 2vw, 28px);
+  align-items: start;
+  margin-top: clamp(64px, 8vw, 112px);
+}
+.obj {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px;
+}
+.obj strong {
+  font-size: clamp(2.5rem, 1.6rem + 2.4vw, 4rem);
+  font-weight: 600;
+  line-height: .9;
+  letter-spacing: -.05em;
+  color: var(--on-dark);
+}
+.obj span {
+  max-width: 17ch;
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--on-dark-2);
+}
+.obj--circle {
+  grid-column: 1 / 4;
+  aspect-ratio: 1;
+  margin-top: 96px;
+  border-radius: 50%;
+  align-items: center;
+  text-align: center;
+}
+.obj--capsule {
+  grid-column: 4 / 6;
+  min-height: 330px;
+  margin-top: 0;
+  border-radius: 999px;
+  align-items: center;
+  text-align: center;
+  padding: 32px 22px;
+}
+.obj--drop {
+  grid-column: 6 / 9;
+  aspect-ratio: 1;
+  margin-top: 150px;
+  border-radius: 50% 0 50% 50%;
+  padding-left: 18%;
+}
+.obj--slab {
+  grid-column: 9 / 13;
+  min-height: 210px;
+  margin-top: 40px;
+  border-radius: 999px 999px 999px 40px;
+  padding-left: 40px;
+}
+
+@media (max-width: 899px) {
+  .about { padding-top: calc(var(--rise) + 120px); }
+  .about__objects {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .obj--circle, .obj--capsule, .obj--drop, .obj--slab { grid-column: auto; margin-top: 0; }
+  .obj--capsule { min-height: 0; aspect-ratio: 1; }
+  .obj--slab { min-height: 0; aspect-ratio: 1; border-radius: 50% 50% 50% 18px; }
+  .obj--drop { padding-left: 28px; }
+  .about__s1 { width: 50vw; }
+  .about__s2 { width: 34vw; }
+  .about__s3 { width: 60vw; }
+}
+@media (max-width: 599px) {
+  .obj { padding: 18px; }
+  .obj span { font-size: .8rem; }
+  .obj--circle, .obj--capsule, .obj--slab { align-items: center; text-align: center; }
+}
