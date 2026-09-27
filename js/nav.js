@@ -1,5 +1,6 @@
 /* ==========================================================================
-   nav.js — compact-on-scroll state, current-section marker, mobile menu.
+   nav.js — the pill firms up once you scroll (more blur, more opaque,
+   rounder), the current section is marked, and the mobile menu opens.
    ========================================================================== */
 EVO.register('nav', () => {
   const nav = EVO.$('[data-nav]');
@@ -7,19 +8,18 @@ EVO.register('nav', () => {
   const menu = EVO.$('[data-menu]');
   if (!nav) return;
 
-  /* Compact state ------------------------------------------------------- */
+  /* Scrolled state --------------------------------------------------------- */
   let scrolled = null;
-  const onScroll = () => {
-    const s = window.scrollY > 40;
+  EVO.task(() => {
+    const s = window.scrollY > 24;
     if (s !== scrolled) {
       scrolled = s;
       nav.classList.toggle('is-scrolled', s);
     }
-  };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+    return false;
+  });
 
-  /* Current section ----------------------------------------------------- */
+  /* Current section ---------------------------------------------------------- */
   const links = EVO.$$('[data-nav-link]');
   if ('IntersectionObserver' in window) {
     const byId = new Map(links.map((l) => [l.getAttribute('href').slice(1), l]));
@@ -41,42 +41,32 @@ EVO.register('nav', () => {
     });
   }
 
-  /* Menu ---------------------------------------------------------------- */
+  /* Mobile menu -------------------------------------------------------------- */
   if (!toggle || !menu) return;
-  const label = toggle.querySelector('.nav__toggle-label');
-  let closeTimer;
-  const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+  const label = EVO.$('[data-menu-label]', toggle);
 
-  const open = () => {
-    clearTimeout(closeTimer);
-    menu.hidden = false;
-    requestAnimationFrame(() => menu.classList.add('is-open'));
-    toggle.setAttribute('aria-expanded', 'true');
-    if (label) label.textContent = 'Close';
-    nav.classList.add('is-menu-open');
-    document.documentElement.style.overflow = 'hidden';
-    if (EVO.lenis) EVO.lenis.stop();
+  const setOpen = (open) => {
+    toggle.setAttribute('aria-expanded', String(open));
+    if (label) label.textContent = open ? 'Close' : 'Menu';
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    if (open) {
+      menu.hidden = false;
+      requestAnimationFrame(() => menu.classList.add('is-open'));
+    } else {
+      menu.classList.remove('is-open');
+      setTimeout(() => { if (!menu.classList.contains('is-open')) menu.hidden = true; }, 350);
+    }
   };
 
-  const close = () => {
-    menu.classList.remove('is-open');
-    toggle.setAttribute('aria-expanded', 'false');
-    if (label) label.textContent = 'Menu';
-    nav.classList.remove('is-menu-open');
-    document.documentElement.style.overflow = '';
-    if (EVO.lenis) EVO.lenis.start();
-    closeTimer = setTimeout(() => { if (!isOpen()) menu.hidden = true; }, 400);
-  };
-
-  toggle.addEventListener('click', () => (isOpen() ? close() : open()));
-  menu.addEventListener('click', (e) => { if (e.target.closest('[data-menu-link]')) close(); });
+  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  EVO.$$('[data-menu-link]', menu).forEach((a) => a.addEventListener('click', () => setOpen(false)));
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && isOpen()) {
-      close();
+    if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+      setOpen(false);
       toggle.focus();
     }
   });
   window.matchMedia('(min-width: 900px)').addEventListener('change', (e) => {
-    if (e.matches && isOpen()) close();
+    if (e.matches) setOpen(false);
   });
-}, 2);
+}, 10);

@@ -1,56 +1,75 @@
 /* ==========================================================================
-   EVOLVE AI — DESIGN TOKENS
-   A small palette, three typefaces, one geometry. Everything else derives.
+   EVOLVE AI — DESIGN TOKENS (v4: glass · purple · soft geometry)
+
+   A soft purple world. Purple is never one flat value: depth comes from
+   several temperatures of it, from near-black violet to almost-white lilac.
+   One typeface (Space Grotesk): sharp text against soft shapes.
    ========================================================================== */
 
 :root {
-  /* ── Palette ─────────────────────────────────────────────── */
-  --purple:      #54246F;
-  --deep-purple: #35205C;
-  --orange:      #FF6333;
-  --cream:       #F5F1E8;
-  --blue:        #5755D9;
-  --light-blue:  #C9C8FF;
-  --dark:        #17151C;
-  --white:       #FFFFFF;
+  /* ── Purple, darkest → lightest ──────────────────────────── */
+  --ink:        #13072E;   /* near-black violet: headings, dark surfaces */
+  --deep:       #22104F;   /* deep violet */
+  --royal:      #4520C4;   /* royal purple */
+  --electric:   #6A3BFF;   /* electric purple — the brand colour */
+  --indigo:     #4B5BFF;   /* electric indigo, for cooler depth */
+  --lavender:   #B9A5FF;
+  --periwinkle: #AAB6FF;
+  --lilac:      #DCD1FF;   /* soft lilac */
+  --mist:       #EFEAFF;
+  --paper:      #F8F6FF;   /* almost-white lilac: the page */
+  --white:      #FFFFFF;
+  --cream:      #FFF8EE;   /* warmth, used where the page talks about people */
 
-  /* Derived neutrals (hairlines, quiet fills) */
-  --sand:         #E9E2D2;
-  --ink:          var(--dark);
-  --hairline:     rgba(23, 21, 28, .16);
-  --hairline-inv: rgba(245, 241, 232, .22);
+  /* ── Text ─────────────────────────────────────────────────── */
+  --text:       var(--ink);
+  --text-2:     #453C66;   /* body */
+  --text-3:     #7A7299;   /* metadata */
+  --line:       rgba(19, 7, 46, .12);
 
-  /* ── Typography ──────────────────────────────────────────── */
-  --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
-  --font-serif:   'Instrument Serif', 'Times New Roman', serif;
-  --font-mono:    'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --on-dark:    #FFFFFF;
+  --on-dark-2:  rgba(255, 255, 255, .74);
+  --on-dark-3:  rgba(255, 255, 255, .5);
+  --line-dark:  rgba(255, 255, 255, .18);
 
-  /* Fluid type scale */
-  --fs-label: 0.75rem;                                   /* 12 */
-  --fs-sm:    0.875rem;                                  /* 14 */
-  --fs-base:  clamp(1rem, 0.96rem + 0.18vw, 1.125rem);   /* 16 → 18 */
-  --fs-md:    clamp(1.125rem, 1.02rem + 0.5vw, 1.4rem);  /* 18 → 22 */
-  --fs-lg:    clamp(1.3rem, 1.1rem + 0.9vw, 1.95rem);
-  --fs-xl:    clamp(1.8rem, 1.3rem + 2.2vw, 3.2rem);
-  /* One size for every section title — consistency is what keeps it calm */
-  --fs-title: clamp(2.4rem, 1rem + 4.2vw, 5.4rem);
+  /* ── Glass ────────────────────────────────────────────────── */
+  --glass-fill:   linear-gradient(140deg, rgba(255, 255, 255, .62), rgba(255, 255, 255, .22));
+  --glass-edge:   rgba(255, 255, 255, .7);
+  --glass-blur:   22px;
+  --glass-shadow: 0 30px 70px -34px rgba(34, 16, 79, .45);
+  --glass-fill-dark: linear-gradient(140deg, rgba(255, 255, 255, .24), rgba(255, 255, 255, .06));
+  --glass-edge-dark: rgba(255, 255, 255, .32);
 
-  /* ── Space ───────────────────────────────────────────────── */
-  --gutter:    clamp(16px, 2.4vw, 36px);
-  --section-y: clamp(72px, 8vw, 136px);
-  --nav-h:     76px;
+  /* ── Type ─────────────────────────────────────────────────── */
+  --font: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
 
-  /* ── Radii ───────────────────────────────────────────────── */
-  --r-sm:   10px;
-  --r-md:   22px;
-  --r-lg:   clamp(24px, 3vw, 48px);
-  --r-pill: 999px;
+  --fs-label:   .75rem;                                    /* 12 */
+  --fs-small:   .875rem;                                   /* 14 */
+  --fs-body:    clamp(1rem, .96rem + .15vw, 1.0625rem);    /* 16 → 17 */
+  --fs-lead:    clamp(1.125rem, 1.04rem + .4vw, 1.375rem); /* 18 → 22 */
+  --fs-h3:      clamp(1.375rem, 1.2rem + .7vw, 1.875rem);  /* 22 → 30 */
+  --fs-h2:      clamp(2.5rem, 1.6rem + 3.6vw, 5rem);       /* 40 → 80 */
+  --fs-display: clamp(2.75rem, 1rem + 7vw, 8.5rem);        /* vision lines */
+  --fs-mega:    clamp(5.5rem, 1rem + 22vw, 24rem);         /* EVOLVE */
 
-  /* ── Motion ──────────────────────────────────────────────── */
-  --ease-out:    cubic-bezier(.16, 1, .3, 1);   /* expo-out: arrivals */
-  --ease-in-out: cubic-bezier(.65, 0, .35, 1);  /* scene changes */
+  /* ── Space ────────────────────────────────────────────────── */
+  --container: 1240px;
+  --gutter:    clamp(20px, 4vw, 56px);
+  --section-y: clamp(96px, 11vw, 168px);
+  --nav-top:   16px;
+  --rise:      16vh;   /* how far the about arch rises into the hero */
 
-  /* ── Layers ──────────────────────────────────────────────── */
-  --z-nav: 100;
-  --z-menu: 90;
+  /* ── Shape ────────────────────────────────────────────────── */
+  --r-s:  14px;
+  --r-m:  28px;
+  --r-l:  48px;
+
+  /* ── Motion ───────────────────────────────────────────────── */
+  --ease:     cubic-bezier(.22, .8, .24, 1);    /* soft landing */
+  --ease-io:  cubic-bezier(.65, 0, .35, 1);
+  --spring:   cubic-bezier(.34, 1.4, .5, 1);    /* a little overshoot */
+}
+
+@media (max-width: 599px) {
+  :root { --rise: 12vh; }
 }

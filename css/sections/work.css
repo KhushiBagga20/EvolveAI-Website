@@ -1,105 +1,198 @@
 /* ==========================================================================
-   WHAT WE DO — six strips, everything readable without interaction.
-   On hover (mouse only) a slightly lighter purple spreads from where the
-   cursor entered and the title widens a touch. Nothing else moves.
+   WHAT WE DO — a stage of nine morphing tiles beside an index of the six
+   activities. Pointing at an activity (hover, focus or tap) rearranges the
+   geometry into that activity's composition (js/work.js), and the glass
+   panel over it changes to say what it is. The index rows never change
+   height, so nothing jumps under the pointer.
    ========================================================================== */
 
-.work {
-  position: relative;
-  padding: var(--section-y) 0;
-  background: var(--deep-purple);
-  color: var(--cream);
-}
-
-.work__head {
+.work__grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--gutter);
-  row-gap: 20px;
-  align-items: end;
-  padding: 0 var(--gutter);
+  column-gap: clamp(20px, 3vw, 48px);
+  row-gap: 64px;
+  align-items: start;
 }
-.work__title { grid-column: 1 / 7; }
-.work__title em { color: var(--orange); }
-.work__lede {
-  grid-column: 8 / -1;
-  max-width: 44ch;
-  line-height: 1.5;
-  color: rgba(245, 241, 232, .82);
-}
+.work__head { grid-column: 1 / 7; }
 
-.work__list {
-  margin-top: clamp(40px, 5vw, 72px);
-  border-top: 1px solid var(--hairline-inv);
+/* ── Stage ─────────────────────────────────────────────────── */
+.work__stage {
+  grid-column: 1 / 7;
+  grid-row: 2;
+  position: sticky;
+  top: 112px;
+  width: min(100%, 540px);
+  aspect-ratio: 1;
 }
-
-.work-item {
-  position: relative;
-  display: grid;
-  grid-template-columns: clamp(44px, 6vw, 96px) minmax(0, 1.3fr) minmax(0, 1fr);
-  column-gap: clamp(16px, 2.4vw, 40px);
-  align-items: center;
-  min-height: clamp(84px, 7.4vw, 118px);
-  padding: 16px var(--gutter);
-  border-bottom: 1px solid var(--hairline-inv);
-  isolation: isolate;
-  overflow: hidden;
-}
-.work-item__fill {
+.work__stage::before {                    /* a soft lilac field behind */
+  content: '';
   position: absolute;
-  inset: 0;
+  inset: -12%;
   z-index: -1;
-  background: var(--purple);
-  clip-path: circle(0% at var(--x, 50%) var(--y, 50%));
-  transition: clip-path .7s var(--ease-out);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(185, 165, 255, .45), transparent);
 }
-.work-item.is-active .work-item__fill { clip-path: circle(142% at var(--x, 50%) var(--y, 50%)); }
-
-.work-item__num {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--light-blue);
-  transition: color .3s;
+.stage__tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(8px, 1vw, 12px);
+  height: 100%;
 }
-.work-item.is-active .work-item__num { color: var(--orange); }
-
-.work-item__title {
-  font-size: clamp(1.6rem, .8rem + 2.2vw, 3rem);
-  font-weight: 850;
-  font-stretch: 104%;
-  line-height: .95;
-  letter-spacing: -.03em;
-  text-transform: uppercase;
-  transition: font-stretch .6s var(--ease-out);
+.stage__tiles .mt.is-glass {
+  background-color: rgba(255, 255, 255, .55);
+  border-color: rgba(255, 255, 255, .95);
 }
-/* Capped so a title never gains a line on hover (no height jump) */
-.work-item.is-active .work-item__title { font-stretch: 110%; }
+.stage__tiles .mt.is-line {
+  background-color: transparent;
+  border-color: var(--electric);
+}
 
-.work-item__desc {
-  max-width: 46ch;
-  font-size: .98rem;
+.stage__glass {
+  position: absolute;
+  right: -7%;
+  bottom: -6%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 72%;
+  padding: 22px 26px 24px;
+  border-radius: 28px 28px 28px 8px;
+}
+.stage__num {
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: .14em;
+  color: var(--electric);
+}
+.stage__name {
+  font-size: clamp(1.375rem, 1rem + 1vw, 2rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -.04em;
+  color: var(--ink);
+}
+.stage__desc {
+  margin-top: 4px;
+  font-size: var(--fs-small);
   line-height: 1.5;
-  color: rgba(245, 241, 232, .76);
+  color: var(--text-2);
+}
+.stage__name,
+.stage__num,
+.stage__desc { transition: opacity .3s var(--ease), transform .45s var(--ease); }
+.stage__glass.is-swapping :is(.stage__name, .stage__num, .stage__desc) {
+  opacity: 0;
+  transform: translateY(8px);
 }
 
-@media (max-width: 1099px) {
-  .work-item.is-active .work-item__title { font-stretch: 104%; }
+/* ── Index ─────────────────────────────────────────────────── */
+.acts {
+  grid-column: 8 / -1;
+  grid-row: 1 / span 2;
+  align-self: center;
+  border-bottom: 1px solid var(--line);
+}
+.act { border-top: 1px solid var(--line); }
+.act__h { font: inherit; }
+.act__btn {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  padding: 22px 0;
+  text-align: left;
+}
+.act__num {
+  width: 30px;
+  flex: none;
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: .12em;
+  color: var(--text-3);
+}
+.act__name {
+  flex: 1;
+  font-size: clamp(1.5rem, 1rem + 1.5vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -.04em;
+  color: var(--text-3);
+  transition: color .4s var(--ease), transform .6s var(--ease);
+}
+.act__btn:hover .act__name { color: var(--ink); }
+.act.is-active .act__name { color: var(--ink); transform: translateX(10px); }
+.act.is-active .act__num { color: var(--electric); }
+
+.act__plus {                                /* circle → drop when open */
+  position: relative;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  transition: background-color .4s var(--ease), border-color .4s, border-radius .6s var(--ease);
+}
+.act__plus::before,
+.act__plus::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 1.5px;
+  margin: -.75px 0 0 -6px;
+  background: var(--ink);
+  transition: transform .5s var(--ease), background-color .4s;
+}
+.act__plus::after { transform: rotate(90deg); }
+.act.is-active .act__plus {
+  background: var(--electric);
+  border-color: var(--electric);
+  border-radius: 50% 0 50% 50%;
+}
+.act.is-active .act__plus::before,
+.act.is-active .act__plus::after { background: var(--white); }
+.act.is-active .act__plus::after { transform: rotate(0); }
+
+/* Descriptions: read aloud with their button; on wide screens the glass
+   panel shows them, on narrow screens they sit under each name. */
+.act__desc {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
+/* ── Tablet: stage above the index ─────────────────────────── */
 @media (max-width: 899px) {
-  .work__title,
-  .work__lede { grid-column: 1 / -1; }
-  .work-item {
-    grid-template-columns: auto minmax(0, 1fr);
-    grid-template-areas:
-      "num title"
-      ".   desc";
-    column-gap: 16px;
-    row-gap: 8px;
-    padding: 22px var(--gutter);
-    min-height: 0;
+  .work__head,
+  .work__stage,
+  .acts { grid-column: 1 / -1; grid-row: auto; }
+  .work__stage { position: relative; top: auto; width: min(78%, 420px); margin: 0 auto 24px; }
+  .stage__desc { display: none; }
+  .stage__glass { width: auto; min-width: 50%; }
+  .act__desc {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    max-width: 34rem;
+    padding: 0 0 22px 48px;
+    color: var(--text-2);
   }
-  .work-item__num { grid-area: num; }
-  .work-item__title { grid-area: title; font-size: clamp(1.5rem, .9rem + 3.6vw, 2.4rem); }
-  .work-item__desc { grid-area: desc; font-size: .95rem; }
+  .act__btn { padding-bottom: 10px; }
+  .act__name { color: var(--ink); }
+}
+
+/* ── Phones: typography first — every description open ────── */
+@media (max-width: 599px) {
+  .work__grid { row-gap: 40px; }
+  .work__stage { display: none; }
+  .act.is-active .act__name { transform: none; }
+  .act__plus { display: none; }
+  .act__btn { padding: 20px 0 10px; cursor: default; }
 }

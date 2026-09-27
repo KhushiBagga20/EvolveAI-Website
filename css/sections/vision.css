@@ -1,52 +1,152 @@
 /* ==========================================================================
-   VISION — one orange block. The statement is a call and response;
-   three short columns carry the detail.
+   VISION — type only, on the darkest violet. While the section is pinned,
+   one statement at a time: words arrive out of a blur and leave into one
+   (js/vision.js sets .is-active / .is-past and --vp, the progress).
+   Without motion the statements simply stack.
    ========================================================================== */
 
 .vision {
+  position: relative;
+  background: var(--ink);
+  color: var(--on-dark);
+}
+.vision ::selection { background: var(--white); color: var(--ink); }
+
+.vision__pin {
+  position: relative;
+  overflow: hidden;
+  padding: var(--section-y) 0;
+}
+.vision__world { position: absolute; inset: 0; pointer-events: none; }
+.vision__world .shape { position: absolute; filter: blur(60px); opacity: .7; }
+.vision__s1 {
+  --fill: var(--royal);
+  width: 46vw;
+  left: -12vw;
+  top: 10%;
+  transform: translate(calc(var(--vp, 0) * 30vw), calc(var(--vp, 0) * -10vh));
+}
+.vision__s2 {
+  --fill: var(--electric);
+  width: 30vw;
+  right: -8vw;
+  bottom: 0;
+  opacity: .55;
+  transform: translate(calc(var(--vp, 0) * -20vw), calc(var(--vp, 0) * -20vh)) rotate(calc(var(--vp, 0) * 180deg));
+}
+
+.vision__label {
+  position: relative;
+  display: flex;
+  width: fit-content;
+  margin: 0 auto;
+  max-width: calc(var(--container) + 2 * var(--gutter));
   padding: 0 var(--gutter);
-  background: var(--cream);
+  color: var(--lavender);
 }
-
-.vision__block {
-  padding: clamp(40px, 6vw, 96px) clamp(24px, 5vw, 80px);
-  border-radius: var(--r-lg);
-  background: var(--orange);
-  color: var(--dark);
-}
-
-.vision__statement {
-  margin-top: 22px;
-  font-size: clamp(2.1rem, .8rem + 4.4vw, 6rem);
-  font-weight: 900;
-  font-stretch: 106%;
-  line-height: .92;
-  letter-spacing: -.035em;
-  text-transform: uppercase;
-}
-.vs { display: block; }
-.vs--2 {
-  margin-top: .45em;
-  text-align: right;
-  color: var(--deep-purple);
-}
-
-.vision__cols {
+.vision__lines {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: var(--gutter);
-  row-gap: 28px;
-  margin-top: clamp(44px, 5vw, 80px);
-  padding-top: 16px;
-  border-top: 1.5px solid var(--dark);
+  gap: .5em;
+  max-width: calc(var(--container) + 2 * var(--gutter));
+  margin: 40px auto 0;
+  padding: 0 var(--gutter);
 }
-.vision__cols h3 { margin-bottom: 10px; }
-.vision__cols p {
-  max-width: 36ch;
-  line-height: 1.55;
+.vline {
+  max-width: 15ch;
+  font-size: var(--fs-display);
+  font-weight: 600;
+  line-height: .98;
+  letter-spacing: -.055em;
+  text-wrap: balance;
+}
+.vline em {
+  font-style: normal;
+  background: linear-gradient(95deg, var(--lavender), var(--periwinkle));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.vision__steps { display: none; }
+
+/* ── Pinned version ────────────────────────────────────────── */
+.motion .vision { height: 300vh; }
+.motion .vision__pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+.motion .vision__label {
+  position: absolute;
+  top: 120px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: auto;
+  max-width: calc(var(--container) + 2 * var(--gutter));
+}
+.motion .vision__lines {
+  display: block;
+  width: 100%;
+  height: 3.2em;
+  margin-top: 0;
+  font-size: var(--fs-display);
+}
+.motion .vline {
+  position: absolute;
+  top: 50%;
+  left: var(--gutter);
+  right: var(--gutter);
+  translate: 0 -50%;
+  font-size: 1em;
+}
+.motion .vline .w { display: inline-block; }
+.motion .vline .w > span {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(14px);
+  transform: translateY(.35em);
+  transition:
+    opacity .8s var(--ease),
+    filter .9s var(--ease),
+    transform 1s var(--ease);
+  transition-delay: calc(var(--wi, 0) * 45ms);
+}
+.motion .vline.is-active .w > span {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+  transition-delay: calc(var(--wi, 0) * 60ms + 150ms);
+}
+.motion .vline.is-past .w > span {
+  opacity: 0;
+  filter: blur(14px);
+  transform: translateY(-.3em);
+  transition-delay: calc(var(--wi, 0) * 25ms);
+}
+/* a gradient word keeps its gradient on each piece */
+.motion .vline em .w > span {
+  background: inherit;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
-@media (max-width: 899px) {
-  .vision__cols { grid-template-columns: 1fr; }
-  .vs--2 { text-align: left; }
+.motion .vision__steps {
+  position: absolute;
+  left: 50%;
+  bottom: 48px;
+  translate: -50% 0;
+  display: flex;
+  gap: 8px;
 }
+.vision__steps li {
+  width: 28px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line-dark);
+  transition: background-color .5s var(--ease), width .6s var(--ease);
+}
+.vision__steps li.is-on { width: 52px; background: var(--lavender); }
