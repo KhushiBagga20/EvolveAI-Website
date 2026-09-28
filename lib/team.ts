@@ -55,7 +55,7 @@ export const leads: Person[] = [
 ]
 
 export const executives: Person[] = [
-  { name: 'Arjun', role: 'Media Executive', photo: p('Arjun') },
+  { name: 'Arjun', role: 'Media Executive', photo: p('arjun_cutout') },
   { name: 'Dhawal Goyal', role: 'Media Executive', photo: p('Dhawal') },
   { name: 'Mukund Bansal', role: 'Media Executive', photo: p('mukund') },
   { name: 'Parv Sood', role: 'Media Executive', photo: p('parv') },
