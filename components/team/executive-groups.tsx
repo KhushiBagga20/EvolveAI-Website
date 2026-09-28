@@ -95,7 +95,7 @@ function ExecutiveCard({ person, index }: { person: Person; index?: number }) {
       </div>
 
       {/* Image Area */}
-      <div className="relative h-[230px] w-full overflow-hidden rounded-[22px]">
+      <div className="relative h-[230px] w-full overflow-hidden rounded-t-[22px]">
         {/* Abstract Blob */}
         <div
           className={`absolute inset-[12px] rounded-[45%_55%_48%_52%/48%_43%_57%_52%] bg-gradient-to-br ${config.blob} transition-transform duration-700 group-hover:scale-[1.06]`}
