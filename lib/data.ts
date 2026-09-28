@@ -6,7 +6,7 @@ export const socials = [
 
 export const navLinks = [
   { label: 'Home', href: '/' },
-  { label: 'Team', href: '/team' },
+  { label: 'Team', href: '/teams' },
   { label: 'Alumni', href: '/alumni' },
   { label: 'Events', href: '/events' },
   { label: 'Projects', href: '/projects' },

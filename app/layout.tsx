@@ -1,19 +1,25 @@
 import type { Metadata, Viewport } from 'next'
-import { JetBrains_Mono, Space_Grotesk } from 'next/font/google'
+import { Bricolage_Grotesque, Geist, Geist_Mono } from 'next/font/google'
 import { Nav } from '@/components/site/nav'
 import { Footer } from '@/components/site/footer'
 import { Backdrop } from '@/components/site/backdrop'
 import './globals.css'
 
-const spaceGrotesk = Space_Grotesk({
+const bricolage = Bricolage_Grotesque({
   subsets: ['latin'],
-  variable: '--font-space-grotesk',
+  variable: '--font-bricolage',
   display: 'swap',
 })
 
-const jetbrainsMono = JetBrains_Mono({
+const geist = Geist({
   subsets: ['latin'],
-  variable: '--font-jetbrains-mono',
+  variable: '--font-geist',
+  display: 'swap',
+})
+
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  variable: '--font-geist-mono',
   display: 'swap',
 })
 
@@ -40,7 +46,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${bricolage.variable} ${geist.variable} ${geistMono.variable}`}>
       <body className="relative min-h-dvh overflow-x-clip font-sans antialiased">
         <a
           href="#main"

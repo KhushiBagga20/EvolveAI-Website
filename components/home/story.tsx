@@ -12,7 +12,7 @@ const shapes = [
 
 export function Story() {
   return (
-    <section id="story" aria-labelledby="story-title" className="scroll-mt-24 px-5 py-24 md:px-8 md:py-32">
+    <section id="story" aria-labelledby="story-title" className="scroll-mt-24 px-5 pb-12 pt-16 md:px-8 md:pb-14 md:pt-20">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
@@ -32,7 +32,7 @@ export function Story() {
           </Reveal>
         </div>
 
-        <div className="relative mt-16">
+        <div className="relative mt-12">
         <div
           aria-hidden="true"
           className="bg-iridescent absolute left-6 top-0 h-full w-px opacity-40 md:left-0 md:top-[27px] md:h-px md:w-full"
