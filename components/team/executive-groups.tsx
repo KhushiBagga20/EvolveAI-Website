@@ -83,50 +83,27 @@ function ExecutiveCard({ person, index }: { person: Person; index?: number }) {
   const config = departmentConfig[department] || departmentConfig.Media
   const DepartmentIcon = config.icon
 
-  // Fallback quote since we don't have it in our data yet
+  // Fallback quote
   const quote = 'Turning moments into stories.'
 
   return (
-    <article className="group relative w-full max-w-[300px] min-h-[450px] overflow-hidden rounded-[28px] border border-white bg-white p-4 shadow-[0_8px_35px_rgba(50,25,90,0.08)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(70,35,120,0.16)]">
+    <article className="group relative w-full max-w-[280px] overflow-hidden rounded-[28px] border border-white bg-white p-3.5 shadow-[0_8px_30px_rgba(50,25,90,0.06)] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(70,35,120,0.12)]">
       {/* Active Status */}
-      <div className="absolute right-5 top-5 z-20 flex items-center gap-2">
-        <span className="h-2.5 w-2.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
-        <span className="text-xs font-medium text-slate-500">Active</span>
+      <div className="absolute right-6 top-6 z-20 flex items-center gap-1.5">
+        <span className="h-[7px] w-[7px] rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
+        <span className="text-[11px] font-medium text-slate-500">Active</span>
       </div>
 
       {/* Image Area */}
-      <div className="relative h-[230px] w-full overflow-hidden rounded-t-[22px]">
+      <div className="relative h-[240px] w-full overflow-hidden rounded-[22px]">
         {/* Abstract Blob */}
         <div
-          className={`absolute inset-[12px] rounded-[45%_55%_48%_52%/48%_43%_57%_52%] bg-gradient-to-br ${config.blob} transition-transform duration-700 group-hover:scale-[1.06]`}
+          className={`absolute inset-3 rounded-[45%_55%_48%_52%/48%_43%_57%_52%] bg-gradient-to-br ${config.blob} transition-transform duration-700 group-hover:scale-[1.05]`}
         />
 
-        {/* Decorative blob */}
-        <div className="absolute -bottom-8 -left-5 h-28 w-36 rounded-full bg-white/25 blur-[1px]" />
-
-        {/* Person */}
-        <div className="absolute bottom-0 left-1/2 z-10 h-[215px] w-full -translate-x-1/2 transition-transform duration-500 group-hover:scale-[1.04]">
-          <Image
-            src={person.photo}
-            alt={person.name}
-            fill
-            sizes="250px"
-            priority={index !== undefined && index < 4}
-            className="object-contain object-bottom"
-          />
-        </div>
-
-        {/* Department Badge */}
-        <div
-          className={`absolute bottom-3 left-3 z-20 flex items-center gap-2 rounded-full ${config.bg} px-3.5 py-2 shadow-sm backdrop-blur-md`}
-        >
-          <DepartmentIcon size={15} strokeWidth={2.2} className={config.color} />
-          <span className={`text-xs font-semibold ${config.color}`}>{department}</span>
-        </div>
-
-        {/* Decorative Arrow */}
-        <div className="absolute right-8 top-12 z-10 text-purple-500/50 transition-transform duration-500 group-hover:rotate-12">
-          <svg width="34" height="34" viewBox="0 0 40 40" fill="none">
+        {/* Decorative arrow - keeping it subtle and non-overlapping */}
+        <div className="absolute right-6 top-14 z-10 text-purple-500/30 transition-transform duration-500 group-hover:rotate-12">
+          <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
             <path
               d="M10 28C15 20 20 15 29 11"
               stroke="currentColor"
@@ -142,45 +119,65 @@ function ExecutiveCard({ person, index }: { person: Person; index?: number }) {
             />
           </svg>
         </div>
+
+        {/* Person */}
+        <div className="absolute bottom-0 left-1/2 z-10 h-[225px] w-full -translate-x-1/2 transition-transform duration-500 group-hover:scale-[1.03]">
+          <Image
+            src={person.photo}
+            alt={person.name}
+            fill
+            sizes="250px"
+            priority={index !== undefined && index < 4}
+            className="object-contain object-bottom"
+          />
+        </div>
+
+        {/* Department Badge */}
+        <div
+          className={`absolute bottom-2 left-3 z-20 flex items-center gap-1.5 rounded-full ${config.bg} px-3 py-1.5 shadow-sm backdrop-blur-md`}
+        >
+          <DepartmentIcon size={13} strokeWidth={2.2} className={config.color} />
+          <span className={`text-[11px] font-semibold tracking-tight ${config.color}`}>{department}</span>
+        </div>
       </div>
 
       {/* Content */}
-      <div className="px-2 pt-4">
-        <h3 className="text-[21px] font-bold tracking-[-0.03em] text-[#20104d]">{person.name}</h3>
-        <p className="mt-0.5 text-sm font-medium text-slate-500">{person.role}</p>
+      <div className="flex flex-col px-1.5 pt-3">
+        <h3 className="text-[19px] font-extrabold tracking-tight text-[#1c0a33]">{person.name}</h3>
+        <p className="mt-0.5 text-[13px] font-semibold text-slate-500">{person.role}</p>
 
         {/* Quote */}
-        <div className="mt-4 min-h-[52px]">
-          <p className="text-[13px] italic leading-5 text-slate-500">“ {quote} ”</p>
+        <div className="mt-2.5">
+          <p className="text-[12.5px] italic leading-tight text-slate-400">“{quote}”</p>
         </div>
 
         {/* Bottom */}
-        <div className="mt-5 flex items-center justify-between">
-          {/* Social Links (Placeholders for now since we don't have them in Person type) */}
-          <div className="flex items-center gap-2">
+        <div className="mt-4 flex items-center justify-between pb-1">
+          {/* Social Links */}
+          <div className="flex items-center gap-1.5">
             <a
               href="#"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-50 text-[#4b248b] transition-all hover:bg-[#4b248b] hover:text-white"
+              className="flex size-[34px] items-center justify-center rounded-full bg-slate-50 text-indigo-900/60 transition-all hover:bg-indigo-900 hover:text-white"
             >
-              <Linkedin size={15} />
+              <Linkedin size={14} />
             </a>
             <a
               href="#"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-50 text-[#4b248b] transition-all hover:bg-[#4b248b] hover:text-white"
+              className="flex size-[34px] items-center justify-center rounded-full bg-slate-50 text-indigo-900/60 transition-all hover:bg-indigo-900 hover:text-white"
             >
-              <Instagram size={15} />
+              <Instagram size={14} />
             </a>
             <a
               href="#"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-50 text-[#4b248b] transition-all hover:bg-[#4b248b] hover:text-white"
+              className="flex size-[34px] items-center justify-center rounded-full bg-slate-50 text-indigo-900/60 transition-all hover:bg-indigo-900 hover:text-white"
             >
-              <Mail size={15} />
+              <Mail size={14} />
             </a>
           </div>
 
           {/* View Button */}
-          <button className="flex h-11 w-11 items-center justify-center rounded-full bg-[#30105f] text-white shadow-lg shadow-purple-900/20 transition-all duration-300 hover:scale-110 hover:bg-[#4c1d95]">
-            <ArrowUpRight size={19} />
+          <button className="flex size-[42px] items-center justify-center rounded-full bg-[#27114d] text-white shadow-md shadow-[#27114d]/20 transition-all duration-300 hover:scale-105 hover:bg-[#3d1b7a]">
+            <ArrowUpRight size={18} />
           </button>
         </div>
       </div>
