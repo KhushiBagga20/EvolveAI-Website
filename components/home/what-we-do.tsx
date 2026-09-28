@@ -1,123 +1,47 @@
+'use client'
+
+import { useState } from 'react'
 import Image from 'next/image'
-import { CalendarDays, Code2, MessagesSquare, Mic, Rocket, Wrench, type LucideIcon } from 'lucide-react'
+import Link from 'next/link'
+import { ArrowRight, ArrowUpRight, Minus, Plus } from 'lucide-react'
 import { Reveal, SectionLabel } from '@/components/site/reveal'
 import { activities } from '@/lib/data'
 import { cn } from '@/lib/utils'
 
-const icons: Record<string, LucideIcon> = {
-  events: CalendarDays,
-  hackathons: Code2,
-  workshops: Wrench,
-  talks: Mic,
-  projects: Rocket,
-  learning: MessagesSquare,
-}
-
-const layout: Record<string, string> = {
-  hackathons: 'md:col-span-2 md:row-span-2',
-  events: '',
-  workshops: '',
-  talks: 'md:col-span-1',
-  projects: 'md:col-span-1',
-  learning: 'md:col-span-1',
-}
-
-const order = ['hackathons', 'workshops', 'talks', 'events', 'projects', 'learning']
+const formats = [
+  { id: 'hackathons', photo: '/gallery/hackindia-2025-group.webp', caption: 'HackIndia 2025 · Made of late nights & big ideas', alt: 'HackIndia participants together at Chitkara University' },
+  { id: 'workshops', photo: '/gallery/ai-in-education-workshop-2024.webp', caption: 'AI in Education · Learning by doing', alt: 'Participants at the AI in Education workshop' },
+  { id: 'talks', photo: '/gallery/expert-session.webp', caption: 'Expert sessions · Fresh perspectives, real conversations', alt: 'A guest speaker addressing students in a seminar room' },
+  { id: 'events', photo: '/gallery/ai-create-2.webp', caption: 'AI-Create 2.0 · A reason to get together', alt: 'Faculty and guests at AI-Create 2.0' },
+  { id: 'projects', photo: '/gallery/project-showcase-drone.webp', caption: 'Project showcase · From an idea to a working prototype', alt: 'Guests examining a student-built drone' },
+  { id: 'learning', photo: '/gallery/qa-round.webp', caption: 'Open discussions · Every question belongs here', alt: 'A student asking a question in the auditorium' },
+]
 
 export function WhatWeDo() {
-  const sorted = order.map((id) => activities.find((a) => a.id === id)!)
-
+  const [active, setActive] = useState('hackathons')
+  const selected = formats.find((format) => format.id === active)!
   return (
-    <section id="work" aria-labelledby="work-title" className="scroll-mt-24 px-5 py-24 md:px-8 md:py-32">
+    <section id="work" aria-labelledby="work-title" className="scroll-mt-24 bg-[#eeeaf8] px-5 py-24 md:px-8 md:py-32">
       <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div>
-            <Reveal>
-              <SectionLabel index="02">What we do</SectionLabel>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <h2 id="work-title" className="mt-6 text-5xl font-semibold tracking-tight text-ink md:text-7xl">
-                Six ways to <span className="text-iridescent">evolve.</span>
-              </h2>
-            </Reveal>
+        <Reveal className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+          <div><SectionLabel index="02">Less theory. More doing.</SectionLabel><h2 id="work-title" className="mt-7 text-5xl font-medium leading-none tracking-[-0.055em] md:text-7xl">Find your<br /><span className="text-violet">kind of spark.</span></h2></div>
+          <p className="max-w-72 text-sm leading-relaxed text-ink/65">Six ways to get involved. No two experiences the same. Bring your curiosity; we&apos;ll bring the people.</p>
+        </Reveal>
+        <div className="mt-14 grid gap-8 lg:grid-cols-[1.08fr_1fr] lg:gap-16">
+          <figure className="flex flex-col self-start bg-ink p-3 text-white lg:sticky lg:top-28">
+            <div className="relative aspect-[5/4] overflow-hidden"><Image key={selected.id} src={selected.photo} alt={selected.alt} fill sizes="(min-width: 1024px) 48vw, 95vw" className="object-cover" /></div>
+            <figcaption className="flex items-center justify-between gap-6 px-2 py-5"><span className="max-w-80 font-mono text-[10px] uppercase leading-relaxed tracking-wider text-white/80">{selected.caption}</span><ArrowUpRight aria-hidden="true" className="size-6 shrink-0 text-lilac" /></figcaption>
+          </figure>
+          <div className="border-t border-ink/20">
+            {formats.map((format, index) => {
+              const activity = activities.find((item) => item.id === format.id)!
+              const expanded = active === format.id
+              return <div key={format.id} className="border-b border-ink/20">
+                <h3><button type="button" onClick={() => setActive(format.id)} aria-expanded={expanded} aria-controls={`format-${format.id}`} className={cn('flex w-full items-center gap-5 py-5 text-left transition-colors hover:text-violet', expanded && 'text-violet')}><span className="font-mono text-[11px] text-ink/50">0{index + 1}</span><span className="flex-1 text-2xl font-medium tracking-tight md:text-3xl">{activity.title}</span>{expanded ? <Minus size={20} aria-hidden="true" /> : <Plus size={20} aria-hidden="true" />}</button></h3>
+                <div id={`format-${format.id}`} hidden={!expanded} className="pb-6 pl-9"><p className="max-w-sm text-sm leading-relaxed text-ink/65">{activity.description}</p><Link href={format.id === 'projects' ? '/projects' : '/events'} className="mt-5 inline-flex items-center gap-6 text-sm font-medium hover:text-violet">{format.id === 'projects' ? 'Explore our projects' : 'Explore our events'}<ArrowRight size={16} aria-hidden="true" /></Link></div>
+              </div>
+            })}
           </div>
-          <Reveal delay={0.2} className="max-w-sm">
-            <p className="text-pretty leading-relaxed text-ink/70">
-              {"We don't just organise events — we create opportunities. Pick your format, bring your curiosity."}
-            </p>
-          </Reveal>
-        </div>
-
-        <div className="mt-14 grid auto-rows-[minmax(220px,auto)] gap-4 md:grid-cols-3">
-          {sorted.map((a, i) => {
-            const Icon = icons[a.id]
-            const featured = a.id === 'hackathons'
-            return (
-              <Reveal key={a.id} delay={0.06 * i} className={cn(layout[a.id])}>
-                <article
-                  className={cn(
-                    'group relative flex h-full flex-col justify-between overflow-hidden rounded-[28px] p-6 transition-all duration-500 hover:-translate-y-1 md:p-7',
-                    featured ? 'bg-ink text-white' : 'glass text-ink',
-                  )}
-                >
-                  {featured && (
-                    <>
-                      <div aria-hidden="true" className="absolute -bottom-10 -right-4 size-80 rounded-full bg-sky/30 blur-3xl" />
-                      <Image
-                        src="/images/neural-orb.png"
-                        alt=""
-                        width={1024}
-                        height={1024}
-                        className="pointer-events-none absolute -bottom-28 -right-24 w-[85%] max-w-[520px] transition-transform duration-700 [mask-image:radial-gradient(closest-side,black_60%,transparent_64%)] group-hover:rotate-12 group-hover:scale-105"
-                      />
-                      <div aria-hidden="true" className="absolute -left-20 -top-20 size-72 rounded-full bg-violet/40 blur-3xl" />
-                    </>
-                  )}
-
-                  <div className="relative flex items-start justify-between gap-4">
-                    <span
-                      className={cn(
-                        'flex size-12 items-center justify-center rounded-2xl transition-transform duration-500 group-hover:rotate-12',
-                        featured ? 'bg-iridescent text-white' : 'bg-ink text-white',
-                      )}
-                    >
-                      <Icon className="size-5" aria-hidden="true" />
-                    </span>
-                    <span
-                      className={cn(
-                        'rotate-2 rounded-full px-3 py-1 font-mono text-[11px] uppercase tracking-widest',
-                        featured ? 'bg-white/10 text-white/80' : 'bg-white/80 text-ink/60',
-                      )}
-                    >
-                      {a.tag}
-                    </span>
-                  </div>
-
-                  <div className="relative mt-10">
-                    <p className={cn('font-mono text-xs', featured ? 'text-white/40' : 'text-ink/40')}>
-                      {String(i + 1).padStart(2, '0')} /
-                    </p>
-                    <h3
-                      className={cn(
-                        'mt-2 font-semibold tracking-tight',
-                        featured ? 'max-w-xs text-4xl md:text-6xl' : 'text-2xl',
-                      )}
-                    >
-                      {a.title}
-                    </h3>
-                    <p
-                      className={cn(
-                        'mt-3 text-pretty leading-relaxed',
-                        featured ? 'max-w-sm text-white/70' : 'text-sm text-ink/60',
-                      )}
-                    >
-                      {a.description}
-                    </p>
-                  </div>
-                </article>
-              </Reveal>
-            )
-          })}
         </div>
       </div>
     </section>

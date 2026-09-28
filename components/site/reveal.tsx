@@ -30,8 +30,8 @@ export function Reveal({
 
 export function SectionLabel({ index, children, className }: { index: string; children: React.ReactNode; className?: string }) {
   return (
-    <p className={cn('inline-flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-ink/60', className)}>
-      <span className="rounded-full bg-ink px-2 py-0.5 text-[10px] text-white">{index}</span>
+    <p className={cn('inline-flex items-center gap-4 font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-ink/65', className)}>
+      <span className="border-r border-current pr-4 text-violet">{index.padStart(2, '0')}</span>
       {children}
     </p>
   )

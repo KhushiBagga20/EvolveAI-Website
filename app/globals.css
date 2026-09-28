@@ -28,7 +28,7 @@
 }
 
 :root {
-  --background: #f4f2fd;
+  --background: #f8f7f2;
   --foreground: #1c0a33;
   --ink: #1c0a33;
   --muted: #ebe7fb;
@@ -37,7 +37,7 @@
   --primary: #8b3dff;
   --primary-foreground: #ffffff;
 
-  --violet: #8b3dff;
+  --violet: #6740d8;
   --sky: #4f8bff;
   --magenta: #e23fcf;
   --lilac: #dcd1ff;
@@ -79,6 +79,13 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
+
+  :focus-visible {
+    outline: 2px solid var(--violet);
+    outline-offset: 5px;
+  }
+
+  button:not(:disabled), summary { cursor: pointer; }
 
   ::selection {
     background: var(--violet);

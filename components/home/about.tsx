@@ -1,69 +1,34 @@
 import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
 import { Reveal, SectionLabel } from '@/components/site/reveal'
 import { stats } from '@/lib/data'
 
 export function About() {
   return (
-    <section id="about" aria-labelledby="about-title" className="scroll-mt-24 px-5 py-24 md:px-8 md:py-32">
+    <section id="about" aria-labelledby="about-title" className="scroll-mt-24 bg-[#f8f7f2] px-5 py-24 md:px-8 md:py-32">
       <div className="mx-auto max-w-6xl">
-        <Reveal>
-          <SectionLabel index="01">Who we are</SectionLabel>
+        <Reveal className="flex flex-col gap-8 border-t border-ink/20 pt-5 md:flex-row md:justify-between">
+          <SectionLabel index="01">The human side of AI</SectionLabel>
+          <p className="max-w-64 text-sm leading-relaxed text-ink/65">A little curiosity. A lot of collaboration. Something bigger than a classroom.</p>
         </Reveal>
-        <Reveal delay={0.1}>
-          <h2
-            id="about-title"
-            className="mt-6 max-w-5xl text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-ink md:text-6xl"
-          >
-            A student-driven community exploring{' '}
-            <span className="text-iridescent">artificial intelligence</span>, technology and creativity — by learning and
-            building <em className="font-medium not-italic underline decoration-violet decoration-wavy decoration-2 underline-offset-8">together.</em>
-          </h2>
-        </Reveal>
-
-        <div className="mt-16 grid gap-4 md:grid-cols-4">
-          {stats.map((s, i) => (
-            <Reveal key={s.value} delay={0.08 * i}>
-              <div className="glass group relative flex h-full flex-col justify-between gap-10 overflow-hidden rounded-[28px] p-6 transition-transform duration-500 hover:-translate-y-1">
-                <span className="font-mono text-[11px] uppercase tracking-widest text-ink/40">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <div>
-                  <p className="text-5xl font-bold tracking-tighter text-ink md:text-6xl">{s.value}</p>
-                  <p className="mt-3 text-pretty text-sm leading-relaxed text-ink/60">{s.label}</p>
-                </div>
-                <span
-                  aria-hidden="true"
-                  className="bg-iridescent absolute -right-10 -top-10 size-28 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-50"
-                />
-              </div>
-            </Reveal>
-          ))}
+        <div className="mt-12 grid items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+          <Reveal>
+            <h2 id="about-title" className="text-[clamp(3rem,6.5vw,6rem)] font-medium leading-[0.98] tracking-[-0.065em]">Serious about AI.<br /><span className="text-violet">Even more<br />about people.</span></h2>
+            <p className="mt-8 max-w-md text-base leading-relaxed text-ink/70">We&apos;re the students who stay after the workshop. Who turn a &ldquo;what if&rdquo; into a weekend project. At Chitkara University, we learn artificial intelligence by making things — together.</p>
+            <Link href="/team" className="mt-7 inline-flex items-center gap-8 border-b border-ink pb-2 text-sm font-medium transition-colors hover:text-violet">Get to know us <ArrowUpRight size={18} aria-hidden="true" /></Link>
+          </Reveal>
+          <Reveal className="relative pb-7 pr-4 md:pr-7">
+            <figure className="relative z-10 -rotate-2 bg-white p-3 shadow-[0_12px_35px_-20px_rgba(28,10,51,0.35)]">
+              <div className="relative aspect-[5/4] overflow-hidden"><Image src="/gallery/community-group-photo.webp" alt="The Evolve AI community gathered in the university auditorium" fill sizes="(min-width: 1024px) 45vw, 95vw" className="object-cover" /></div>
+              <figcaption className="flex items-center justify-between gap-3 px-1 pb-1 pt-4 font-mono text-[10px] uppercase tracking-wider text-ink/65"><span>Different minds. Shared energy.</span><span>Chitkara, Punjab</span></figcaption>
+            </figure>
+            <div aria-hidden="true" className="absolute inset-0 translate-x-2 translate-y-1 rotate-3 bg-lilac" />
+          </Reveal>
         </div>
-
-        <Reveal delay={0.1} className="mt-4">
-          <div className="relative grid overflow-hidden rounded-[32px] bg-ink text-white md:grid-cols-[1.1fr_1fr]">
-            <div className="relative z-10 flex flex-col justify-center gap-5 p-8 md:p-12">
-              <p className="font-mono text-xs uppercase tracking-[0.2em] text-white/50">Our motive</p>
-              <p className="text-pretty text-2xl font-medium leading-snug tracking-tight md:text-3xl">
-                Empower future AI leaders with exceptional opportunities to learn, grow and contribute in the dynamic
-                realm of AI.
-              </p>
-              <p className="text-sm leading-relaxed text-white/60">
-                Guided by Dr. Sushil Kumar Narang, and driven by Dr. Kamal Deep Garg and Dr. Vandana Sood.
-              </p>
-            </div>
-            <div className="relative min-h-72">
-              <Image
-                src="/gallery/community-group-photo.webp"
-                alt="A large group of Evolve AI members in an auditorium"
-                fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-cover"
-              />
-              <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-ink via-ink/30 to-transparent md:via-ink/10" />
-            </div>
-          </div>
-        </Reveal>
+        <dl className="mt-20 grid grid-cols-2 border-t border-ink/20 md:grid-cols-4">
+          {stats.map((stat) => <div key={stat.value} className="border-b border-ink/20 py-7 pr-6 md:border-b-0 md:not-first:border-l md:not-first:pl-8"><dd className="text-5xl font-medium tracking-[-0.06em] md:text-6xl">{stat.value}</dd><dt className="mt-3 max-w-48 text-sm leading-relaxed text-ink/60">{stat.label}</dt></div>)}
+        </dl>
       </div>
     </section>
   )
