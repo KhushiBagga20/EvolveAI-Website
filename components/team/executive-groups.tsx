@@ -4,84 +4,117 @@ import Image from 'next/image'
 import type { Person } from '@/lib/team'
 import { cn } from '@/lib/utils'
 
+const deptStyle: Record<string, { blob: string; badge: string; badgeText: string; icon: string; deco: React.ReactNode }> = {
+  Media: {
+    blob: 'bg-[#d5c8f7]',
+    badge: 'bg-violet/10',
+    badgeText: 'text-violet',
+    icon: '📸',
+    deco: (
+      <svg className="absolute left-[8%] top-[12%] size-10 text-white/40" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+        <path d="M10 8L18 16" /><path d="M18 8L10 16" />
+        <path d="M24 8L32 16" /><path d="M32 8L24 16" />
+      </svg>
+    ),
+  },
+  Content: {
+    blob: 'bg-[#bdd6fb]',
+    badge: 'bg-sky/10',
+    badgeText: 'text-sky',
+    icon: '✏️',
+    deco: (
+      <svg className="absolute left-[10%] top-[10%] size-10 text-white/40" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+        <path d="M8 12L16 8" /><path d="M8 18L20 12" /><path d="M8 24L16 20" />
+      </svg>
+    ),
+  },
+  Operations: {
+    blob: 'bg-[#fad7a8]',
+    badge: 'bg-amber-500/10',
+    badgeText: 'text-amber-600',
+    icon: '⚙️',
+    deco: (
+      <svg className="absolute right-[15%] top-[10%] size-8 text-amber-400/50" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+        <path d="M16 4L20 12L28 14L22 20L23 28L16 24L9 28L10 20L4 14L12 12Z" />
+      </svg>
+    ),
+  },
+}
+
 export function ExecutiveGroups({ executives }: { executives: Person[] }) {
-  const groups = executives.reduce<Record<string, Person[]>>((acc, person) => {
-    const key = person.role ?? 'Executive'
-    ;(acc[key] ??= []).push(person)
-    return acc
-  }, {})
-
   return (
-    <div className="relative overflow-hidden rounded-[28px] bg-ink px-5 py-10 md:rounded-[40px] md:px-10 md:py-14">
-      {/* Background decoration */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 grid-lines opacity-[0.04]" />
-      <div aria-hidden="true" className="pointer-events-none absolute -right-28 top-1/2 size-96 -translate-y-1/2 rounded-full bg-violet/12 blur-[120px]" />
-      <div aria-hidden="true" className="pointer-events-none absolute -left-20 bottom-0 size-72 rounded-full bg-magenta/10 blur-[100px]" />
-
-      {/* Decorative floating rings */}
-      <div aria-hidden="true" className="pointer-events-none absolute right-12 top-12 size-20 rounded-full border border-white/[0.06]" />
-      <div aria-hidden="true" className="pointer-events-none absolute right-8 top-8 size-28 rounded-full border border-white/[0.04]" />
-      <div aria-hidden="true" className="pointer-events-none absolute bottom-16 left-16 size-16 rounded-full border border-white/[0.05]" />
-
-      <div className="relative space-y-10 md:space-y-12">
-        {Object.entries(groups).map(([role, people], groupIdx) => {
-          const dept = role.replace(' Executive', '')
-          return (
-            <div key={role}>
-              {/* Department label row */}
-              <div className="mb-6 flex items-center gap-4">
-                <span className="flex size-7 items-center justify-center rounded-full bg-white/10 font-mono text-[10px] text-white/50">
-                  {String(groupIdx + 1).padStart(2, '0')}
-                </span>
-                <h3 className="text-lg font-semibold tracking-tight text-white">{dept}</h3>
-                <div className="h-px flex-1 bg-white/[0.08]" />
-                <span className="font-mono text-[10px] uppercase tracking-widest text-white/30">
-                  {people.length} {people.length === 1 ? 'exec' : 'execs'}
-                </span>
-              </div>
-
-              {/* People — circular portraits, all equal */}
-              <div className="flex flex-wrap justify-start gap-x-8 gap-y-6 md:gap-x-10">
-                {people.map((person) => (
-                  <PersonCircle key={person.name} person={person} dept={dept} />
-                ))}
-              </div>
-
-              {/* Divider between departments */}
-              {groupIdx < Object.keys(groups).length - 1 && (
-                <div className="mt-10 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent md:mt-12" />
-              )}
-            </div>
-          )
-        })}
-      </div>
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-6">
+      {executives.map((person) => {
+        const dept = (person.role ?? 'Media Executive').replace(' Executive', '')
+        const style = deptStyle[dept] ?? deptStyle.Media
+        return <ExecCard key={person.name} person={person} dept={dept} style={style} />
+      })}
     </div>
   )
 }
 
-function PersonCircle({ person, dept }: { person: Person; dept: string }) {
+function ExecCard({
+  person,
+  dept,
+  style,
+}: {
+  person: Person
+  dept: string
+  style: typeof deptStyle.Media
+}) {
   return (
-    <div className="group flex w-20 flex-col items-center gap-3 md:w-24">
-      {/* Photo circle */}
-      <div className="relative">
-        <div className="relative size-20 overflow-hidden rounded-full bg-white/10 ring-2 ring-white/10 transition-all duration-500 group-hover:ring-violet/50 group-hover:ring-4 md:size-24">
-          <Image
-            src={person.photo}
-            alt={`Portrait of ${person.name}`}
-            fill
-            sizes="96px"
-            className="object-cover object-top transition-transform duration-500 group-hover:scale-110"
-          />
-        </div>
-        {/* Online-style dot */}
-        <span className="absolute bottom-0.5 right-0.5 size-3 rounded-full border-2 border-ink bg-violet md:size-3.5" />
+    <article className="group flex flex-col overflow-hidden rounded-[24px] bg-white p-3.5 shadow-[0_4px_24px_-8px_rgba(28,10,51,0.08)] ring-1 ring-ink/[0.04] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_16px_40px_-10px_rgba(28,10,51,0.15)] md:rounded-[28px] md:p-4">
+      {/* ── Photo area ── */}
+      <div className="relative aspect-[4/4.2] overflow-hidden rounded-[20px]">
+        {/* Photo */}
+        <Image
+          src={person.photo}
+          alt={person.name}
+          fill
+          sizes="(min-width: 1024px) 240px, (min-width: 640px) 30vw, 45vw"
+          className="relative z-10 object-cover object-bottom"
+        />
+
+        {/* Active badge */}
+        <span className="absolute right-3 top-3 z-20 flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[10.5px] font-medium text-ink/70 shadow-sm ring-1 ring-ink/[0.04]">
+          <span className="size-[6px] rounded-full bg-[#10b981]" />
+          Active
+        </span>
+
+        {/* Department badge */}
+        <span
+          className="absolute bottom-3 left-3 z-20 flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#2c1b54]/80 to-[#4a2b8e]/80 px-3 py-1.5 text-[11.5px] font-semibold text-white shadow-md backdrop-blur-md ring-1 ring-white/10"
+        >
+          <span className="text-[11px] opacity-90">{style.icon}</span>
+          {dept}
+        </span>
       </div>
 
-      {/* Name */}
-      <div className="text-center">
-        <p className="text-xs font-medium leading-tight text-white md:text-sm">{person.name}</p>
-        <p className="mt-0.5 text-[10px] text-white/35">{dept}</p>
+      {/* ── Info ── */}
+      <div className="mt-4 flex-1 px-1">
+        <h4 className="truncate text-[17px] font-bold tracking-tight text-ink md:text-[19px]">{person.name}</h4>
+        <p className={cn('mt-0.5 text-[13px] font-medium', style.badgeText)}>{dept} Executive</p>
       </div>
-    </div>
+
+      {/* ── Bottom row ── */}
+      <div className="mt-4 flex items-center justify-between px-1 pb-1">
+        {/* Social icons */}
+        <div className="flex items-center gap-2.5">
+          <span className="flex size-[34px] items-center justify-center rounded-full bg-[#f4f4f5] text-ink/40 transition-colors hover:bg-violet/10 hover:text-violet">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          </span>
+          <span className="flex size-[34px] items-center justify-center rounded-full bg-[#f4f4f5] text-ink/40 transition-colors hover:bg-violet/10 hover:text-violet">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </span>
+        </div>
+
+        {/* Arrow button */}
+        <span className="flex size-10 items-center justify-center rounded-full bg-[#1c0a33] text-white shadow-md transition-all group-hover:bg-violet group-hover:shadow-violet/25">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+          </svg>
+        </span>
+      </div>
+    </article>
   )
 }
