@@ -66,7 +66,7 @@ export default function TeamPage() {
         </section>
 
         <section id="leads" aria-labelledby="leads-title" className="scroll-mt-24 pt-16 md:pt-24">
-          <SectionHead id="leads-title" index="02" label="Leading the way" title="The core" accent="ten." note="Hover a name to meet them. The people setting direction — and bringing everyone along." />
+          <SectionHead id="leads-title" index="02" label="Leading the way" title="The core" accent="ten." note="The people setting direction — and bringing everyone along." />
           <LeadRoster leads={leads} />
         </section>
 
@@ -76,7 +76,7 @@ export default function TeamPage() {
         </section>
 
         <section id="squads" aria-labelledby="squads-title" className="scroll-mt-24 pt-16 md:pt-24">
-          <SectionHead id="squads-title" index="04" label="Six squads" title="Pick a squad." accent="Meet the crew." note="Every member carries a pass. Switch squads to see who builds, researches, shoots, writes, designs and runs the show." />
+          <SectionHead id="squads-title" index="04" label="Six squads" title="Pick a squad." accent="Meet the crew." note="The people who build, research, shoot, write, design and run the show." />
           <SquadSwitcher squads={squads} />
         </section>
 

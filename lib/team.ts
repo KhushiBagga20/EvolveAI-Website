@@ -70,34 +70,6 @@ export type Squad = 'Technical' | 'Research' | 'Media' | 'Content' | 'Graphics' 
 
 export const squads: { name: Squad; blurb: string; members: Person[] }[] = [
   {
-    name: 'Technical',
-    blurb: 'Builds the club’s software, from this website to hackathon infra.',
-    members: [
-      { name: 'Adab Singh Malhi', photo: p('AdabSinghMalhi') },
-      { name: 'Jaskaran Singh', photo: p('JaskaranSingh') },
-      { name: 'Prateek Kumar', photo: p('PrateekKumar') },
-      { name: 'Sartaj Kaur Sandhu', photo: p('sartaj_new') },
-    ],
-  },
-  {
-    name: 'Research',
-    blurb: 'Reads the papers, runs the experiments, writes up what works.',
-    members: [
-      { name: 'Aditya Chandiok', photo: p('AdityaChandhiok') },
-      { name: 'Anayat Virk', photo: p('AnayatVirk') },
-      { name: 'Ansh', photo: p('Ansh') },
-      { name: 'Bhavishya Grover', photo: p('BhavishyaGrover') },
-      { name: 'Bhavya Sharma', photo: p('BhavyaSharma') },
-      { name: 'Deepanshu Arora', photo: p('DeepanshuArora') },
-      { name: 'Dhruv Gaur', photo: p('DhruvGaur') },
-      { name: 'Govind Jindal', photo: p('GovindJindal') },
-      { name: 'Harsidak Singh Banwait', photo: p('HarsidakSinghBanwait') },
-      { name: 'Jaisgurnoor Singh', photo: p('JaisgurnoorSingh1') },
-      { name: 'Karunika Chaudhary', photo: p('KarunikaChaudhary') },
-      { name: 'Manan Kochhar', photo: p('MananKochhar') },
-    ],
-  },
-  {
     name: 'Media',
     blurb: 'Cameras, reels and every photo you see on this site.',
     members: [
@@ -136,7 +108,36 @@ export const squads: { name: Squad; blurb: string; members: Person[] }[] = [
       { name: 'Samya Ahuja', photo: p('SamyaAhuja') },
     ],
   },
+  {
+    name: 'Technical',
+    blurb: 'Builds the club\u2019s software, from this website to hackathon infra.',
+    members: [
+      { name: 'Adab Singh Malhi', photo: p('AdabSinghMalhi') },
+      { name: 'Jaskaran Singh', photo: p('JaskaranSingh') },
+      { name: 'Prateek Kumar', photo: p('PrateekKumar') },
+      { name: 'Sartaj Kaur Sandhu', photo: p('sartaj_new') },
+    ],
+  },
+  {
+    name: 'Research',
+    blurb: 'Reads the papers, runs the experiments, writes up what works.',
+    members: [
+      { name: 'Aditya Chandiok', photo: p('AdityaChandhiok') },
+      { name: 'Anayat Virk', photo: p('AnayatVirk') },
+      { name: 'Ansh', photo: p('Ansh') },
+      { name: 'Bhavishya Grover', photo: p('BhavishyaGrover') },
+      { name: 'Bhavya Sharma', photo: p('BhavyaSharma') },
+      { name: 'Deepanshu Arora', photo: p('DeepanshuArora') },
+      { name: 'Dhruv Gaur', photo: p('DhruvGaur') },
+      { name: 'Govind Jindal', photo: p('GovindJindal') },
+      { name: 'Harsidak Singh Banwait', photo: p('HarsidakSinghBanwait') },
+      { name: 'Jaisgurnoor Singh', photo: p('JaisgurnoorSingh1') },
+      { name: 'Karunika Chaudhary', photo: p('KarunikaChaudhary') },
+      { name: 'Manan Kochhar', photo: p('MananKochhar') },
+    ],
+  },
 ]
+
 
 export const alumni: { year: string; members: Person[] }[] = [
   {
