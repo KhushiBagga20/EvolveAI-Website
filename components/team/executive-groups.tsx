@@ -11,6 +11,8 @@ import {
   Settings,
   Code2,
   FlaskConical,
+  Sparkles,
+  ArrowRight
 } from 'lucide-react'
 
 const Linkedin = ({ size = 15 }: { size?: number }) => (
@@ -88,15 +90,10 @@ function ExecutiveCard({ person, index }: { person: Person; index?: number }) {
   const DepartmentIcon = config.icon
 
   // Fallback quote
-  const quote = 'Turning moments into stories.'
+  const quote = `${person.name}'s POV`
 
   return (
     <article className="group relative w-full max-w-[280px] overflow-hidden rounded-[28px] border border-white bg-white p-3.5 shadow-[0_8px_30px_rgba(50,25,90,0.06)] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(70,35,120,0.12)]">
-      {/* Active Status */}
-      <div className="absolute right-6 top-6 z-20 flex items-center gap-1.5">
-        <span className="h-[7px] w-[7px] rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
-        <span className="text-[11px] font-medium text-slate-500">Active</span>
-      </div>
 
       {/* Image Area */}
       <div className="relative h-[240px] w-full overflow-hidden rounded-t-[22px]">
@@ -132,33 +129,22 @@ function ExecutiveCard({ person, index }: { person: Person; index?: number }) {
         </div>
 
         {/* Bottom */}
-        <div className="mt-4 flex items-center justify-between pb-1">
+        <div className="mt-4 flex items-center justify-center pb-1">
           {/* Social Links */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-3">
             <a
               href="#"
-              className="flex size-[34px] items-center justify-center rounded-full bg-slate-50 text-indigo-900/60 transition-all hover:bg-indigo-900 hover:text-white"
+              className="flex size-[38px] items-center justify-center rounded-full bg-slate-50 text-indigo-900/60 transition-all hover:bg-indigo-900 hover:text-white"
             >
-              <Linkedin size={14} />
+              <Linkedin size={16} />
             </a>
             <a
               href="#"
-              className="flex size-[34px] items-center justify-center rounded-full bg-slate-50 text-indigo-900/60 transition-all hover:bg-indigo-900 hover:text-white"
+              className="flex size-[38px] items-center justify-center rounded-full bg-slate-50 text-indigo-900/60 transition-all hover:bg-indigo-900 hover:text-white"
             >
-              <Instagram size={14} />
-            </a>
-            <a
-              href="#"
-              className="flex size-[34px] items-center justify-center rounded-full bg-slate-50 text-indigo-900/60 transition-all hover:bg-indigo-900 hover:text-white"
-            >
-              <Mail size={14} />
+              <Mail size={16} />
             </a>
           </div>
-
-          {/* View Button */}
-          <button className="flex size-[42px] items-center justify-center rounded-full bg-[#27114d] text-white shadow-md shadow-[#27114d]/20 transition-all duration-300 hover:scale-105 hover:bg-[#3d1b7a]">
-            <ArrowUpRight size={18} />
-          </button>
         </div>
       </div>
     </article>
