@@ -76,6 +76,7 @@
   html {
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
   }
 
   body {
@@ -160,3 +161,90 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ============================================================
+   MOBILE RESPONSIVENESS FIXES
+   These target the root causes of horizontal overflow/clipping.
+   We do NOT use overflow-x:hidden as a blanket workaround.
+   ============================================================ */
+
+/* Prevent any image or replaced content from exceeding its container */
+@layer base {
+  img, video, iframe, svg {
+    max-width: 100%;
+  }
+}
+
+/* Fix: story section decorative shape overlapping heading text on mobile.
+   The shape is absolute-positioned at left-0 top-0 with size-12 (48px).
+   The li has pl-16 (64px) which should clear the shape, but on very small
+   screens the shape can still overlap. We re-anchor via a flex column on xs. */
+@media (max-width: 479px) {
+  /* Story timeline: switch to column stacking so shape sits above the text */
+  .story-item-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .story-item-shape {
+    position: static !important;
+    display: block;
+    width: 2.75rem !important;
+    height: 2.75rem !important;
+    flex-shrink: 0;
+  }
+  .story-item-content {
+    margin-top: 0 !important;
+  }
+}
+
+/* Fix: marquee wrapper -rotate-1 scale-[1.02] causes horizontal overflow.
+   On mobile we neutralise the transform so the marquee stays within viewport. */
+@media (max-width: 767px) {
+  .marquee-tilt {
+    transform: none !important;
+  }
+}
+
+/* Fix: page-hero grid background uses -inset-x-20 which leaks outside viewport */
+@media (max-width: 767px) {
+  .page-hero-grid {
+    inset-inline: -1.25rem !important;
+  }
+}
+
+/* Fix: footer large decorative EVOLVE text — already uses 22vw which is
+   fine, but ensure it doesn't create extra right margin */
+@media (max-width: 767px) {
+  .footer-wordmark {
+    overflow: hidden;
+    max-width: 100%;
+  }
+}
+
+/* Fix: events-hero and team-hero headers lack mobile horizontal padding */
+@media (max-width: 767px) {
+  .page-section-header {
+    padding-inline: 1.25rem;
+  }
+}
+
+/* Fix: heading font sizes on very small screens */
+@media (max-width: 374px) {
+  .text-5xl { font-size: clamp(2rem, 12vw, 3rem) !important; }
+  .text-6xl { font-size: clamp(2.25rem, 13vw, 3.75rem) !important; }
+  .text-7xl { font-size: clamp(2.5rem, 14vw, 4.5rem) !important; }
+  .text-8xl { font-size: clamp(3rem, 16vw, 6rem) !important; }
+}
+
+/* Fix: about section decorative offset box can escape viewport on small screens */
+@media (max-width: 639px) {
+  .about-photo-frame {
+    padding-right: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  .about-photo-frame .translate-x-2 {
+    display: none;
+  }
+}
+

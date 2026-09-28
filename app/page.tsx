@@ -14,7 +14,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <div className="-rotate-1 scale-[1.02]">
+      <div className="md:-rotate-1 md:scale-[1.02]">
         <Marquee items={domains} />
       </div>
       <About />

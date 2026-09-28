@@ -16,7 +16,7 @@ export function Explore() {
         <Reveal className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div>
             <SectionLabel index="04">Inside the club</SectionLabel>
-            <h2 id="explore-title" className="mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1] tracking-[-0.04em] text-ink md:text-6xl">
+            <h2 id="explore-title" className="mt-5 max-w-3xl text-balance text-[clamp(2rem,9vw,2.5rem)] font-semibold leading-[1] tracking-[-0.04em] text-ink md:text-6xl">
               People, projects and <span className="text-iridescent">proof of work.</span>
             </h2>
           </div>

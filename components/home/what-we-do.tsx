@@ -26,7 +26,7 @@ export function WhatWeDo() {
         <Reveal className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
             <SectionLabel index="02">Less theory. More doing.</SectionLabel>
-            <h2 id="work-title" className="mt-5 text-5xl font-semibold leading-[0.95] tracking-[-0.045em] md:text-7xl">
+            <h2 id="work-title" className="mt-5 text-[clamp(2.5rem,10vw,3rem)] font-semibold leading-[0.95] tracking-[-0.045em] md:text-7xl">
               Find your <span className="text-violet">kind of spark.</span>
             </h2>
           </div>

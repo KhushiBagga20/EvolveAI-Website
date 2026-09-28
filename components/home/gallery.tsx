@@ -26,7 +26,7 @@ export function Gallery() {
               <SectionLabel index="05">Memories</SectionLabel>
             </Reveal>
             <Reveal delay={0.1}>
-              <h2 id="gallery-title" className="mt-6 max-w-3xl text-balance text-5xl font-semibold tracking-tight text-ink md:text-7xl">
+              <h2 id="gallery-title" className="mt-6 max-w-3xl text-balance text-[clamp(2.5rem,10vw,3rem)] font-semibold tracking-tight text-ink md:text-7xl">
                 {"Things we've "}
                 <span className="text-iridescent">built</span>, run and celebrated.
               </h2>

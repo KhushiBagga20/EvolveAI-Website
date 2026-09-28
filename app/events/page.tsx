@@ -18,7 +18,7 @@ function Heading({ index, label, title, accent, note, id }: { index: string; lab
     <Reveal className="mb-8 flex flex-col justify-between gap-4 md:mb-10 md:flex-row md:items-end">
       <div>
         <SectionLabel index={index}>{label}</SectionLabel>
-        <h2 id={id} className="mt-4 text-4xl font-semibold leading-[0.95] tracking-[-0.045em] md:text-6xl">
+        <h2 id={id} className="mt-4 text-[clamp(2rem,8vw,2.5rem)] font-semibold leading-[0.95] tracking-[-0.045em] md:text-6xl">
           {title} <span className="text-violet">{accent}</span>
         </h2>
       </div>
