@@ -100,39 +100,15 @@ function ExecutiveCard({ person, index }: { person: Person; index?: number }) {
 
       {/* Image Area */}
       <div className="relative h-[240px] w-full overflow-hidden rounded-t-[22px]">
-        {/* Abstract Blob */}
-        <div
-          className={`absolute inset-3 rounded-[45%_55%_48%_52%/48%_43%_57%_52%] bg-gradient-to-br ${config.blob} transition-transform duration-700 group-hover:scale-[1.05]`}
-        />
-
-        {/* Decorative arrow - keeping it subtle and non-overlapping */}
-        <div className="absolute right-6 top-14 z-10 text-purple-500/30 transition-transform duration-500 group-hover:rotate-12">
-          <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
-            <path
-              d="M10 28C15 20 20 15 29 11"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-            <path
-              d="M21 10L30 10L29 19"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
-
         {/* Person */}
-        <div className="absolute bottom-0 left-1/2 z-10 flex w-[78%] max-w-[215px] -translate-x-1/2 justify-center transition-transform duration-500 group-hover:scale-[1.03]">
+        <div className="absolute inset-0 z-10 flex justify-center transition-transform duration-500 group-hover:scale-[1.03]">
           <Image
             src={person.photo}
             alt={person.name}
-            width={309}
-            height={461}
+            width={400}
+            height={400}
             priority={index !== undefined && index < 4}
-            className="h-auto w-full object-contain object-bottom"
+            className="h-full w-full object-contain object-bottom"
           />
         </div>
 
