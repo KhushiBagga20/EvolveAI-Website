@@ -4,3 +4,8 @@ Thumbs.db
 node_modules/
 .vscode/
 .idea/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+.env*.local
