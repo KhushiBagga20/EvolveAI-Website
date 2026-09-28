@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
@@ -21,17 +22,35 @@ export function BrandMark({ className }: { className?: string }) {
   )
 }
 
-export function Brand({ className }: { className?: string }) {
+export function EvolveLogo({ tone = 'dark', className }: { tone?: 'dark' | 'light'; className?: string }) {
   return (
-    <Link
-      href="/"
-      aria-label="Evolve AI home"
-      className={cn('group inline-flex items-center gap-2.5 font-bold tracking-tight text-ink', className)}
-    >
-      <BrandMark className="transition-transform duration-500 group-hover:rotate-90" />
-      <span className="text-lg">
-        Evolve<span className="text-iridescent">AI</span>
-      </span>
+    <Image
+      src={tone === 'dark' ? '/logos/evolveai-dark.png' : '/logos/evolveai-light.png'}
+      alt="Evolve AI"
+      width={3334}
+      height={925}
+      priority
+      className={cn('h-7 w-auto', className)}
+    />
+  )
+}
+
+export function ChitkaraLogo({ tone = 'dark', className }: { tone?: 'dark' | 'light'; className?: string }) {
+  return (
+    <Image
+      src={tone === 'dark' ? '/logos/chitkara-dark.png' : '/logos/chitkara-light.png'}
+      alt="Chitkara University"
+      width={4363}
+      height={1308}
+      className={cn('h-8 w-auto', className)}
+    />
+  )
+}
+
+export function Brand({ className, tone = 'dark' }: { className?: string; tone?: 'dark' | 'light' }) {
+  return (
+    <Link href="/" aria-label="Evolve AI home" className={cn('inline-flex shrink-0 items-center', className)}>
+      <EvolveLogo tone={tone} />
     </Link>
   )
 }
