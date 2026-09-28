@@ -8,7 +8,7 @@ export function EventsHero({ live, counts }: { live?: ClubEvent; counts: { label
   const instagram = socials.find((s) => s.label === 'Instagram')!
 
   return (
-    <header className="mx-auto max-w-6xl pb-12 pt-28 md:pb-16 md:pt-36">
+    <header className="mx-auto max-w-6xl px-5 pb-12 pt-28 md:px-8 md:pb-16 md:pt-36">
       <div className="flex items-center justify-between gap-4 border-t border-ink/20 pt-5">
         <SectionLabel index="EV">Events &amp; programme</SectionLabel>
         <a href="#programme" className="flex items-center gap-2 text-xs text-ink/65 transition-colors hover:text-violet">
@@ -18,7 +18,7 @@ export function EventsHero({ live, counts }: { live?: ClubEvent; counts: { label
 
       <div className="mt-10 grid items-end gap-10 lg:grid-cols-[1.25fr_1fr] lg:gap-12">
         <div>
-          <h1 className="text-[clamp(3.4rem,8vw,7.5rem)] font-semibold leading-[0.88] tracking-[-0.055em]">
+          <h1 className="text-[clamp(3rem,8vw,7.5rem)] font-semibold leading-[0.88] tracking-[-0.055em]">
             Built on
             <br />
             <span className="text-iridescent">stage.</span>

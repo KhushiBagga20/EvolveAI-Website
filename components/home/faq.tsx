@@ -18,7 +18,7 @@ export function Faq() {
             <SectionLabel index="07">FAQ</SectionLabel>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 id="faq-title" className="mt-6 text-5xl font-semibold tracking-tight text-ink md:text-7xl">
+            <h2 id="faq-title" className="mt-6 text-[clamp(2.5rem,10vw,3rem)] font-semibold tracking-tight text-ink md:text-7xl">
               Questions, <span className="text-iridescent">answered.</span>
             </h2>
           </Reveal>

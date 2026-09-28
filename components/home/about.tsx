@@ -26,7 +26,7 @@ export function About() {
               <p className="font-mono text-[11px] uppercase tracking-wider text-ink/50">Curiosity · Collaboration · Craft</p>
             </div>
           </Reveal>
-          <Reveal className="relative pb-6 pr-4 md:pr-6">
+          <Reveal className="relative sm:pb-6 sm:pr-4 md:pr-6">
             <figure className="relative z-10 -rotate-2 bg-white p-3 shadow-[0_12px_35px_-20px_rgba(28,10,51,0.35)]">
               <div className="relative aspect-[5/4] overflow-hidden">
                 <Image src="/gallery/community-group-photo.webp" alt="The Evolve AI community gathered in the university auditorium" fill sizes="(min-width: 1024px) 45vw, 95vw" className="object-cover" />
@@ -36,7 +36,7 @@ export function About() {
                 <span>Chitkara, Punjab</span>
               </figcaption>
             </figure>
-            <div aria-hidden="true" className="absolute inset-0 translate-x-2 translate-y-1 rotate-3 bg-lilac" />
+            <div aria-hidden="true" className="absolute inset-0 hidden translate-x-2 translate-y-1 rotate-3 bg-lilac sm:block" />
           </Reveal>
         </div>
         <dl className="mt-14 grid grid-cols-2 border-t border-ink/20 md:grid-cols-4">

@@ -32,7 +32,7 @@ export function Contact() {
             <SectionLabel index="08">Get in touch</SectionLabel>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 id="contact-title" className="text-balance text-5xl font-semibold leading-[1.02] tracking-tight text-ink md:text-7xl">
+            <h2 id="contact-title" className="text-balance text-[clamp(2.5rem,10vw,3rem)] font-semibold leading-[1.02] tracking-tight text-ink md:text-7xl">
               Got an idea? {"Let's make it "}
               <span className="text-iridescent">real.</span>
             </h2>

@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 
 export function TeamHero({ faces, count, stats }: { faces: Person[]; count: number; stats: { value: string; label: string; href: string }[] }) {
   return (
-    <header className="mx-auto max-w-6xl pb-12 pt-28 md:pb-16 md:pt-36">
+    <header className="mx-auto max-w-6xl px-5 pb-12 pt-28 md:px-8 md:pb-16 md:pt-36">
       <div className="flex items-center justify-between gap-4 border-t border-ink/20 pt-5">
         <SectionLabel index="TM">Pillars of Evolve AI / 2025–26</SectionLabel>
         <Link href="/alumni" className="flex items-center gap-2 text-xs text-ink/65 transition-colors hover:text-violet">
@@ -18,7 +18,7 @@ export function TeamHero({ faces, count, stats }: { faces: Person[]; count: numb
 
       <div className="mt-10 grid items-end gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
         <div>
-          <h1 className="text-[clamp(3.2rem,7vw,6.4rem)] font-semibold leading-[0.9] tracking-[-0.05em]">
+          <h1 className="text-[clamp(2.5rem,7vw,6.4rem)] font-semibold leading-[0.9] tracking-[-0.05em]">
             The minds
             <br />
             behind <span className="text-violet">the machine.</span>

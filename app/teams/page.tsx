@@ -20,7 +20,7 @@ function SectionHead({ index, label, title, accent, note, id }: { index: string;
     <Reveal className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
       <div>
         <SectionLabel index={index}>{label}</SectionLabel>
-        <h2 id={id} className="mt-4 text-4xl font-semibold leading-[0.95] tracking-[-0.045em] md:text-6xl">
+        <h2 id={id} className="mt-4 text-[clamp(2rem,8vw,2.5rem)] font-semibold leading-[0.95] tracking-[-0.045em] md:text-6xl">
           {title} <span className="text-violet">{accent}</span>
         </h2>
       </div>
@@ -52,7 +52,7 @@ export default function TeamPage() {
           <Reveal className="relative mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
               <SectionLabel index="01" className="text-white/60">In good hands</SectionLabel>
-              <h2 id="mentors-title" className="mt-4 text-4xl font-semibold leading-[0.95] tracking-[-0.045em] md:text-6xl">
+              <h2 id="mentors-title" className="mt-4 text-[clamp(2rem,8vw,2.5rem)] font-semibold leading-[0.95] tracking-[-0.045em] md:text-6xl">
                 A little guidance. <span className="text-lilac">A world of possibility.</span>
               </h2>
             </div>

@@ -13,7 +13,7 @@ export function Testimonials() {
             <SectionLabel index="06">Community</SectionLabel>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 id="voices-title" className="mt-6 text-balance text-5xl font-semibold tracking-tight text-ink md:text-6xl">
+            <h2 id="voices-title" className="mt-6 text-balance text-[clamp(2.5rem,10vw,3rem)] font-semibold tracking-tight text-ink md:text-6xl">
               Built by people, <span className="text-iridescent">not prompts.</span>
             </h2>
           </Reveal>
