@@ -11,7 +11,7 @@ export function Faq() {
   const [open, setOpen] = useState<number | null>(0)
 
   return (
-    <section id="faq" aria-labelledby="faq-title" className="scroll-mt-24 px-5 py-24 md:px-8 md:py-32">
+    <section id="faq" aria-labelledby="faq-title" className="scroll-mt-24 px-5 py-16 md:px-8 md:py-24">
       <div className="mx-auto max-w-4xl">
         <div className="text-center">
           <Reveal>
