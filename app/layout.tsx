@@ -1,19 +1,25 @@
 import type { Metadata, Viewport } from 'next'
-import { JetBrains_Mono, Space_Grotesk } from 'next/font/google'
+import { Bricolage_Grotesque, Geist, Geist_Mono } from 'next/font/google'
 import { Nav } from '@/components/site/nav'
 import { Footer } from '@/components/site/footer'
 import { Backdrop } from '@/components/site/backdrop'
 import './globals.css'
 
-const spaceGrotesk = Space_Grotesk({
+const bricolage = Bricolage_Grotesque({
   subsets: ['latin'],
-  variable: '--font-space-grotesk',
+  variable: '--font-bricolage',
   display: 'swap',
 })
 
-const jetbrainsMono = JetBrains_Mono({
+const geist = Geist({
   subsets: ['latin'],
-  variable: '--font-jetbrains-mono',
+  variable: '--font-geist',
+  display: 'swap',
+})
+
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  variable: '--font-geist-mono',
   display: 'swap',
 })
 
@@ -23,7 +29,7 @@ export const metadata: Metadata = {
     template: '%s · Evolve AI',
   },
   description:
-    'Evolve AI is the student-driven AI community at Chitkara University. Hackathons, workshops, expert talks and real-world projects — register for events right here.',
+    'Meet Evolve AI, the student-driven AI community at Chitkara University. Discover our team, alumni, hackathons, workshops and real-world projects. Learn by building, together.',
   metadataBase: new URL('https://evolveai.chitkara.edu.in'),
   icons: { icon: '/favicon.svg' },
   openGraph: {
@@ -34,13 +40,13 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#f4f2fd',
+  themeColor: '#f8f7f2',
   colorScheme: 'light',
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${bricolage.variable} ${geist.variable} ${geistMono.variable}`}>
       <body className="relative min-h-dvh overflow-x-clip font-sans antialiased">
         <a
           href="#main"

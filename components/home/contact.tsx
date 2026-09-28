@@ -25,7 +25,7 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" aria-labelledby="contact-title" className="scroll-mt-24 px-5 py-24 md:px-8 md:py-32">
+    <section id="contact" aria-labelledby="contact-title" className="scroll-mt-24 px-5 py-16 md:px-8 md:py-24">
       <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2">
         <div className="flex flex-col gap-6">
           <Reveal>

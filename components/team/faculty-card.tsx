@@ -1,37 +1,26 @@
 import Image from 'next/image'
+import { Plus } from 'lucide-react'
 import type { Faculty } from '@/lib/team'
-import { cn } from '@/lib/utils'
 
 export function FacultyCard({ faculty, index }: { faculty: Faculty; index: number }) {
-  const flipped = index % 2 === 1
   return (
-    <article className="glass group grid overflow-hidden rounded-[32px] md:grid-cols-[320px_1fr]">
-      <div className={cn('relative aspect-[4/5] overflow-hidden bg-lilac/40 md:aspect-auto md:min-h-[360px]', flipped && 'md:order-2')}>
-        <Image
-          src={faculty.photo}
-          alt={`Portrait of ${faculty.name}`}
-          fill
-          sizes="(min-width: 768px) 320px, 100vw"
-          className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-        />
+    <article className="flex flex-col">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-t-[999px] bg-white/10">
+        <Image src={faculty.photo} alt={`Portrait of ${faculty.name}`} fill sizes="(min-width: 768px) 30vw, 90vw" className="object-cover object-[center_20%]" />
+        <span className="absolute bottom-3 left-3 rounded-full bg-[#f8f7f2] px-2.5 py-1 font-mono text-[10px] text-ink">Mentor / 0{index + 1}</span>
       </div>
-      <div className="relative flex flex-col justify-between gap-8 p-7 md:p-10">
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute right-6 top-2 select-none text-[9rem] font-bold leading-none tracking-tighter text-ink/[0.05] md:text-[12rem]"
-        >
-          {String(index + 1).padStart(2, '0')}
-        </span>
-        <div className="relative">
-          <p className="inline-flex rounded-full bg-ink px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-white">{faculty.role}</p>
-          <h3 className="mt-4 text-3xl font-semibold tracking-tight text-ink md:text-4xl">{faculty.name}</h3>
-        </div>
-        <div className="relative flex max-w-2xl flex-col gap-3 text-pretty leading-relaxed text-ink/70">
-          {faculty.bio.map((b) => (
-            <p key={b}>{b}</p>
-          ))}
-        </div>
+      <div className="pt-5">
+        <p className="font-mono text-[10px] uppercase tracking-widest text-lilac">{faculty.role}</p>
+        <h3 className="mt-2 text-2xl font-semibold tracking-tight text-white">{faculty.name}</h3>
+        <p className="mt-3 text-sm leading-relaxed text-white/65">{faculty.bio[1]}</p>
       </div>
+      <details className="group mt-5 border-y border-white/15">
+        <summary className="flex list-none items-center justify-between gap-3 py-3 text-xs font-medium text-white/85 [&::-webkit-details-marker]:hidden">
+          More about {faculty.name.replace('Dr. ', '')}
+          <Plus size={15} className="shrink-0 transition-transform group-open:rotate-45" aria-hidden="true" />
+        </summary>
+        <p className="pb-5 text-sm leading-relaxed text-white/65">{faculty.bio[0]}</p>
+      </details>
     </article>
   )
 }

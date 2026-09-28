@@ -1,124 +1,99 @@
+'use client'
+
+import { useState } from 'react'
 import Image from 'next/image'
-import { CalendarDays, Code2, MessagesSquare, Mic, Rocket, Wrench, type LucideIcon } from 'lucide-react'
+import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
 import { Reveal, SectionLabel } from '@/components/site/reveal'
 import { activities } from '@/lib/data'
 import { cn } from '@/lib/utils'
 
-const icons: Record<string, LucideIcon> = {
-  events: CalendarDays,
-  hackathons: Code2,
-  workshops: Wrench,
-  talks: Mic,
-  projects: Rocket,
-  learning: MessagesSquare,
-}
-
-const layout: Record<string, string> = {
-  hackathons: 'md:col-span-2 md:row-span-2',
-  events: '',
-  workshops: '',
-  talks: 'md:col-span-1',
-  projects: 'md:col-span-1',
-  learning: 'md:col-span-1',
-}
-
-const order = ['hackathons', 'workshops', 'talks', 'events', 'projects', 'learning']
+const formats = [
+  { id: 'hackathons', photo: '/gallery/hackindia-2025-group.webp', caption: 'HackIndia 2025', alt: 'HackIndia participants together at Chitkara University' },
+  { id: 'workshops', photo: '/gallery/ai-in-education-workshop-2024.webp', caption: 'AI in Education', alt: 'Participants at the AI in Education workshop' },
+  { id: 'talks', photo: '/gallery/expert-session.webp', caption: 'Expert sessions', alt: 'A guest speaker addressing students in a seminar room' },
+  { id: 'events', photo: '/gallery/ai-create-2.webp', caption: 'AI-Create 2.0', alt: 'Faculty and guests at AI-Create 2.0' },
+  { id: 'projects', photo: '/gallery/project-showcase-drone.webp', caption: 'Project showcase', alt: 'Guests examining a student-built drone' },
+  { id: 'learning', photo: '/gallery/qa-round.webp', caption: 'Open discussions', alt: 'A student asking a question in the auditorium' },
+]
 
 export function WhatWeDo() {
-  const sorted = order.map((id) => activities.find((a) => a.id === id)!)
+  const [active, setActive] = useState('hackathons')
 
   return (
-    <section id="work" aria-labelledby="work-title" className="scroll-mt-24 px-5 py-24 md:px-8 md:py-32">
+    <section id="work" aria-labelledby="work-title" className="scroll-mt-24 bg-[#eeeaf8] px-5 py-16 md:px-8 md:py-20">
       <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <Reveal className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
-            <Reveal>
-              <SectionLabel index="02">What we do</SectionLabel>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <h2 id="work-title" className="mt-6 text-5xl font-semibold tracking-tight text-ink md:text-7xl">
-                Six ways to <span className="text-iridescent">evolve.</span>
-              </h2>
-            </Reveal>
+            <SectionLabel index="02">Less theory. More doing.</SectionLabel>
+            <h2 id="work-title" className="mt-5 text-5xl font-semibold leading-[0.95] tracking-[-0.045em] md:text-7xl">
+              Find your <span className="text-violet">kind of spark.</span>
+            </h2>
           </div>
-          <Reveal delay={0.2} className="max-w-sm">
-            <p className="text-pretty leading-relaxed text-ink/70">
-              {"We don't just organise events — we create opportunities. Pick your format, bring your curiosity."}
-            </p>
-          </Reveal>
-        </div>
+          <p className="max-w-72 text-sm leading-relaxed text-ink/65">
+            Six ways to get involved. No two experiences the same. Bring your curiosity; we&apos;ll bring the people.
+          </p>
+        </Reveal>
 
-        <div className="mt-14 grid auto-rows-[minmax(220px,auto)] gap-4 md:grid-cols-3">
-          {sorted.map((a, i) => {
-            const Icon = icons[a.id]
-            const featured = a.id === 'hackathons'
+        <ul className="no-scrollbar -mx-5 mt-10 flex snap-x snap-mandatory scroll-px-5 gap-3 overflow-x-auto px-5 md:-mx-8 md:scroll-px-8 md:px-8 lg:mx-0 lg:h-[500px] lg:gap-2.5 lg:overflow-visible lg:px-0">
+          {formats.map((format, index) => {
+            const activity = activities.find((item) => item.id === format.id)!
+            const expanded = active === format.id
+            const href = format.id === 'projects' ? '/projects' : '/events'
             return (
-              <Reveal key={a.id} delay={0.06 * i} className={cn(layout[a.id])}>
-                <article
+              <li
+                key={format.id}
+                onMouseEnter={() => setActive(format.id)}
+                onFocus={() => setActive(format.id)}
+                onClick={() => setActive(format.id)}
+                className={cn(
+                  'group relative h-[440px] w-[78vw] max-w-sm shrink-0 snap-start overflow-hidden rounded-[22px] bg-ink text-white sm:w-[46vw] lg:h-full lg:w-auto lg:max-w-none lg:shrink lg:basis-0 lg:transition-[flex-grow] lg:duration-700 lg:ease-[cubic-bezier(0.22,0.8,0.24,1)]',
+                  expanded ? 'lg:grow-[5]' : 'lg:grow',
+                )}
+              >
+                <Image
+                  src={format.photo}
+                  alt={format.alt}
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 80vw"
+                  className={cn('object-cover transition-[transform,filter] duration-700', expanded ? 'lg:scale-100' : 'lg:scale-110 lg:grayscale-[0.6]')}
+                />
+                <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink via-ink/45 to-ink/5" />
+
+                <span className="absolute left-5 top-5 font-mono text-[11px] tracking-wider text-white/75">0{index + 1}</span>
+
+                <div
+                  aria-hidden="true"
                   className={cn(
-                    'group relative flex h-full flex-col justify-between overflow-hidden rounded-[28px] p-6 transition-all duration-500 hover:-translate-y-1 md:p-7',
-                    featured ? 'bg-ink text-white' : 'glass text-ink',
+                    'absolute inset-x-0 bottom-6 hidden justify-center transition-opacity duration-300 lg:flex',
+                    expanded ? 'lg:opacity-0' : 'lg:opacity-100',
                   )}
                 >
-                  {featured && (
-                    <>
-                      <div aria-hidden="true" className="absolute -bottom-10 -right-4 size-80 rounded-full bg-sky/30 blur-3xl" />
-                      <Image
-                        src="/images/neural-orb.png"
-                        alt=""
-                        width={1024}
-                        height={1024}
-                        className="pointer-events-none absolute -bottom-28 -right-24 w-[85%] max-w-[520px] transition-transform duration-700 [mask-image:radial-gradient(closest-side,black_60%,transparent_64%)] group-hover:rotate-12 group-hover:scale-105"
-                      />
-                      <div aria-hidden="true" className="absolute -left-20 -top-20 size-72 rounded-full bg-violet/40 blur-3xl" />
-                    </>
+                  <span className="font-display text-2xl font-semibold tracking-tight [writing-mode:vertical-rl] rotate-180 whitespace-nowrap">{activity.title}</span>
+                </div>
+
+                <div
+                  className={cn(
+                    'absolute inset-x-0 bottom-0 flex flex-col gap-4 p-6 md:p-7 lg:w-[min(100%,440px)] lg:transition-[opacity,transform] lg:duration-500',
+                    expanded ? 'lg:translate-y-0 lg:opacity-100 lg:delay-200' : 'lg:pointer-events-none lg:translate-y-4 lg:opacity-0',
                   )}
-
-                  <div className="relative flex items-start justify-between gap-4">
-                    <span
-                      className={cn(
-                        'flex size-12 items-center justify-center rounded-2xl transition-transform duration-500 group-hover:rotate-12',
-                        featured ? 'bg-iridescent text-white' : 'bg-ink text-white',
-                      )}
-                    >
-                      <Icon className="size-5" aria-hidden="true" />
-                    </span>
-                    <span
-                      className={cn(
-                        'rotate-2 rounded-full px-3 py-1 font-mono text-[11px] uppercase tracking-widest',
-                        featured ? 'bg-white/10 text-white/80' : 'bg-white/80 text-ink/60',
-                      )}
-                    >
-                      {a.tag}
-                    </span>
-                  </div>
-
-                  <div className="relative mt-10">
-                    <p className={cn('font-mono text-xs', featured ? 'text-white/40' : 'text-ink/40')}>
-                      {String(i + 1).padStart(2, '0')} /
-                    </p>
-                    <h3
-                      className={cn(
-                        'mt-2 font-semibold tracking-tight',
-                        featured ? 'max-w-xs text-4xl md:text-6xl' : 'text-2xl',
-                      )}
-                    >
-                      {a.title}
-                    </h3>
-                    <p
-                      className={cn(
-                        'mt-3 text-pretty leading-relaxed',
-                        featured ? 'max-w-sm text-white/70' : 'text-sm text-ink/60',
-                      )}
-                    >
-                      {a.description}
-                    </p>
-                  </div>
-                </article>
-              </Reveal>
+                >
+                  <p className="w-fit rounded-full bg-white/15 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-white/85 backdrop-blur-md">{format.caption}</p>
+                  <h3 className="text-3xl font-semibold leading-none tracking-[-0.03em] md:text-4xl">{activity.title}</h3>
+                  <p className="max-w-sm text-sm leading-relaxed text-white/75">{activity.description}</p>
+                  <Link
+                    href={href}
+                    className="inline-flex w-fit items-center gap-3 rounded-full bg-white px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-lilac"
+                  >
+                    {format.id === 'projects' ? 'Explore projects' : 'Explore events'}
+                    <ArrowUpRight size={16} aria-hidden="true" />
+                  </Link>
+                </div>
+              </li>
             )
           })}
-        </div>
+        </ul>
+        <p className="mt-4 font-mono text-[10px] uppercase tracking-widest text-ink/45 lg:hidden">Swipe to explore</p>
       </div>
     </section>
   )

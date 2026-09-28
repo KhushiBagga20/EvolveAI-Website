@@ -11,20 +11,21 @@ const faces = leads.slice(0, 5)
 
 export function Explore() {
   return (
-    <section aria-labelledby="explore-title" className="px-5 py-24 md:px-8 md:py-32">
-      <div className="mx-auto max-w-6xl">
-        <Reveal>
-          <SectionLabel index="04">Inside the club</SectionLabel>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h2 id="explore-title" className="mt-6 max-w-3xl text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-ink md:text-6xl">
-            People, projects and <span className="text-iridescent">proof of work.</span>
-          </h2>
+    <section aria-labelledby="explore-title" className="px-5 pb-16 pt-12 md:px-8 md:pb-20 md:pt-14">
+      <div className="mx-auto max-w-6xl border-t border-ink/15 pt-12 md:pt-14">
+        <Reveal className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+          <div>
+            <SectionLabel index="04">Inside the club</SectionLabel>
+            <h2 id="explore-title" className="mt-5 max-w-3xl text-balance text-4xl font-semibold leading-[1] tracking-[-0.04em] text-ink md:text-6xl">
+              People, projects and <span className="text-iridescent">proof of work.</span>
+            </h2>
+          </div>
+          <p className="max-w-64 text-sm leading-relaxed text-ink/60">Everything we&apos;ve built, won and hosted — one tap away.</p>
         </Reveal>
 
-        <div className="mt-14 grid gap-4 md:grid-cols-6">
+        <div className="mt-10 grid gap-4 md:grid-cols-6">
           <Reveal className="md:col-span-4">
-            <Link href="/team" className="group relative flex h-full min-h-72 flex-col justify-between overflow-hidden rounded-[32px] bg-ink p-7 text-white md:p-9">
+            <Link href="/teams" className="group relative flex h-full min-h-72 flex-col justify-between overflow-hidden rounded-[32px] bg-ink p-7 text-white md:p-9">
               <div aria-hidden="true" className="absolute -right-24 -top-24 size-80 rounded-full bg-violet/40 blur-[90px]" />
               <div className="relative flex items-start justify-between">
                 <p className="font-mono text-xs uppercase tracking-[0.2em] text-white/50">Team</p>

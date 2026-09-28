@@ -1,8 +1,9 @@
 @import 'tailwindcss';
 
 @theme inline {
-  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-geist), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -28,7 +29,7 @@
 }
 
 :root {
-  --background: #f4f2fd;
+  --background: #f8f7f2;
   --foreground: #1c0a33;
   --ink: #1c0a33;
   --muted: #ebe7fb;
@@ -37,7 +38,7 @@
   --primary: #8b3dff;
   --primary-foreground: #ffffff;
 
-  --violet: #8b3dff;
+  --violet: #6740d8;
   --sky: #4f8bff;
   --magenta: #e23fcf;
   --lilac: #dcd1ff;
@@ -51,6 +52,11 @@
 @keyframes float {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
   50% { transform: translate3d(0, -18px, 0) rotate(3deg); }
+}
+
+@keyframes pass-in {
+  from { opacity: 0; transform: translate3d(0, 16px, 0) rotate(-1.5deg); }
+  to { opacity: 1; transform: none; }
 }
 
 @keyframes blink {
@@ -79,6 +85,18 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--violet);
+    outline-offset: 5px;
+  }
+
+  button:not(:disabled), summary { cursor: pointer; }
 
   ::selection {
     background: var(--violet);

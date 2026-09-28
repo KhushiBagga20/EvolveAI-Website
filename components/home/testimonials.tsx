@@ -6,7 +6,7 @@ const tones = ['glass text-ink', 'bg-ink text-white', 'bg-iridescent text-white'
 
 export function Testimonials() {
   return (
-    <section aria-labelledby="voices-title" className="px-5 py-24 md:px-8 md:py-32">
+    <section aria-labelledby="voices-title" className="px-5 py-16 md:px-8 md:py-24">
       <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1fr_1.4fr]">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <Reveal>

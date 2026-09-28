@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [{ source: '/team', destination: '/teams', permanent: true }]
+  },
   async headers() {
     return [
       {

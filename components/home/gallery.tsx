@@ -18,7 +18,7 @@ const radii = ['rounded-[32px]', 'rounded-t-full rounded-b-[32px]', 'rounded-[32
 
 export function Gallery() {
   return (
-    <section aria-labelledby="gallery-title" className="py-24 md:py-32">
+    <section aria-labelledby="gallery-title" className="py-16 md:py-24">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
