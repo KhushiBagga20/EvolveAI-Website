@@ -33,7 +33,7 @@ export function Nav() {
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-6 md:pt-4">
       <div
         className={cn(
-          'glass mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-full py-2 pl-5 pr-2 transition-all duration-500',
+          'mx-auto flex max-w-6xl items-center justify-between gap-4 rounded-full border border-white/80 bg-[#fbfaf7]/95 py-2 pl-5 pr-2 backdrop-blur-xl transition-all duration-500',
           scrolled ? 'shadow-[0_20px_50px_-25px_rgba(60,20,120,0.45)]' : '',
         )}
       >
@@ -88,7 +88,7 @@ export function Nav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25 }}
-            className="glass mx-auto mt-2 max-w-6xl rounded-3xl p-3 lg:hidden"
+            className="mx-auto mt-2 max-w-6xl rounded-3xl border border-ink/10 bg-[#fbfaf7] p-3 shadow-xl lg:hidden"
           >
             <nav aria-label="Mobile" className="flex flex-col">
               {navLinks.map((link, i) => (

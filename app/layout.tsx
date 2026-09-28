@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: '%s · Evolve AI',
   },
   description:
-    'Evolve AI is the student-driven AI community at Chitkara University. Hackathons, workshops, expert talks and real-world projects — register for events right here.',
+    'Meet Evolve AI, the student-driven AI community at Chitkara University. Discover our team, alumni, hackathons, workshops and real-world projects. Learn by building, together.',
   metadataBase: new URL('https://evolveai.chitkara.edu.in'),
   icons: { icon: '/favicon.svg' },
   openGraph: {
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#f4f2fd',
+  themeColor: '#f8f7f2',
   colorScheme: 'light',
 }
 
