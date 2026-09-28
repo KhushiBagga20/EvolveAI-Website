@@ -25,13 +25,13 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Evolve AI — Student AI Community, Chitkara University',
+    default: 'Evolve AI',
     template: '%s · Evolve AI',
   },
   description:
     'Meet Evolve AI, the student-driven AI community at Chitkara University. Discover our team, alumni, hackathons, workshops and real-world projects. Learn by building, together.',
   metadataBase: new URL('https://evolveai.chitkara.edu.in'),
-  icons: { icon: '/favicon.svg' },
+  icons: { icon: '/icon.jpg' },
   openGraph: {
     title: 'Evolve AI — Where innovation meets evolution',
     description: 'The student AI community at Chitkara University.',
