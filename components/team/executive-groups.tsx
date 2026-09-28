@@ -125,14 +125,14 @@ function ExecutiveCard({ person, index }: { person: Person; index?: number }) {
         </div>
 
         {/* Person */}
-        <div className="absolute bottom-0 left-1/2 z-10 h-[225px] w-full -translate-x-1/2 transition-transform duration-500 group-hover:scale-[1.03]">
+        <div className="absolute bottom-0 left-1/2 z-10 flex w-[78%] max-w-[215px] -translate-x-1/2 justify-center transition-transform duration-500 group-hover:scale-[1.03]">
           <Image
             src={person.photo}
             alt={person.name}
-            fill
-            sizes="250px"
+            width={309}
+            height={461}
             priority={index !== undefined && index < 4}
-            className="object-contain object-bottom"
+            className="h-auto w-full object-contain object-bottom"
           />
         </div>
 
