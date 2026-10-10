@@ -30,13 +30,11 @@ function SectionHead({ index, label, title, accent, note, id }: { index: string;
 }
 
 export default function TeamPage() {
-  const faces = [...leads, ...executives].slice(0, 11)
   const squadCount = squads.reduce((n, s) => n + s.members.length, 0)
 
   return (
     <div className="bg-[#f8f7f2] px-5 pb-20 md:px-8 md:pb-24">
       <TeamHero
-        faces={faces}
         count={teamCount}
         stats={[
           { value: String(faculty.length).padStart(2, '0'), label: 'Faculty mentors', href: '#mentors' },
