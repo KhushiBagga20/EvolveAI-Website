@@ -1,12 +1,10 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowDown, ArrowUpRight } from 'lucide-react'
-import type { Person } from '@/lib/team'
-import { shapeClasses } from '@/lib/shapes'
 import { SectionLabel } from '@/components/site/reveal'
 import { cn } from '@/lib/utils'
+import { TeamHeroGraphic } from '@/components/team/team-hero-graphic'
 
-export function TeamHero({ faces, count, stats }: { faces: Person[]; count: number; stats: { value: string; label: string; href: string }[] }) {
+export function TeamHero({ count, stats }: { count: number; stats: { value: string; label: string; href: string }[] }) {
   return (
     <header className="mx-auto max-w-6xl px-5 pb-12 pt-28 md:px-8 md:pb-16 md:pt-36">
       <div className="flex items-center justify-between gap-4 border-t border-ink/20 pt-5">
@@ -31,26 +29,7 @@ export function TeamHero({ faces, count, stats }: { faces: Person[]; count: numb
           </a>
         </div>
 
-        <ul aria-label="A few of our team members" className="grid grid-cols-4 gap-2 sm:gap-3">
-          {faces.map((person, i) => (
-            <li
-              key={person.name}
-              className={cn(
-                'group relative aspect-square overflow-hidden bg-lilac transition-transform duration-500 hover:-translate-y-1',
-                shapeClasses[i % 4],
-              )}
-            >
-              <Image src={person.photo} alt={person.name} fill sizes="(min-width: 1024px) 130px, 22vw" className="object-cover object-top saturate-[0.85] transition-[filter] duration-500 group-hover:saturate-100" />
-            </li>
-          ))}
-          <li className="col-span-1 flex aspect-square flex-col justify-between rounded-full bg-violet p-3 text-white sm:p-4">
-            <span className="sr-only">Team size:</span>
-            <span className="m-auto text-center">
-              <span className="block font-display text-2xl font-semibold leading-none tracking-tight sm:text-4xl">{count}+</span>
-              <span className="mt-1 block font-mono text-[8px] uppercase tracking-widest text-white/75 sm:text-[9px]">minds</span>
-            </span>
-          </li>
-        </ul>
+        <TeamHeroGraphic count={count} />
       </div>
 
       <nav aria-label="Team sections" className="mt-12 grid grid-cols-2 border-y border-ink/20 md:grid-cols-4">
