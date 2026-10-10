@@ -7,7 +7,6 @@ export function FacultyCard({ faculty, index }: { faculty: Faculty; index: numbe
     <article className="flex flex-col">
       <div className="relative aspect-[4/5] overflow-hidden rounded-t-[999px] bg-white/10">
         <Image src={faculty.photo} alt={`Portrait of ${faculty.name}`} fill sizes="(min-width: 768px) 30vw, 90vw" className="object-cover object-[center_20%]" />
-        <span className="absolute bottom-3 left-3 rounded-full bg-[#f8f7f2] px-2.5 py-1 font-mono text-[10px] text-ink">Mentor / 0{index + 1}</span>
       </div>
       <div className="pt-5">
         <p className="font-mono text-[10px] uppercase tracking-widest text-lilac">{faculty.role}</p>
