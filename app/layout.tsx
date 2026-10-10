@@ -47,6 +47,13 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${bricolage.variable} ${geist.variable} ${geistMono.variable}`}>
+      <head>
+        {/* Preconnect to Google Fonts CDN to cut latency on font files */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* DNS prefetch for external resources */}
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+      </head>
       <body className="relative min-h-dvh overflow-x-clip font-sans antialiased">
         <a
           href="#main"

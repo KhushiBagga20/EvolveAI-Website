@@ -54,6 +54,7 @@ export function Gallery() {
               alt={g.alt}
               fill
               sizes="(min-width: 768px) 520px, 80vw"
+              loading="lazy"
               className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <figcaption className="glass absolute inset-x-3 bottom-3 flex flex-col rounded-2xl px-4 py-2.5">
